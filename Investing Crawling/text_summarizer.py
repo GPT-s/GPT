@@ -6,7 +6,7 @@
 
 import openai
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 openai.api_key = OPENAI_API_KEY
 
 def summarize(text):
