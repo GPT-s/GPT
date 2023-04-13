@@ -1,4 +1,4 @@
-# gpt 
+# GPT
 import openai
 
 OPENAI_API_KEY = "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"
