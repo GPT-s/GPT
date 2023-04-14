@@ -9,8 +9,14 @@ import time
 import datetime
 import logging
 from telegram import Bot, KeyboardButton, ReplyKeyboardMarkup,Update,InlineKeyboardButton, InlineKeyboardMarkup
+from dotenv import load_dotenv
+import os
 
-token = "6297598995:AAF1kW0FinpGn737xiag1ESOtVUWZUQfTpA"
+load_dotenv()
+
+teltoken = os.environ.get('teltoken')
+
+token = teltoken
 
 
 def start(update, context):
