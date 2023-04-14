@@ -3,6 +3,8 @@ import openai
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
+
 GPTAPI = os.environ.get('GPTAPI')
 
 OPENAI_API_KEY = GPTAPI
