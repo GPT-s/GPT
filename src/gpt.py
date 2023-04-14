@@ -1,7 +1,11 @@
-# GPT
+# GPT!
 import openai
+from dotenv import load_dotenv
+import os
 
-OPENAI_API_KEY = "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"
+GPTAPI = os.environ.get('GPTAPI')
+
+OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
 
 def summarize(text):
