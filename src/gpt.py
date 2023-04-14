@@ -16,7 +16,6 @@ def summarize(text):
     
     if text is not None:
         query = f'''Summarize the following paragraphs.
-
         {text}
         ''' 
     else:

@@ -1,0 +1,4 @@
+# 인스톨 명령어 모음
+
+!pip install webdriver_manager
+!pip install openai
