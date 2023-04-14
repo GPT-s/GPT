@@ -13,3 +13,14 @@ def analyze_sentiment(text):
     label = result['label']
     scores = result['score']
     return label, scores
+
+def sentiment_result(text) :
+    sentiment_result = analyze_sentiment(text)
+    label = sentiment_result[0]
+    scores = sentiment_result[1]
+    
+    print(f"Text: {text}")
+    print(f"Sentiment: {label}")
+    print(f"Score: {scores}")
+
+  
