@@ -14,7 +14,7 @@ def sentiment_analysis(text):
     max_tokens = 2500
     prompt = f'''Please analyze the sentiment of this article as positive, negative, or neutral:
     {text}
-    '''
+    '''  # 프롬프트는 좀 더 고민을 해봐야할 것 같음
     completion = openai.Completion.create(
         engine=model_engine,
         prompt=prompt,
