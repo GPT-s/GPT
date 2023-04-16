@@ -15,9 +15,9 @@ def get_stock_info(stock_symbol):
     except:
         print("Error: Request failed")
 
+# main에서 실행 시
+# import stock_idx
 
-import stock_idx
-
-yahoo_finance.get_stock_info("AAPL")  
+# yahoo_finance.get_stock_info("AAPL")  
 
 # AAPL에 원하는 종목 이름 
