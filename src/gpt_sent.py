@@ -3,8 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
+import os
 
-
+GPTAPI = os.environ.get('GPTAPI')
+OPENAI_KEY = GPTAPI
 openai.api_key = OPENAI_KEY
 
 def sentiment_analysis(text):
