@@ -28,4 +28,4 @@ def get_stock_info(stock_code, num_updates):
         except:
             print(f"Error: Failed to get stock info for {stock_code}")
 
-        time.sleep0)
+        time.sleep(60)
