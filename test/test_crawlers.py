@@ -5,7 +5,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
