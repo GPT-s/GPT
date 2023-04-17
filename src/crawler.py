@@ -5,6 +5,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 
 def set_chrome_driver(headless=True):
@@ -15,7 +17,7 @@ def set_chrome_driver(headless=True):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
-def crawl_page(url):
+def investing_crawl_page(url):
     try:
         driver = set_chrome_driver(False)
         driver.get(url)
@@ -26,23 +28,64 @@ def crawl_page(url):
         text = ""
     return text
 
-top5 = set_chrome_driver(False)
-top5.get('https://www.investing.com/news/most-popular-news')
+def yahoo_crawl_page(url):
+    try:
+        driver = set_chrome_driver(False)
+        driver.get(url)
+        article_page = driver.find_element(By.CLASS_NAME, 'wafer-sticky')
+        text = article_page.text
+        driver.close()
+    except NoSuchElementException:
+        text = ""
+    return text
 
-top5_links = []
 
-for link in top5.find_element(By.CLASS_NAME, 'largeTitle').find_elements(By.CLASS_NAME, 'js-article-item')[:5]:
-    top5_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+# 여러 링크를 한번에 크롤링하는 함수 작동원리는 공부 좀 해야할듯
+# from concurrent.futures import ThreadPoolExecutor, as_completed 이거 import 해서 그런가
+def crawl_links(links, crawl_func):
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(crawl_func, link) for link in links]
+        results = [future.result() for future in as_completed(futures)]
+    return results
 
-top5_text = []
+
+# 인베스팅 Top 3 뉴스 크롤링
+investing_top3 = set_chrome_driver(False)
+investing_top3.get('https://www.investing.com/news/most-popular-news')
 
 
-for link in top5_links:
-    
-    text = crawl_page(link)
-    top5_text.append(text)
-    
-    print("크롤링한 기사 출력")
-    print(top5_text)
+investing_top3_links = []
+
+for link in investing_top3.find_element(By.CLASS_NAME, 'largeTitle').find_elements(By.CLASS_NAME, 'js-article-item')[:3]:
+    investing_top3_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+investing_top3.quit()
+
+investing_top3_text = crawl_links(investing_top3_links, investing_crawl_page)
+
+print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+print("인베스팅 Top 3 뉴스 출력")
+for text in investing_top3_text:
+    print(text)
     print()
-    
+    print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+
+
+# 야후 금융 최신 뉴스 크롤링
+yahoo_latest = set_chrome_driver(False)
+yahoo_latest.get('https://finance.yahoo.com/news/')
+
+
+yahoo_latest_links = []
+
+for link in yahoo_latest.find_element(By.ID, 'Fin-Stream-Proxy').find_elements(By.CLASS_NAME, 'js-stream-content')[:3]:
+    yahoo_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+yahoo_latest.quit()
+
+yahoo_latest_text = crawl_links(yahoo_latest_links, yahoo_crawl_page)
+
+print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+print("야후 금융 최신 뉴스 출력")
+for text in yahoo_latest_text:
+    print(text)
+    print()
+    print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
