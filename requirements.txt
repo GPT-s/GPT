@@ -16,6 +16,7 @@ FuzzyTM>=0.4.0
 h11==0.14.0
 httpcore==0.16.3
 httpx==0.23.3
+telepot==12.7
 huggingface-hub==0.13.4
 idna==3.4
 Jinja2==3.1.2
