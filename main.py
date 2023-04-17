@@ -1,8 +1,4 @@
-
-# main
-
 import crawler
-import gpt
-import finbert
-import telegram_handler
-import gpt_sent
+
+links = ['https://www.investing.com/news/most-popular-news']
+text = investing_crawl_page.crawl_links(links)
