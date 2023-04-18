@@ -47,7 +47,7 @@ def investing_search():
     investing_latest = set_chrome_driver(False)
     investing_latest.get('https://www.investing.com/')
     search = investing_latest.find_element(By.CSS_SELECTOR, '.js-main-search-bar')
-    search.send_keys('tsla')
+    search.send_keys('tsla') # 텔레그램에서 받아와서 검색할 수 있는 지 알아봐야함
     search.send_keys(Keys.ENTER)
     div_name = investing_latest.find_element(By.CSS_SELECTOR, '.js-inner-all-results-quotes-wrapper')
     a_name = div_name.find_element(By.CSS_SELECTOR, 'a')
