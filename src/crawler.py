@@ -17,6 +17,7 @@ def set_chrome_driver(headless=True):
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
+# 인베스팅 뉴스 기사 페이지에서 텍스트 가져오는 함수
 def investing_crawl_page(url):
     try:
         driver = set_chrome_driver(False)
@@ -28,6 +29,7 @@ def investing_crawl_page(url):
         text = ""
     return text
 
+# 야후 파이낸스 뉴스 기사 페이지에서 텍스트 가져오는 함수
 def yahoo_crawl_page(url):
     try:
         driver = set_chrome_driver(False)
@@ -41,7 +43,6 @@ def yahoo_crawl_page(url):
 
 
 # 여러 링크를 한번에 크롤링하는 함수 작동원리는 공부 좀 해야할듯
-# from concurrent.futures import ThreadPoolExecutor, as_completed 이거 import 해서 그런가
 def crawl_links(links, crawl_func):
     with ThreadPoolExecutor() as executor:
         futures = [executor.submit(crawl_func, link) for link in links]
@@ -64,7 +65,6 @@ def investing_news():
     for text in investing_top3_text:
         print(text)
         print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
-
 
 
 # 야후 파이낸스 뉴스 링크 가져오고 크롤링해서 출력
