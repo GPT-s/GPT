@@ -1,2 +1,2 @@
 # GPT
-Based GPT for Trader's Chatbot
+Based GPT for Trader's Chatbot!
