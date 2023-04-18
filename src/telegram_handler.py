@@ -119,18 +119,18 @@ def message_handler(update, context):
                     reply_markups = InlineKeyboardMarkup([selectbuttons[favorite_idx]])
                 update.message.reply_text(f'{favorite}', reply_markup=reply_markups)
                 break
-            elif  msgtext != favorite:
-                gptquery = msgtext
-                messages = [
+        else:
+            gptquery = msgtext
+            messages = [
                         {"role": "system", "content": "You are a helpful assistant."},
                         {"role": "user", "content": gptquery}
                         ]
-                response = openai.ChatCompletion.create(
-                            model=model,
-                            messages=messages
-                            )
-                answer = response['choices'][0]['message']['content']
-                context.bot.send_message(chat_id=chat_id, text=answer)
+            response = openai.ChatCompletion.create(
+                        model=model,
+                        messages=messages
+                        )
+            answer = response['choices'][0]['message']['content']
+            context.bot.send_message(chat_id=chat_id, text=answer)
            
                 
 # 즐겨찾기 삭제하는 커맨드  /remove 삭제할종목
