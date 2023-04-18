@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
+# GPT!
 import openai
+from dotenv import load_dotenv
+import os
 
-OPENAI_API_KEY = "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"
+load_dotenv()
+
+GPTAPI = os.environ.get('GPTAPI')
+
+OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
 
 def summarize(text):
@@ -15,11 +16,14 @@ def summarize(text):
 
     max_tokens = 2500
     
-    query = f'''Please summarize the following paragraph and translate it into Korean.
+    if text is not None:
+        query = f'''Summarize the following paragraphs.
+        {text}
+        ''' 
+    else:
+        print("empty text.")
 
-    {text}
-    ''' 
-    
+
     completion = openai.Completion.create(
         engine=model_engine,
         prompt=query,
@@ -30,4 +34,3 @@ def summarize(text):
         presence_penalty=0
     )
     return completion.choices[0].text
-
