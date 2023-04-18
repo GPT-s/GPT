@@ -83,8 +83,8 @@ def yahoo_news():
         print(text)
         print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
 
-
-if __name__ == '__main__':
+def crawler_main():
     investing_news()
     yahoo_news()
 
+crawler_main()
