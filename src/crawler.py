@@ -8,6 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+import time
 import os
 os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
 
@@ -71,7 +72,7 @@ def investing_search():
 
     investing_latest_links = []
 
-    for link in investing_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:3]:
+    for link in investing_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:5]:
         investing_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
     investing_latest.quit()
 
@@ -122,6 +123,6 @@ def crawler_main():
 
 # crawler_main()
 
-# investing_search()
+investing_search()
 
 # investing_news()
