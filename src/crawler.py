@@ -54,9 +54,6 @@ def crawl_links(links, crawl_func):
     return results
 
 
-
-
-
 # 인베스팅 종목 검색해서 뉴스 링크 가져오고 크롤링해서 출력
 def investing_search():
     investing_latest = set_chrome_driver(False)
