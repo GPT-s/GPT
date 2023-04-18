@@ -33,4 +33,4 @@ def get_stock_info(stock_code, update_count):
         time.sleep(60)
 
 # 메인에서 사용 시
-# get_stock_info("AAPL", 5)
+# get_stock_info("AAPL", 5)  "AAPL"부분 주식코드 필요함
