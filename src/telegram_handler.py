@@ -20,11 +20,13 @@ token = teltoken
 GPTAPI = os.environ.get('GPTAPI')
 OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
+model = "gpt-3.5-turbo"
 
 # /start 커맨드 기능
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text='주식챗봇 시작을 환영합니다')
 
+# /help 커맨드 기능
 def help(update, context):
     helptext = "1. '/favorites 주식이름' 으로 키보드버튼을 추가할 수 있습니다.\n\
 2. '/remove 주식이름' 으로 키보드 버튼을 삭제할 수 있습니다.\n\
@@ -81,11 +83,10 @@ def favorites(update, context):
             stock_button = InlineKeyboardButton(text=f'{favorite}주식', callback_data=f'stock_{favorite}')
             index_button = InlineKeyboardButton(text=f'{favorite}지수', callback_data=f'index_{favorite}')
             selectbuttons.append([stock_button, index_button])
-    context.user_data['selectbuttons'] = selectbuttons    
+    context.user_data['selectbuttons'] = selectbuttons   
     update.message.reply_text(f'{search_query}등록', reply_markup=reply_markup)
-    
-
-    
+      
+   
 # 마지막 텍스트에 반응하는 기능
 def message_handler(update, context):
     msgtext = update.message.text
@@ -130,7 +131,7 @@ def message_handler(update, context):
                 reply_markups = InlineKeyboardMarkup([selectbuttons[favorite_idx]])
             update.message.reply_text(f'{favorite}', reply_markup=reply_markups)
             break
-            
+           
                 
 # 즐겨찾기 삭제하는 커맨드  /remove 삭제할종목
 def remove_favorite(update, context):
@@ -156,11 +157,6 @@ def remove_favorite(update, context):
     update.message.reply_text(f'{remove_query}제거', reply_markup=reply_markup)
 
 
-
-# 버튼 눌렀을때 반응하는 콜백쿼리
-# 주식 stock_{favorite}
-# 지수 index_{favorite}
-# favorite에는 favorites_list에 등록된 종목이름이 들어감
 def on_callback_query(update, context):
     query = update.callback_query
     query_data = query.data
@@ -176,7 +172,6 @@ def on_callback_query(update, context):
             context.bot.send_message(chat_id=query.message.chat_id,
                                                 text=f"{favorite}지수")
     
-
 
 def main():
     updater = Updater(token, use_context=True)
