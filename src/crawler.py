@@ -5,11 +5,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import os
 os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
-
 
 
 def set_chrome_driver(headless=True):
