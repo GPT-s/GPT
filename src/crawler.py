@@ -57,7 +57,7 @@ def investing_search():
 
     investing_latest_links = []
 
-    for link in investing_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:5]:
+    for link in investing_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:1]:
         investing_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
     investing_latest.quit()
 
