@@ -16,14 +16,14 @@ os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
 
 class Crawler_Search:
     def __init__(self):
-        self.driver = self.set_chrome_driver(False)
+        pass
 
     def set_chrome_driver(self, headless=True):
-        options = webdriver.ChromeOptions()
+        self.driver = webdriver.ChromeOptions()
         if headless:
-            options.add_argument('headless')
-        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+            self.driver.add_argument('headless')
+        self.driver.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.driver)
         return self.driver
 
     # 인베스팅 뉴스 기사 페이지에서 텍스트 가져오는 함수
@@ -35,7 +35,7 @@ class Crawler_Search:
             self.driver.close()
         except NoSuchElementException:
             text = ""
-        return self.text
+        return text
 
 
     # 여러 링크를 한번에 띄우고 크롤링하는 함수 작동원리는 공부 좀 해야할 듯
@@ -43,11 +43,12 @@ class Crawler_Search:
         with ThreadPoolExecutor() as executor:
             futures = [executor.submit(crawl_func, link) for link in links]
             results = [future.result() for future in as_completed(futures)]
-        return self.results
+        return results
 
 
     # 인베스팅 종목 검색해서 뉴스 링크 가져오고 크롤링해서 출력
     def investing_search(self):
+        self.driver = self.set_chrome_driver(False)
         self.driver.get('https://www.investing.com/')
         search = self.driver.find_element(By.CSS_SELECTOR, '.js-main-search-bar')
         search.send_keys('AAPL') # 텔레그램에서 받아와서 검색할 수 있는 지 알아봐야함
@@ -65,17 +66,36 @@ class Crawler_Search:
         time.sleep(5)
         self.driver.quit()
 
-        self.investing_text = self.crawl_links(investing_latest_links, self.investing_crawl_page)
+        investing_text = self.crawl_links(investing_latest_links, self.investing_crawl_page)
 
         print("인베스팅 검색 후 크롤링")
-        for text in self.investing_text:
+        for text in investing_text:
             print(text)
             print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
-        return self.investing_text
+        return investing_text
+    
+    def investing_latest_news(self):
+        self.driver = self.set_chrome_driver(False)
+        self.driver.get('https://www.investing.com/news/latest-news')
+
+        latest_links = []
+
+        for link in self.driver.find_element(By.CLASS_NAME, 'largeTitle').find_elements(By.CLASS_NAME, 'js-article-item')[:3]:
+            latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+        self.driver.quit()
+
+        news_text = self.crawl_links(latest_links, self.investing_crawl_page)
+
+        result = list(news_text)
+        # news_text = crawl_links(latest_links, investing_crawl_page)
+
+        # result = list(zip(latest_links, news_text))
+
+        return result
 
 # class Crawler_latest:
 #     def __init__(self):
-#         self.driver = self.se
+#         pass
 
 #     # 한 탭에서 페이지 크롤링하는 함수 정의
 #     def crawl_page_in_tab(driver, url):
@@ -129,6 +149,6 @@ class Crawler_Search:
 
 def main():
     crawler = Crawler_Search()
-    crawler.investing_search()
+    crawler.investing_latest_news()
 
 main()
