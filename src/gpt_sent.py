@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 # load .env
 load_dotenv()
 
+#GPT를 이용한 감성 분석 
 
 OPENAI_KEY = os.environ.get('OPENAI_KEY')
 # OPENAI_KEY = GPTAPI
