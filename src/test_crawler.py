@@ -4,7 +4,12 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
+
+# pip install requests beautifulsoup4
+import requests
+from bs4 import BeautifulSoup as bs
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -13,142 +18,129 @@ import os
 os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
 
 
-
-class Crawler_Search:
-    def __init__(self):
-        pass
-
-    def set_chrome_driver(self, headless=True):
-        self.driver = webdriver.ChromeOptions()
-        if headless:
-            self.driver.add_argument('headless')
-        self.driver.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36")
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.driver)
-        return self.driver
-
-    # 인베스팅 뉴스 기사 페이지에서 텍스트 가져오는 함수
-    def investing_crawl_page(self, url):
-        try:
-            self.driver.get(url)
-            article_page = self.driver.find_element(By.CLASS_NAME, 'articlePage')
-            text = article_page.text
-            self.driver.close()
-        except NoSuchElementException:
-            text = ""
-        return text
-
-
-    # 여러 링크를 한번에 띄우고 크롤링하는 함수 작동원리는 공부 좀 해야할 듯
-    def crawl_links(self, links, crawl_func):
-        with ThreadPoolExecutor() as executor:
-            futures = [executor.submit(crawl_func, link) for link in links]
-            results = [future.result() for future in as_completed(futures)]
-        return results
-
-
-    # 인베스팅 종목 검색해서 뉴스 링크 가져오고 크롤링해서 출력
-    def investing_search(self):
-        self.driver = self.set_chrome_driver(False)
-        self.driver.get('https://www.investing.com/')
-        search = self.driver.find_element(By.CSS_SELECTOR, '.js-main-search-bar')
-        search.send_keys('AAPL') # 텔레그램에서 받아와서 검색할 수 있는 지 알아봐야함
-        search.send_keys(Keys.ENTER)
-        div_name = self.driver.find_element(By.CSS_SELECTOR, '.js-inner-all-results-quotes-wrapper')
-        a_name = div_name.find_element(By.CSS_SELECTOR, 'a')
-        a_name.click()
-        a_name2 = self.driver.find_element(By.CSS_SELECTOR, 'a[data-test="link-news"]')
-        a_name2.click()
-
-        investing_latest_links = []
-
-        for link in self.driver.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:5]:
-            investing_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
-        time.sleep(5)
-        self.driver.quit()
-
-        investing_text = self.crawl_links(investing_latest_links, self.investing_crawl_page)
-
-        print("인베스팅 검색 후 크롤링")
-        for text in investing_text:
-            print(text)
-            print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
-        return investing_text
-    
-    def investing_latest_news(self):
-        self.driver = self.set_chrome_driver(False)
-        self.driver.get('https://www.investing.com/news/latest-news')
-
-        latest_links = []
-
-        for link in self.driver.find_element(By.CLASS_NAME, 'largeTitle').find_elements(By.CLASS_NAME, 'js-article-item')[:3]:
-            latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
-        self.driver.quit()
-
-        news_text = self.crawl_links(latest_links, self.investing_crawl_page)
-
-        result = list(news_text)
-        # news_text = crawl_links(latest_links, investing_crawl_page)
-
-        # result = list(zip(latest_links, news_text))
-
-        return result
-
-# class Crawler_latest:
+# 다른 방식임 새창을 여는게 아니라 새탭에 열어서 크롤링
+# 이게 더 빠른거 같기도
+# 셀레니움 버전
+# class Investing_Crawler:
 #     def __init__(self):
-#         pass
-
+#         # 웹 드라이버 초기화
+#         self.driver = webdriver.Chrome()
+    
 #     # 한 탭에서 페이지 크롤링하는 함수 정의
-#     def crawl_page_in_tab(driver, url):
+#     def crawl_page_in_tab(self, url):
 #         try:
 #             # 새 탭을 연 후, 그 탭으로 전환
-#             driver.execute_script("window.open('about:blank', 'new_tab');")
-#             driver.switch_to.window("new_tab")
+#             self.driver.execute_script("window.open('about:blank', 'new_tab');")
+#             self.driver.switch_to.window("new_tab")
             
 #             # 주어진 URL로 이동
-#             driver.get(url)
+#             self.driver.get(url)
             
 #             # articlePage 클래스를 가진 요소를 찾아 텍스트 추출
-#             article_page = driver.find_element(By.CLASS_NAME, 'articlePage')
+#             article_page = self.driver.find_element(By.CLASS_NAME, 'articlePage')
 #             text = article_page.text
 #         except NoSuchElementException:
 #             # 요소를 찾지 못하면 빈 문자열 반환
-#             text = ""
+#             text=""
         
 #         # 현재 탭 닫고 이전 탭으로 전환
-#         driver.close()
-#         driver.switch_to.window(driver.window_handles[0])
+#         self.driver.close()
+#         self.driver.switch_to.window(self.driver.window_handles[0])
 #         return text
 
-#     # 웹 드라이버 설정
-#     top5 = set_chrome_driver(False)
-#     top5.get('https://www.investing.com/news/most-popular-news')
+#     def investing_latest(self):
+#         self.driver.get('https://www.investing.com/news/latest-news')
 
-#     # 링크를 저장할 빈 리스트 생성
-#     top5_links = []
+#         # 링크를 저장할 빈 리스트 생성
+#         latest_10_links = []
 
-#     # 상위 10개의 기사 링크 수집
-#     for link in top5.find_elements(By.CLASS_NAME, 'js-article-item')[:10]:
-#         top5_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+#         # 상위 10개 기사 링크 수집
+#         for link in self.driver.find_elements(By.CLASS_NAME, 'js-article-item')[:10]:
+#             latest_10_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
 
-#     # 텍스트를 저장할 빈 리스트 생성
-#     top5_text = []
+#         # 텍스트를 저장할 빈 리스트 생성
+#         latest_10_text = []
 
-#     # 각 링크에 대해 새 탭에서 크롤링 수행
-#     for link in top5_links:
-#         text = crawl_page_in_tab(top5, link)
-#         top5_text.append(text)
-        
-#         # 크롤링한 기사 출력
-#         print("크롤링한 기사:")
-#         print(text)
-#         print()
+#         # 각 링크에 대해 새 탭에서 크롤링 수행
+#         for link in latest_10_links:
+#             text = self.crawl_page_in_tab(link)
+#             latest_10_text.append(text)
+            
+#             # 크롤링한 기사 출력
+#             print("Article crawled:")
+#             print(text)
+#             print()
 
-#     # 웹 드라이버 종료
-#     top5.quit()
+#         # 웹 드라이버 종료
+#         self.driver.quit()
+
+#         return latest_10_text
+
+# # 사용 예시
+# crawler = Investing_Crawler()
+# crawler.investing_latest()
 
 
-def main():
-    crawler = Crawler_Search()
-    crawler.investing_latest_news()
 
-main()
+# 창 없이 하는거
+class Investing_Crawler:
+    def __init__(self):
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화
+    
+    def crawl_page_in_tab(self, url):
+        try:
+            # 새 탭 열기
+            self.driver.execute_script("window.open('about:blank', 'new_tab');")
+            # 새 탭으로 전환
+            self.driver.switch_to.window("new_tab")
+            
+            # 주어진 URL로 이동
+            self.driver.get(url)
+            
+            # 클래스가 articlePage인 요소를 찾아 텍스트 추출
+            article_page = self.driver.find_element(By.CLASS_NAME, 'articlePage')
+            text = article_page.text
+        except NoSuchElementException:
+            text=""   # 요소를 찾지 못한 경우 빈 문자열 반환
+
+        # 현재 탭 닫기
+        self.driver.close()  
+         # 이전 탭으로 전환
+        self.driver.switch_to.window(self.driver.window_handles[0])
+        return text
+
+    def investing_latest(self):
+        self.driver.get('https://www.investing.com/news/latest-news')
+
+        # 링크를 저장할 빈 리스트 생성
+        latest_10_links = []
+
+        # 상위 10개 기사 링크 수집
+        for link in self.driver.find_elements(By.CLASS_NAME, 'js-article-item')[:5]:
+            latest_10_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+
+        # 텍스트를 저장할 빈 리스트 생성
+        latest_10_text = []
+
+        cnt = 1
+        # 각 링크에 대해 새 탭에서 크롤링 수행
+        for link in latest_10_links:
+            text = self.crawl_page_in_tab(link)
+            latest_10_text.append(text)
+            
+            print("────────────────────────────────────────────────────────────────────────────")
+            print(f"최신 기사 {cnt}")
+            print()
+            print(text)
+            print()
+            print("────────────────────────────────────────────────────────────────────────────")
+            cnt += 1
+        self.driver.quit()
+
+        return latest_10_text
+
+# 사용 예시
+crawler = Investing_Crawler()
+crawler.investing_latest()
