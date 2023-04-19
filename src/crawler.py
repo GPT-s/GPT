@@ -94,7 +94,7 @@ def deepL_Translator(text):
     try:
         deepL = set_chrome_driver(False)  # Chrome 웹 드라이버 설정
         deepL.get('https://www.deepl.com/ko/translator')  # 딥엘 번역 페이지로 이동
-        time.sleep(2)
+        time.sleep(2) # 텍스트 입력이나 변역된 텍스트 가져오기 전에 페이지를 닫아서
         deepL.find_element(By.CSS_SELECTOR, '.lmt__textarea.lmt__source_textarea.lmt__textarea_base_style').send_keys(text)
         time.sleep(2)
         deepL_translated = deepL.find_element(By.CSS_SELECTOR, '.lmt__target_textarea')   # 번역된 텍스트 요소 찾기
