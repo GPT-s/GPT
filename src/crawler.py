@@ -99,9 +99,9 @@ def investing_latest_news():
 #     print(text)
 #     print("\n---\n")
 
-investing_latest_news = investing_latest_news()
+# investing_latest_news = investing_latest_news()
 
-for text in investing_latest_news:
-    print(f"최신 기사")
-    print(text)
-    print("\n---\n")
+# for text in investing_latest_news:
+#     print(f"최신 기사")
+#     print(text)
+#     print("\n---\n")
