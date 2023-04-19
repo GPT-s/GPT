@@ -12,7 +12,7 @@ Finbert = FinBert()
 
 text_analyze = "엔비디아 가격 알려줘"
 Keyword_analyze = analyze_keyword(text_analyze)
-print(Keyword_analyze)
+print(get_analyze_keyword(Keyword_analyze))
 
 
 for text in investing_latest_news: # 모듈 통합 실행 코드 
