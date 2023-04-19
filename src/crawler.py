@@ -63,10 +63,13 @@ def investing_search():
 
     investing_text = crawl_links(investing_latest_links, investing_crawl_page)
 
-    print("인베스팅 검색 후 크롤링")
-    for text in investing_text:
-        print(text)
-        print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+    # print("인베스팅 검색 후 크롤링")
+    # for text in investing_text:
+    #     print(text)
+    #     print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+    
+    return investing_text
 
 
 investing_search()
+print(investing_search.investing_text)
