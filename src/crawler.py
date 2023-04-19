@@ -90,6 +90,23 @@ def investing_latest_news():
 
     return result
 
+def deepL_Translator(text):
+    try:
+        deepL = set_chrome_driver(False)  # Chrome 웹 드라이버 설정
+        deepL.get('https://www.deepl.com/ko/translator')  # 딥엘 번역 페이지로 이동
+        time.sleep(2)
+        deepL.find_element(By.CSS_SELECTOR, '.lmt__textarea.lmt__source_textarea.lmt__textarea_base_style').send_keys(text)
+        time.sleep(2)
+        deepL_translated = deepL.find_element(By.CSS_SELECTOR, '.lmt__target_textarea')   # 번역된 텍스트 요소 찾기
+        time.sleep(3)
+        result = deepL_translated.get_attribute('value')   # 번역된 텍스트 추출
+    except NoSuchElementException: # 예외처리 (요소를 찾지 못하는 경우)
+        result = '번역 오류ㅠㅠ'   # 번역 오류 메시지 설정
+    finally:
+        deepL.close()  # 웹 드라이버 종료
+    return result  # 번역된 결과 반환
+
+
 # from crawler import investing_search 
 
 # investing_search = investing_search()
