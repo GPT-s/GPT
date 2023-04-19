@@ -38,14 +38,6 @@ class FinBert:
         table={'data':data,
                'value':values}
 
+        print("")
         sentiment_data = pd.DataFrame(table, columns = ["data", "value"])
-        
-        return sentiment_data
-
-
-
-
-
-
-
- 
+        return sentiment_data       
