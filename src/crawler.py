@@ -98,7 +98,7 @@ def deepL_Translator(text):
         deepL.find_element(By.CSS_SELECTOR, '.lmt__textarea.lmt__source_textarea.lmt__textarea_base_style').send_keys(text)
         time.sleep(2)
         deepL_translated = deepL.find_element(By.CSS_SELECTOR, '.lmt__target_textarea')   # 번역된 텍스트 요소 찾기
-        time.sleep(3)
+        time.sleep(5)
         result = deepL_translated.get_attribute('value')   # 번역된 텍스트 추출
     except NoSuchElementException: # 예외처리 (요소를 찾지 못하는 경우)
         result = '번역 오류ㅠㅠ'   # 번역 오류 메시지 설정
