@@ -77,9 +77,9 @@ def investing_search():
 
 # from crawler import investing_search 
 
-# result = investing_search()
+# investing_search = investing_search()
 
-# for text in result:
+# for text in investing_search:
 #     print(f"최신 기사")
 #     print(text)
 #     print("\n---\n")
