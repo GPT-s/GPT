@@ -87,8 +87,8 @@ class Investing_Crawler:
         # from selenium.webdriver.chrome.options import Options
         # Options 클래스는 크롬 웹 드라이버의 동작을 구성하고 사용자 지정 옵션을 설정할 수 있는 기능을 제공
         # 이를 사용하여 웹 드라이버의 다양한 속성을 제어할 수 있음
-        # 예를 들어, 브라우저를 머리없이 실행하거나 프록시 설정, 창 크기 등을 조정할 수 있음
-        # 머리없는 모드는 웹 드라이버가 사용자 인터페이스 없이 백그라운드에서 작동하도록 하는 것으로, 
+        # 예를 들어, 브라우저를 headless로 실행하거나 프록시 설정, 창 크기 등을 조정할 수 있음
+        # headless 모드는 웹 드라이버가 사용자 인터페이스 없이 백그라운드에서 작동하도록 하는 것으로, 
         # 일반적으로 크롤링 작업이나 자동화 시나리오에서 사용
         options = Options()
         options.headless = True # 이 코드가 창 안보이게 실행하는 거 인듯
