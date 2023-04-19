@@ -41,12 +41,8 @@ def analyze_keyword(text):
     max_tokens = 2500
 
     if text is not None:
-        query = f""" {text} in the sentence above Tell me keywords,
-Change keywords with stock codes to stock codes in Keywords and mark all keywords
-no explanation needed
-Example: Keywords: Apple (AAPL), news, price. only answer me
-        
-        """
+        query = f""" {text} in the sentence above Tell me keywords, Change keywords with stock codes to stock codes in Keywords and mark all keywords no explanation needed 
+        Example: Keywords: Apple (AAPL), news, price. only answer me"""
     else:
         print("empty text.")
 
