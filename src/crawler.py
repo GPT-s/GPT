@@ -44,27 +44,27 @@ def crawl_links(links, crawl_func):
 
 # 인베스팅 종목 검색해서 뉴스 링크 가져오고 크롤링해서 출력
 def investing_search():
-    investing_latest = set_chrome_driver(False)
-    investing_latest.get('https://www.investing.com/')
-    search = investing_latest.find_element(By.CSS_SELECTOR, '.js-main-search-bar')
+    investing_stock_latest = set_chrome_driver(False)
+    investing_stock_latest.get('https://www.investing.com/')
+    search = investing_stock_latest.find_element(By.CSS_SELECTOR, '.js-main-search-bar')
     search.send_keys('tsla') # 텔레그램에서 받아와서 검색할 수 있는 지 알아봐야함
     search.send_keys(Keys.ENTER)
-    div_name = investing_latest.find_element(By.CSS_SELECTOR, '.js-inner-all-results-quotes-wrapper')
+    div_name = investing_stock_latest.find_element(By.CSS_SELECTOR, '.js-inner-all-results-quotes-wrapper')
     a_name = div_name.find_element(By.CSS_SELECTOR, 'a')
     a_name.click()
-    a_name2 = investing_latest.find_element(By.CSS_SELECTOR, 'a[data-test="link-news"]')
+    a_name2 = investing_stock_latest.find_element(By.CSS_SELECTOR, 'a[data-test="link-news"]')
     a_name2.click()
 
-    investing_latest_links = []
+    investing_stock_latest_links = []
 
-    for link in investing_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:2]:
-        investing_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
-    investing_latest.quit()
+    for link in investing_stock_latest.find_element(By.CLASS_NAME, 'mediumTitle1').find_elements(By.CLASS_NAME, 'js-article-item')[:2]:
+        investing_stock_latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+    investing_stock_latest.quit()
 
-    investing_text = crawl_links(investing_latest_links, investing_crawl_page)
+    investing_text = crawl_links(investing_stock_latest_links, investing_crawl_page)
 
     # Combine links with the crawled text
-    result = list(zip(investing_latest_links, investing_text))
+    result = list(zip(investing_stock_latest_links, investing_text))
 
     return result
 
@@ -74,6 +74,21 @@ def investing_search():
     #     print(text)
     #     print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
 
+def investing_latest_news():
+    driver = set_chrome_driver(False)
+    driver.get('https://www.investing.com/news/latest-news')
+
+    latest_links = []
+
+    for link in driver.find_element(By.CLASS_NAME, 'largeTitle').find_elements(By.CLASS_NAME, 'js-article-item')[:3]:
+        latest_links.append(link.find_element(By.CSS_SELECTOR, 'a').get_attribute('href'))
+    driver.quit()
+
+    news_text = crawl_links(latest_links, investing_crawl_page)
+
+    result = list(zip(latest_links, news_text))
+
+    return result
 
 # from crawler import investing_search 
 
@@ -83,3 +98,10 @@ def investing_search():
 #     print(f"최신 기사")
 #     print(text)
 #     print("\n---\n")
+
+investing_latest_news = investing_latest_news()
+
+for text in investing_latest_news:
+    print(f"최신 기사")
+    print(text)
+    print("\n---\n")
