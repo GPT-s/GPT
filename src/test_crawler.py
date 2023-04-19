@@ -13,6 +13,7 @@ import os
 os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
 
 
+
 class Crawler_Search:
     def __init__(self):
         self.driver = self.set_chrome_driver(False)

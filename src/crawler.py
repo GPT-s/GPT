@@ -63,19 +63,23 @@ def investing_search():
 
     investing_text = crawl_links(investing_latest_links, investing_crawl_page)
 
+    # Combine links with the crawled text
+    result = list(zip(investing_latest_links, investing_text))
+
+    return result
+
     # print("인베스팅 검색 후 크롤링")
     # for text in investing_text:
     #     print()
     #     print(text)
     #     print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
 
-    return investing_text
-    
 
-result = investing_search()
-# print(result)
-print("인베스팅 검색 후 크롤링")
-for text in result:
-    print()
-    print(text)
-    print('─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────')
+# from crawler import investing_search 
+
+# result = investing_search()
+
+# for text in result:
+#     print(f"최신 기사")
+#     print(text)
+#     print("\n---\n")
