@@ -5,37 +5,47 @@ import torch
 
 # finbert 시작
 # data =crawler(top5_text) 사용
-def bert(data):
+class FinBert:
+    def __init__(self):
+        
     # 모델 설정
-    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
-    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
-  
-    inputs = tokenizer(data, padding = True, truncation = True, return_tensors='pt')
-    #print(inputs)
+        self.tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+        self.model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
     
-    outputs = model(**inputs)
-    #print(outputs.logits.shape)
 
-    predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)   
-    #print(predictions)
+    def sentiment(self,data):
+        
+        inputs = self.tokenizer(data, padding = True, truncation = True, return_tensors='pt')
+        #print(inputs)
+        
+        outputs = self.model(**inputs)
+        #print(outputs.logits.shape)
 
-    positive = predictions[:, 0].tolist()
-    negative = predictions[:, 1].tolist()
-    neutral = predictions[:, 2].tolist()
+        predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)   
+        #print(predictions)
 
-    table = {'data':data,
-             "Positive":positive,
-             "Negative":negative, 
-             "Neutral":neutral}
+        max_elements, max_idxs = torch.max(predictions, dim=1)
+
+        values=[]
+        for max in max_idxs:
+            if max==0:
+                values.append('Positive')
+            elif max==1:
+                values.append('Negative')
+            elif max==2:
+                values.append('Netural')
+
+        table={'data':data,
+               'value':values}
+
+        sentiment_data = pd.DataFrame(table, columns = ["data", "value"])
+        
+        return sentiment_data
 
 
-    sentiment_data = pd.DataFrame(table, columns = ["data", "Positive", "Negative", "Neutral"])
-    
-    return sentiment_data
 
 
 
 
 
-
-
+ 
