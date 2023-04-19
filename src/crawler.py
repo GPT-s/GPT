@@ -86,7 +86,10 @@ def investing_latest_news():
 
     news_text = crawl_links(latest_links, investing_crawl_page)
 
-    result = list(zip(latest_links, news_text))
+    result = list(news_text)
+    # news_text = crawl_links(latest_links, investing_crawl_page)
+
+    # result = list(zip(latest_links, news_text))
 
     return result
 
