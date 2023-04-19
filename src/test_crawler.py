@@ -81,13 +81,18 @@ os.environ['PYTHONDONTWRITEBYTECODE'] = '1' # __pycache__ 생성 막는 코드
 # crawler.investing_latest()
 
 
-
 # 창 없이 하는거
 class Investing_Crawler:
     def __init__(self):
+        # from selenium.webdriver.chrome.options import Options
+        # Options 클래스는 크롬 웹 드라이버의 동작을 구성하고 사용자 지정 옵션을 설정할 수 있는 기능을 제공
+        # 이를 사용하여 웹 드라이버의 다양한 속성을 제어할 수 있음
+        # 예를 들어, 브라우저를 머리없이 실행하거나 프록시 설정, 창 크기 등을 조정할 수 있음
+        # 머리없는 모드는 웹 드라이버가 사용자 인터페이스 없이 백그라운드에서 작동하도록 하는 것으로, 
+        # 일반적으로 크롤링 작업이나 자동화 시나리오에서 사용
         options = Options()
-        options.headless = True
-        self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화
+        options.headless = True # 이 코드가 창 안보이게 실행하는 거 인듯
+        self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
     
     def crawl_page_in_tab(self, url):
         try:
@@ -112,6 +117,7 @@ class Investing_Crawler:
         return text
 
     def investing_latest(self):
+        # 최신 뉴스 페이지로 이동
         self.driver.get('https://www.investing.com/news/latest-news')
 
         # 링크를 저장할 빈 리스트 생성
@@ -127,7 +133,9 @@ class Investing_Crawler:
         cnt = 1
         # 각 링크에 대해 새 탭에서 크롤링 수행
         for link in latest_10_links:
+            # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
             text = self.crawl_page_in_tab(link)
+            # 텍스트를 리스트에 추가
             latest_10_text.append(text)
             
             print("────────────────────────────────────────────────────────────────────────────")
@@ -142,5 +150,7 @@ class Investing_Crawler:
         return latest_10_text
 
 # 사용 예시
+# Investing_Crawler 클래스의 인스턴스 생성
 crawler = Investing_Crawler()
+ # investing_latest 메서드 호출하여 기사 크롤링하고 출력
 crawler.investing_latest()
