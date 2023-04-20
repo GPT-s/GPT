@@ -11,6 +11,9 @@ from selenium.common.exceptions import NoSuchElementException
 import requests
 from bs4 import BeautifulSoup as bs
 
+# pip install pandas
+import pandas as pd
+
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import time
@@ -43,12 +46,18 @@ class Investing_Crawler:
 
             # 클래스가 articlePage인 요소를 찾아 텍스트 추출
             article_page = self.driver.find_element(By.CLASS_NAME, "articlePage")
+
             text = article_page.text
         except NoSuchElementException:
             text = ""  # 요소를 찾지 못한 경우 빈 문자열 반환
 
+        # 특정 문자열 제거
+        text = text.replace("© Reuters. FILE PHOTO:", "")
+        text = text.replace("© Reuters.", "")
+
         # 현재 탭 닫기
         self.driver.close()
+
         # 이전 탭으로 전환
         self.driver.switch_to.window(self.driver.window_handles[0])
         return text
@@ -61,7 +70,7 @@ class Investing_Crawler:
         latest_10_links = []
 
         # 상위 10개 기사 링크 수집
-        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:5]:
+        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:10]:
             latest_10_links.append(
                 link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
             )
@@ -91,7 +100,30 @@ class Investing_Crawler:
         self.driver.quit()
 
         return latest_10_text
+    
+    def investing_latest_news_df(self):
+        latest_10_text = self.investing_latest()
+        news_df = pd.DataFrame(latest_10_text, columns=['news'])
+        return news_df
 
+# # 사용 예시
+# crawler = Investing_Crawler()
+# news_df = crawler.investing_latest_news_df()
+# # 첫 번째 뉴스 내용 출력
+# first_news = news_df.iloc[0]['news']
+# print("첫 번째 뉴스 내용:")
+# print(first_news)
+
+# 두 번째 뉴스 내용 출력
+# second_news = news_df.iloc[1]['news']
+# print()
+# print("두 번째 뉴스 내용:")
+# print(second_news)
+
+# # 전체 뉴스 데이터 프레임 출력
+# print()
+# print("전체 뉴스 데이터 프레임:")
+# print(news_df)
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
