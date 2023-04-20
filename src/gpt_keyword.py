@@ -18,7 +18,7 @@ def get_completion(text, model="gpt-3.5-turbo"):
         {"role": "user", "content": text},
     ]
     max_retries = 3
-    retries = 0
+    retries = 0 
     while retries < max_retries:
         try:
             response = openai.ChatCompletion.create(model=model, messages=messages)
