@@ -157,8 +157,8 @@ class Investing_Crawler:
         return latest_10_text
 
 
-# 사용 예시
-# Investing_Crawler 클래스의 인스턴스 생성
-crawler = Investing_Crawler()
-# investing_latest 메서드 호출하여 기사 크롤링하고 출력
-crawler.investing_latest()
+# # 사용 예시
+# # Investing_Crawler 클래스의 인스턴스 생성
+# crawler = Investing_Crawler()
+# # investing_latest 메서드 호출하여 기사 크롤링하고 출력
+# crawler.investing_latest()
