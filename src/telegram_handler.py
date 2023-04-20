@@ -24,7 +24,9 @@ model = "gpt-3.5-turbo"
 
 # /start 커맨드 기능
 def start(update, context):
+    chat_id = update.effective_chat.id
     context.bot.send_message(chat_id=update.effective_chat.id, text='주식챗봇 시작을 환영합니다')
+    return chat_id
 
 # /help 커맨드 기능
 def help(update, context):
@@ -86,6 +88,17 @@ def favorites(update, context):
     context.user_data['selectbuttons'] = selectbuttons   
     update.message.reply_text(f'{search_query}등록', reply_markup=reply_markup)
       
+
+def in_subscribe(update, context):
+    chat_id = update.effective_chat.id
+    context.bot.send_message(chat_id=chat_id, text="구독 처리가 완료되었습니다.")
+    return chat_id
+
+def out_subscribe(update, context):
+    chat_id = update.effective_chat.id
+    context.bot.send_message(chat_id=chat_id, text="구독 취소가 완료되었습니다.")
+    return chat_id
+
    
 # 마지막 텍스트에 반응하는 기능
 def message_handler(update, context):
@@ -177,6 +190,8 @@ def main():
     updater = Updater(token, use_context=True)
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CommandHandler('help', help))
+    updater.dispatcher.add_handler(CommandHandler('sub', in_subscribe))
+    updater.dispatcher.add_handler(CommandHandler('nosub', out_subscribe))
     updater.dispatcher.add_handler(CommandHandler('favorites', favorites, pass_user_data=True))
     updater.dispatcher.add_handler(CommandHandler('remove', remove_favorite, pass_user_data=True))
     updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), message_handler))
