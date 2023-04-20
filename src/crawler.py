@@ -99,7 +99,7 @@ class Investing_Crawler:
             cnt += 1
         self.driver.quit()
 
-        return latest_10_text
+        return latest_10_text, latest_10_links
     
     def investing_latest_news_df(self):
         latest_10_text = self.investing_latest()
