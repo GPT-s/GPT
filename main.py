@@ -8,7 +8,7 @@ from src.gpt import summarize
 import src.telegram_handler
 from src.gpt_keyword import get_analyze_keyword, analyze_keyword
 from src.database import DataBase
-
+# 메인 업데이트 
 
 #send_message = TelegramHandler()
 insert_data = DataBase().insert_user()
