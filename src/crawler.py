@@ -103,7 +103,6 @@ class Investing_Crawler:
         return news_df
 
 
-
 # # 사용 예시
 # crawler = Investing_Crawler()
 # news_df = crawler.investing_latest_news_df()
