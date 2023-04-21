@@ -5,8 +5,8 @@ from src.gpt import summarize
 #import src.gpt_sent
 #import src.stock_idx  
 from src.telegram_handler import TelegramHandler
-from src.crawler import InvestingCrawler, translator_deepl
 from src.gpt_keyword import get_analyze_keyword, analyze_keyword
+from test.test_db import db
 
 
 investing_latest_news = InvestingCrawler()
