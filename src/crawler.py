@@ -19,9 +19,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import os
 import logging
-# pip install pymysql
-import pymysql
-import pymysql.err
 
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
