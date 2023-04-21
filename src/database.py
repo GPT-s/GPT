@@ -35,8 +35,8 @@ class DataBase :
     # Users 테이블에 데이터 업데이트
     def update_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
-        query = "UPDATE USERS SET user_id = %s, is_subscribe = %s"
-        values = (user_id, is_subscribe)
+        query = "UPDATE USERS SET is_subscribe = %s WHERE user_id = %s"
+        values = (is_subscribe, user_id)
         cursor.execute(query, values)
 
         self.conn.commit()
