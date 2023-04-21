@@ -35,17 +35,10 @@ class Main:
                 update_data_sub
                 #send_message.send_message('5999372705', '구독하기')
 
-<<<<<<< HEAD
-        elif send_message.telegram_main().equals('/nosub'): # 사용자가 nosub 명령어 입력 시 실행
-                update_data_nosub = DataBase().update_user('5611753679', 'F')
-                update_data_nosub
-                #send_message.send_message('5999372705', '구독취소')
-=======
         # elif send_message.telegram_main().equals('/nosub'): # 사용자가 nosub 명령어 입력 시 실행
         #         update_data_nosub = DataBase().update_user('5611753679', 'F')
         #         update_data_nosub
                     #send_message.send_message('5999372705', '구독취소')
->>>>>>> 9603bec75dd045b5b436e6b7d64499be11809438
 
         elif send_message.send_message().equals(send_message.message_handler): # 사용자가 뉴스 데이터 요청 시 실행
 
