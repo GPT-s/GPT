@@ -40,7 +40,7 @@ class InvestingCrawler:
         # headless 모드는 웹 드라이버가 사용자 인터페이스 없이 백그라운드에서 작동하도록 하는 것으로,
         # 일반적으로 크롤링 작업이나 자동화 시나리오에서 사용
         options = Options()
-        options.headless = True  #창 안보이게 실행
+        options.headless = True  # 이 코드가 창 안보이게 실행하는 거 인듯
         self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
 
     def crawl_page(self, url):
@@ -74,6 +74,7 @@ class InvestingCrawler:
     def investing_latest(self):
         # 최신 뉴스 페이지로 이동
         self.driver.get("https://www.investing.com/news/latest-news")
+
         # 링크를 저장할 빈 리스트 생성
         latest_10_links = []
 
@@ -83,100 +84,29 @@ class InvestingCrawler:
                 link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
             )
 
-        # 링크랑 텍스트를 저장할 빈 리스트 생성
-        latest_10_data = []
+        # 텍스트를 저장할 빈 리스트 생성
+        latest_10_text = []
 
-        # 뉴스 몇개인지 직관적으로 보기 위해
         cnt = 1
         # 각 링크에 대해 새 탭에서 크롤링 수행
         for link in latest_10_links:
             # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
             text = self.crawl_page(link)
-            # 링크랑 텍스트를 리스트에 추가
-            latest_10_data.append((link, text))
+            # 텍스트를 리스트에 추가
+            latest_10_text.append(text)
 
             logging.info(f"────────────────────────────────────────────────────────────────────────────")
             logging.info(f"최신 기사 {cnt}")
             logging.info(text)
             logging.info(f"────────────────────────────────────────────────────────────────────────────")
             cnt += 1
-
         self.driver.quit()
-        return latest_10_data
-       
 
-class MySQLHandler:
-    def __init__(self, host, user, password, db_name, port=3307):
-        self.conn = pymysql.connect(host=host,
-                                    user=user,
-                                    password=password,
-                                    database=db_name,
-                                    charset='utf8',
-                                    port = port,
-                                    connect_timeout=30)
+        return latest_10_links, latest_10_text
 
-    def save_to_database(self, news_data):
-        with self.conn.cursor() as cursor:
-            for link, news in news_data:
-                sql = f"INSERT INTO hh_news_table (link, news) VALUES (%s, %s)"
-                try:
-                    cursor.execute(sql, (link, news))
-                except pymysql.err.IntegrityError as e:
-                    print(f"데이터 삽입 중 오류 발생 (기본 키 위반): {e}")
-                    print("최신 뉴스가 이미 데이터베이스에 있음.")
-                except Exception as e:
-                    print(f"데이터 삽입 중 오류 발생: {e}")
-            self.conn.commit()
-
-    def close_connection(self):
-        self.conn.close()
-
-    def select_data(self):
-        with self.conn.cursor() as cursor:
-            sql = "SELECT link, news FROM hh_news_table"
-            cursor.execute(sql)
-            data = cursor.fetchall()
-        return data
-
-    def print_links_and_news(self):
-        data = self.select_data()
-        for link, news in data:
-            print("링크:", link)
-            print("뉴스:", news)
-            print("────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────")
-            print()
-
-def main():
-    host = 'project-db-stu.ddns.net'
-    user = 'smhrd_e_3'
-    password = 'smhrde3'
-    db_name = 'smhrd_e_3'
-    port = 3307
-
-    # InvestingCrawler 객체 생성 및 뉴스 데이터 크롤링
-    crawler = InvestingCrawler()
-    news_data = crawler.investing_latest()
-
-    # MySQLHandler 객체 생성 및 데이터베이스 연결
-    db_handler = MySQLHandler(host, user, password, db_name, port)
-
-    # 뉴스 데이터를 데이터베이스에 저장
-    db_handler.save_to_database(news_data)
-
-    # 데이터베이스에서 링크와 뉴스 데이터 조회 및 출력
-    db_handler.print_links_and_news()
-
-    # 데이터베이스 연결 종료
-    db_handler.close_connection()
-
-if __name__ == '__main__':
-    main()
-
-# 시간 측정
-end_time = time.time()
-elapsed_time = end_time - start_time
-
-print(f"코드 실행에 걸린 시간: {elapsed_time:.2f} 초")
+# # 사용예시
+# crawler = InvestingCrawler()
+# crawler.investing_latest()
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
