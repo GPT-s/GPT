@@ -35,7 +35,7 @@ class InvestingCrawler:
         options.headless = True  # 이 코드가 창 안보이게 실행하는 거 인듯
         self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
 
-    def crawl_page_in_tab(self, url):
+    def crawl_page(self, url):
         try:
             # 새 탭 열기
             self.driver.execute_script("window.open('about:blank', 'new_tab');")
@@ -134,7 +134,7 @@ def set_chrome_driver(headless=True):
     )
     return driver
 
-def deepL_Translator(text):
+def translator_deepl(text):
     try:
         deepL = set_chrome_driver(False)  # Chrome 웹 드라이버 설정
         deepL.get("https://www.deepl.com/ko/translator")  # 딥엘 번역 페이지로 이동
