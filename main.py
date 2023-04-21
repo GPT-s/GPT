@@ -1,4 +1,4 @@
-from src.crawler import Investing_Crawler
+from src.crawler import InvestingCrawler
 from src.finbert import FinBert
 from src.gpt import summarize
 #import src.gpt_sent
@@ -7,7 +7,7 @@ from src.telegram_handler import telegram_handler
 from src.crawler import investing_latest_news, deepL_Translator
 from src.gpt_keyword import get_analyze_keyword, analyze_keyword
 
-investing_latest_news = Investing_Crawler()
+investing_latest_news = InvestingCrawler()
 Finbert = FinBert()
 send_message = telegram_handler()
 

@@ -23,7 +23,7 @@ import logging
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
 
 # 창 없이 하는거
-class Investing_Crawler:
+class InvestingCrawler:
     def __init__(self):
         # from selenium.webdriver.chrome.options import Options
         # Options 클래스는 크롬 웹 드라이버의 동작을 구성하고 사용자 지정 옵션을 설정할 수 있는 기능을 제공
