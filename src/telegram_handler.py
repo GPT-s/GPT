@@ -24,7 +24,7 @@ model = "gpt-3.5-turbo"
 
 
 
-class telegram_handler:
+class TelegramHandler:
     def __init__(self, token):
         self.token = token
     # /start 커맨드 기능
