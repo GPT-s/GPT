@@ -16,7 +16,7 @@ class DataBase :
         cursor = self.conn.cursor()
         now = datetime.now()
         date = now.strftime('%Y-%m-%d %H:%M:%S')
-        query = f"INSERT INTO News (datetime, source, content, summary) VALUES ('{date}', %s, %s, %s)"
+        query = f"INSERT INTO NEWS (datetime, source, content, summary) VALUES ('{date}', %s, %s, %s)"
         values = (datetime, source, content, summary)
         cursor.execute(query, values)
 
@@ -25,7 +25,7 @@ class DataBase :
     # News 테이블에서 데이터 조회
     def select_news(self):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM News"
+        query = "SELECT * FROM NEWS"
         cursor.execute(query)
 
         result = cursor.fetchall()
@@ -33,20 +33,20 @@ class DataBase :
         return result
 
     # Users 테이블에 데이터 업데이트
-    def update_user(self, user_id, interesting_ticker, is_subscribe):
+    def update_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
-        query = "UPDATE Users SET user_id = %s, interesting_ticker = %s, is_subscribe = %s"
-        values = (user_id, interesting_ticker, is_subscribe)
+        query = "UPDATE USERS SET user_id = %s, is_subscribe = %s"
+        values = (user_id, is_subscribe)
         cursor.execute(query, values)
 
         self.conn.commit()
         
 
     # Users 테이블에 데이터 삽입
-    def insert_user(self, user_id, interesting_ticker, is_subscribe):
+    def insert_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
-        query = "INSERT INTO Users (user_id, interesting_ticker, is_subscribe) VALUES (%s, %s, %s)"
-        values = (user_id, interesting_ticker, is_subscribe)
+        query = "INSERT INTO USERS (user_id, is_subscribe) VALUES (%s, %s)"
+        values = (user_id, is_subscribe)
         cursor.execute(query, values)
 
         self.conn.commit()
