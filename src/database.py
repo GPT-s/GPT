@@ -1,10 +1,10 @@
 import mysql.connector
 
 # MySQL 연결 설정
-class db :
+class DataBase :
     def init(self):
         self.conn = mysql.connector.connect(
-            host='project-db-stu.ddns.net',  # MySQL 호스트
+            host='project-db-stu.ddns.ne',  # MySQL 호스트
             port = '3307',
             user='smhrd_e_3',  # MySQL 사용자 이름
             password='smhrde3',  # MySQL 비밀번호
