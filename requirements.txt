@@ -43,6 +43,7 @@ python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-telegram-bot==13.13
 pytz==2023.3
+pymysql==1.0.3
 PyYAML==6.0
 regex==2023.3.23
 requests==2.28.1

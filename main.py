@@ -28,7 +28,7 @@ class Main:
                 insert_data_user = DataBase().insert_user('5611753679','F')
                 insert_data_user
                 send_message.send_message('5611753679', '아이디 생성 완료')
-                print('아이디 생성')
+                #실행 됨.
 
         elif send_message.telegram_main().equals('/sub'): # 사용자가 sub 명령어 입력 시 실행
                 update_data_sub = DataBase().update_user('5611753679', 'T')
