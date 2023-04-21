@@ -186,7 +186,7 @@ def on_callback_query(update, context):
                                                 text=f"{favorite}지수")
     
 
-def main():
+def telegram_main():
     updater = Updater(token, use_context=True)
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CommandHandler('help', help))
@@ -201,4 +201,4 @@ def main():
     updater.idle()
 
 if __name__ == '__main__':
-    main()
+    telegram_main()
