@@ -162,3 +162,97 @@ class Investing_Crawler:
 # crawler = Investing_Crawler()
 # # investing_latest 메서드 호출하여 기사 크롤링하고 출력
 # crawler.investing_latest()
+
+class InvestingCrawler:
+    def __init__(self):
+        options = Options()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)
+
+    def crawl_page(self, url):
+        try:
+            self.driver.execute_script("window.open('about:blank', 'new_tab');")
+            self.driver.switch_to.window("new_tab")
+
+            self.driver.get(url)
+
+            article_page = self.driver.find_element(By.CLASS_NAME, "articlePage")
+
+            text = article_page.text
+        except NoSuchElementException:
+            text = ""
+
+        text = text.replace("© Reuters. FILE PHOTO:", "")
+        text = text.replace("© Reuters.", "")
+
+        self.driver.close()
+
+        self.driver.switch_to.window(self.driver.window_handles[0])
+        return text
+
+    def investing_latest(self):
+        self.driver.get("https://www.investing.com/news/latest-news")
+
+        latest_10_links = []
+
+        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:10]:
+            latest_10_links.append(
+                link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
+            )
+
+        latest_10_text = []
+
+        for link in latest_10_links:
+            text = self.crawl_page(link)
+            latest_10_text.append(text)
+        self.driver.quit()
+
+        return latest_10_links, latest_10_text
+
+   
+    def investing_links_news_df(self):
+        latest_10_text, latest_10_links = self.investing_latest()
+        news_df = pd.DataFrame(list(zip(latest_10_text, latest_10_links)), columns=['link', 'news'])
+        return news_df
+
+
+crawler = InvestingCrawler()
+news_df = crawler.investing_links_news_df()
+
+class MySQLHandler:
+    def __init__(self, host, user, password, db_name, port=3307):
+        self.conn = pymysql.connect(host=host,
+                                    user=user,
+                                    password=password,
+                                    database=db_name,
+                                    charset='utf8',
+                                    port = port,
+                                    connect_timeout=30)
+
+    def save_to_database(self, news_df):
+        with self.conn.cursor() as cursor:
+            for index, row in news_df.iterrows():
+                link, news = row['link'], row['news']
+                sql = f"INSERT INTO hh_news_table (link, news) VALUES (%s, %s)"
+                cursor.execute(sql, (link, news))
+
+            self.conn.commit()
+
+    def close_connection(self):
+        self.conn.close()
+
+host = 'project-db-stu.ddns.net'
+user = 'smhrd_e_3'
+password = 'smhrde3'
+db_name = 'smhrd_e_3'
+port = 3307
+
+crawler = InvestingCrawler()
+
+news_df = crawler.investing_links_news_df()
+
+db_handler = MySQLHandler(host, user, password, db_name, port)
+
+db_handler.save_to_database(news_df)
+
+db_handler.close_connection()
