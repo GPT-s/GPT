@@ -18,6 +18,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import time
 import os
+import logging
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
 
@@ -86,25 +87,22 @@ class Investing_Crawler:
             # 텍스트를 리스트에 추가
             latest_10_text.append(text)
 
-            print(
-                "────────────────────────────────────────────────────────────────────────────"
-            )
-            print(f"최신 기사 {cnt}")
-            print()
-            print(text)
-            print()
-            print(
-                "────────────────────────────────────────────────────────────────────────────"
-            )
+            logging.info(f"────────────────────────────────────────────────────────────────────────────")
+            logging.info(f"최신 기사 {cnt}")
+            logging.info(text)
+            logging.info(f"────────────────────────────────────────────────────────────────────────────")
             cnt += 1
         self.driver.quit()
 
-        return latest_10_text, latest_10_links
-    
+        return latest_10_links, latest_10_text
+
+   
     def investing_latest_news_df(self):
-        latest_10_text = self.investing_latest()
-        news_df = pd.DataFrame(latest_10_text, columns=['news'])
+        latest_10_text, latest_10_links = self.investing_latest()
+        news_df = pd.DataFrame(list(zip(latest_10_text, latest_10_links)), columns=['link', 'news'])
         return news_df
+
+
 
 # # 사용 예시
 # crawler = Investing_Crawler()
@@ -114,7 +112,7 @@ class Investing_Crawler:
 # print("첫 번째 뉴스 내용:")
 # print(first_news)
 
-# 두 번째 뉴스 내용 출력
+# # 두 번째 뉴스 내용 출력
 # second_news = news_df.iloc[1]['news']
 # print()
 # print("두 번째 뉴스 내용:")
@@ -157,3 +155,9 @@ def deepL_Translator(text):
     finally:
         deepL.close()  # 웹 드라이버 종료
     return result  # 번역된 결과 반환
+
+# 현재 작업 디렉토리에 저장
+logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+# 위치 지정
+# logging.basicConfig(filename="/var/log/my_app/my_log_file.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
