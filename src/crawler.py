@@ -26,6 +26,7 @@ import pymysql.err
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
 
+
 # 시간 측정
 start_time = time.time()
 
