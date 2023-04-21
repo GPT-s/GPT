@@ -106,8 +106,8 @@ class InvestingCrawler:
         return latest_10_links, latest_10_text
 
 # # 사용예시
-# crawler = InvestingCrawler()
-# crawler.investing_latest()
+crawler = InvestingCrawler()
+crawler.investing_latest()
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
