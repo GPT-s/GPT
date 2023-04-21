@@ -83,7 +83,7 @@ class InvestingCrawler:
         # 각 링크에 대해 새 탭에서 크롤링 수행
         for link in latest_10_links:
             # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
-            text = self.crawl_page_in_tab(link)
+            text = self.crawl_page(link)
             # 텍스트를 리스트에 추가
             latest_10_text.append(text)
 
@@ -97,15 +97,15 @@ class InvestingCrawler:
         return latest_10_links, latest_10_text
 
    
-    def investing_latest_news_df(self):
+    def investing_links_news_df(self):
         latest_10_text, latest_10_links = self.investing_latest()
         news_df = pd.DataFrame(list(zip(latest_10_text, latest_10_links)), columns=['link', 'news'])
         return news_df
 
 
 # # 사용 예시
-# crawler = Investing_Crawler()
-# news_df = crawler.investing_latest_news_df()
+crawler = InvestingCrawler()
+news_df = crawler.investing_links_news_df()
 # # 첫 번째 뉴스 내용 출력
 # first_news = news_df.iloc[0]['news']
 # print("첫 번째 뉴스 내용:")
@@ -118,9 +118,9 @@ class InvestingCrawler:
 # print(second_news)
 
 # # 전체 뉴스 데이터 프레임 출력
-# print()
-# print("전체 뉴스 데이터 프레임:")
-# print(news_df)
+print()
+print("전체 뉴스 데이터 프레임:")
+print(news_df)
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
