@@ -19,9 +19,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import os
 import logging
-# pip install pymysql
-import pymysql
-import pymysql.err
 
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
@@ -106,8 +103,8 @@ class InvestingCrawler:
         return latest_10_links, latest_10_text
 
 # # 사용예시
-# crawler = InvestingCrawler()
-# crawler.investing_latest()
+crawler = InvestingCrawler()
+crawler.investing_latest()
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
