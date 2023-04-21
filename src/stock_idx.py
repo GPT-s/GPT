@@ -1,3 +1,7 @@
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 import requests
 from bs4 import BeautifulSoup
 import time
@@ -64,8 +68,34 @@ class StockData:
 
             time.sleep(60)
 
-stock = StockData("AAPL")
-stock.get_stock_info(5)  # Fetch stock info for 5 updates
+# stock = StockData("AAPL")
+# stock.get_stock_info(5)  # Fetch stock info for 5 updates
+
+    def screenshot(self, location):
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--start-maximized')
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        driver.get(url = f'https://finance.yahoo.com/quote/{location}', headers=headers)
+        wait = WebDriverWait(driver, 10)
+        path = f'C:/Users/smhrd/{location}.jpg'
+        driver.find_element(By.ID, 'interactive-2col-qsp-m').screenshot(path)
+        driver.quit()
+        return path
+
+    locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
+
+    for location in locations:
+        screenshot_path = screenshot(location)
+        print(f'스크린샷 저장: {screenshot_path}')
+        logging.info('스크린샷 저장 완료')
+
+    print('오나료!')
+
+
+
+
+
 
 
 
