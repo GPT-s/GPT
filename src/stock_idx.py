@@ -39,16 +39,14 @@ import logging
 class StockData:
     def __init__(self, stock_code):
         self.stock_code = stock_code
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 
     def get_stock_info(self, update_count):
-        url = "https://finance.yahoo.com"
-        search_query = "/quote/"
+        url = "https://finance.yahoo.com/quote/"
 
         for i in range(update_count):
             try:
-                headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
-
-                response = requests.get(url + search_query + self.stock_code, headers=headers)
+                response = requests.get(url + self.stock_code, headers=self.headers)
                 soup = BeautifulSoup(response.content, 'html.parser')
 
                 price_element = soup.select_one("#quote-header-info > div.My\(6px\).Pos\(r\).smartphone_Mt\(6px\).W\(100\%\) > div.D\(ib\).Va\(m\).Maw\(65\%\).Ov\(h\) > div.D\(ib\).Mend\(20px\) > fin-streamer.Fw\(b\).Fz\(36px\).Mb\(-4px\).D\(ib\)")
@@ -68,30 +66,35 @@ class StockData:
 
             time.sleep(60)
 
-# stock = StockData("AAPL")
-# stock.get_stock_info(5)  # Fetch stock info for 5 updates
+        # stock = StockData("AAPL")
+        # stock.get_stock_info(5)  # Fetch stock info for 5 updates
+        
 
     def screenshot(self, location):
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--start-maximized')
+        chrome_options.add_argument(f'headers={self.headers}')
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-        driver.get(url = f'https://finance.yahoo.com/quote/{location}', headers=headers)
-        path = f'C:/Users/smhrd/{location}.jpg'
+        driver.get(url = f'https://finance.yahoo.com/quote/{location}')
+        time.sleep(5)
+        x_btn = driver.find_element(By.CSS_SELECTOR, '#dropdown-menu > button > svg')
+        x_btn.click()
+        path = f'C:/Users/smhrd/{location}.png'
         driver.find_element(By.ID, 'interactive-2col-qsp-m').screenshot(path)
         driver.quit()
         return path
 
 
-# 메인에서 사용 시 
-    # locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
+#메인에서 사용 시 
+locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
 
-    # for location in locations:
-    #     screenshot_path = StockData.screenshot(location)
-    #     print(f'스크린샷 저장: {screenshot_path}')
-    #     logging.info('스크린샷 저장 완료')
+for location in locations:
+    stock = StockData(location)
+    screenshot_path = stock.screenshot(location)
+    print(f'스크린샷 저장: {screenshot_path}')
+    logging.info('스크린샷 저장 완료')
 
-
+# stock.screenshot("stock_screenshot.jpg")
 
 
 

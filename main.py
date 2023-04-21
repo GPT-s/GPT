@@ -33,12 +33,12 @@ class Main:
         elif send_message.telegram_main().equals('/sub'): # 사용자가 sub 명령어 입력 시 실행
                 update_data_sub = DataBase().update_user('5611753679', 'T')
                 update_data_sub
-                    #send_message.send_message('5999372705', '구독하기')
+                #send_message.send_message('5999372705', '구독하기')
 
         elif send_message.telegram_main().equals('/nosub'): # 사용자가 nosub 명령어 입력 시 실행
                 update_data_nosub = DataBase().update_user('5611753679', 'F')
                 update_data_nosub
-                    #send_message.send_message('5999372705', '구독취소')
+                #send_message.send_message('5999372705', '구독취소')
 
         elif send_message.send_message().equals(send_message.message_handler): # 사용자가 뉴스 데이터 요청 시 실행
 
