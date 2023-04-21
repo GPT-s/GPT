@@ -3,13 +3,13 @@ from src.finbert import FinBert
 from src.gpt import summarize
 #import src.gpt_sent
 #import src.stock_idx  
-from src.telegram_handler import telegram_handler
-from src.crawler import investing_latest_news, translator_deepl
+from src.telegram_handler import TelegramHandler
 from src.gpt_keyword import get_analyze_keyword, analyze_keyword
+from test.test_db import db
 
 investing_latest_news = Investing_Crawler()
 Finbert = FinBert()
-send_message = telegram_handler()
+send_message = TelegramHandler()
 
 for text in investing_latest_news: # 모듈 통합 실행 코드 
     result_sentiment = Finbert.sentiment(text)# 핀버트 감성 분석 변수
