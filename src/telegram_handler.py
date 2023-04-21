@@ -11,6 +11,7 @@ from telegram import Bot, KeyboardButton, ReplyKeyboardMarkup,Update,InlineKeybo
 import openai
 from dotenv import load_dotenv
 import os
+from database import DataBase
 
 load_dotenv()
 
@@ -21,11 +22,14 @@ GPTAPI = os.environ.get('GPTAPI')
 OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
 model = "gpt-3.5-turbo"
+database = DataBase()
+
+
 
 
 class TelegramHandler:
     
-    def __init__(self, token):
+    def __init__(self):
         self.token = token
         self.updater = Updater(token, use_context=True)
         self.updater.dispatcher.add_handler(CommandHandler('start', TelegramHandler.start))
@@ -43,7 +47,10 @@ class TelegramHandler:
     def start(update, context):        
         chat_id = update.effective_chat.id
         context.bot.send_message(chat_id=update.effective_chat.id, text='주식챗봇 시작을 환영합니다') 
+        database.insert_user(chat_id, "N")
+
         return chat_id
+    
 
     # /help 커맨드 기능
     def help(update, context):
@@ -109,11 +116,13 @@ class TelegramHandler:
     def in_subscribe(update, context):
         chat_id = update.effective_chat.id
         context.bot.send_message(chat_id=chat_id, text="구독 처리가 완료되었습니다.")
+        database.update_user(chat_id, "Y")
         return chat_id
 
     def out_subscribe(update, context):
         chat_id = update.effective_chat.id
         context.bot.send_message(chat_id=chat_id, text="구독 취소가 완료되었습니다.")
+        database.update_user(chat_id, "N")
         return chat_id
 
     
@@ -201,3 +210,4 @@ class TelegramHandler:
             elif query_data == f'index_{favorite}':
                 context.bot.send_message(chat_id=query.message.chat_id,
                                                     text=f"{favorite}지수")
+                
