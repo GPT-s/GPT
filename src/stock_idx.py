@@ -77,20 +77,20 @@ class StockData:
         chrome_options.add_argument('--start-maximized')
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         driver.get(url = f'https://finance.yahoo.com/quote/{location}', headers=headers)
-        wait = WebDriverWait(driver, 10)
         path = f'C:/Users/smhrd/{location}.jpg'
         driver.find_element(By.ID, 'interactive-2col-qsp-m').screenshot(path)
         driver.quit()
         return path
 
-    locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
 
-    for location in locations:
-        screenshot_path = screenshot(location)
-        print(f'스크린샷 저장: {screenshot_path}')
-        logging.info('스크린샷 저장 완료')
+# 메인에서 사용 시 
+    # locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
 
-    print('오나료!')
+    # for location in locations:
+    #     screenshot_path = StockData.screenshot(location)
+    #     print(f'스크린샷 저장: {screenshot_path}')
+    #     logging.info('스크린샷 저장 완료')
+
 
 
 
