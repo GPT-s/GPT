@@ -19,8 +19,17 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import os
 import logging
+# pip install pymysql
+import pymysql
+import pymysql.err
+
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
+
+
+# 시간 측정
+start_time = time.time()
+
 
 # 창 없이 하는거
 class InvestingCrawler:
@@ -96,31 +105,9 @@ class InvestingCrawler:
 
         return latest_10_links, latest_10_text
 
-   
-    def investing_links_news_df(self):
-        latest_10_text, latest_10_links = self.investing_latest()
-        news_df = pd.DataFrame(list(zip(latest_10_text, latest_10_links)), columns=['link', 'news'])
-        return news_df
-
-
-# # 사용 예시
-crawler = InvestingCrawler()
-news_df = crawler.investing_links_news_df()
-# # 첫 번째 뉴스 내용 출력
-# first_news = news_df.iloc[0]['news']
-# print("첫 번째 뉴스 내용:")
-# print(first_news)
-
-# # 두 번째 뉴스 내용 출력
-# second_news = news_df.iloc[1]['news']
-# print()
-# print("두 번째 뉴스 내용:")
-# print(second_news)
-
-# # 전체 뉴스 데이터 프레임 출력
-print()
-print("전체 뉴스 데이터 프레임:")
-print(news_df)
+# # 사용예시
+# crawler = InvestingCrawler()
+# crawler.investing_latest()
 
 def set_chrome_driver(headless=True):
     options = webdriver.ChromeOptions()
@@ -154,6 +141,7 @@ def translator_deepl(text):
     finally:
         deepL.close()  # 웹 드라이버 종료
     return result  # 번역된 결과 반환
+
 
 # 현재 작업 디렉토리에 저장
 logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
