@@ -13,6 +13,7 @@ import schedule
 
 
 # 코드 길어 보여도 다 주석이랑 print 임
+# GPT-api 크레딧 많이 먹어서 크롤링 3개씩만 함
 
 # 클래스 가져 오는 거
 # investing_crawler = InvestingCrawler()
