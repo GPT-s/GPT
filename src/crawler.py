@@ -84,7 +84,7 @@ class InvestingCrawler:
         latest_10_links = []
 
         # 상위 10개 기사 링크 수집
-        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:10]:
+        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:3]:
             latest_10_links.append(
                 link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
             )
