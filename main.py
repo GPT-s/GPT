@@ -15,17 +15,20 @@ import schedule
 # 코드 길어 보여도 다 주석이랑 print 임
 
 # 클래스 가져 오는 거
-investing_crawler = InvestingCrawler()
-finbert = FinBert()
-database = DataBase()
-telegram_handler = TelegramHandler()
-deepl_translator = DeeplTranslator(True)
+# investing_crawler = InvestingCrawler()
+# finbert = FinBert()
+# database = DataBase()
+# telegram_handler = TelegramHandler()
+# deepl_translator = DeeplTranslator(True)
 
 # 최신 뉴스 가져오기 및 감성 분석 및 뉴스 요약
 def get_latest_news():
+    investing_crawler = InvestingCrawler()
     
     # 최신뉴스와 텍스트를 가져와서 변수에 담아줌
     latest_links, latest_texts = investing_crawler.investing_latest()
+
+    finbert = FinBert()
     
     # 뉴스 텍스트를 감성 분석하고 결과를 변수에 담아줌
     sentiment_data = finbert.sentiment(latest_texts)
@@ -38,6 +41,12 @@ def get_latest_news():
 
 
 def process_and_send_news():
+    
+    # 시간 측정 그냥 얼마나 걸리나 궁금해서
+    start_time = time.time()
+
+    database = DataBase()
+
     # 메시지 보낼때 링크랑 내용 안맞는데 수정해야 함
     # 뭐가 문제지 과거에도 같은 링크를 사용하나?
     # 언제는 맞고 언제는 틀리고 뭐징
@@ -68,7 +77,19 @@ def process_and_send_news():
         # 요약전 텍스트는 필요없어서 ""로 저장
         database.insert_news(link, "", summary, datetime.now())
     
+    # 시간 측정
+    end_time = time.time()
+    Total_time = end_time - start_time
+
+    print(f"크롤링부터 저장까지 걸린 시간: {Total_time:.2f} 초")
+    
 def send_translated_news():
+    # 시간 측정 그냥 얼마나 걸리나 궁금해서    
+    start_time = time.time()
+    
+    deepl_translator = DeeplTranslator(True)
+    telegram_handler = TelegramHandler()
+    database = DataBase()
    
     # 데이터베이스에서 뉴스 선택
     print("3. 번역 및 텔레그램 전송 시작")
@@ -116,21 +137,26 @@ def send_translated_news():
             database.update_news_sent(news[0])  # news[0]는 DB 테이블 1번째에 있는 컬럼
 
     print("작업 완")
+    # 시간 측정
+    end_time = time.time()
+    Total_time = end_time - start_time
+
+    print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
 
 
 # 스케줄러 설정
-# 크롤링 하는 함수를 5분 마다 실행
-# 반복 하는거 테스트 좀 해봐야 할 듯 처음 실행은 되는데 두번째에 안되는건가
-schedule.every(5).minutes.do(process_and_send_news)
 
 # 테스트 해보려면 여기 아래 시간을 바꾸세여. 지금시간에 1~2분 더해서 그러면 크롤링하고 저장함
-schedule.every().day.at("19:14").do(process_and_send_news)
+schedule.every().day.at("22:52").do(process_and_send_news)
+
+# 크롤링 하는 함수를 5분 마다 실행
+schedule.every(5).minutes.do(process_and_send_news)
 
 # 번역 후 메시지 보내는 함수를 08:30 마다 실행 
 schedule.every().day.at("08:30").do(send_translated_news)
 
 # 테스트 해보려면 여기 아래 시간을 바꾸세여. 위에 크롤링 작동 시간에 2분 더해서 그러면 저장한거 메시지 보냄
-schedule.every().day.at("19:20").do(send_translated_news)
+schedule.every().day.at("22:55") .do(send_translated_news)
 
 # 스케줄 실행
 while True:
