@@ -12,6 +12,8 @@ from src.translator_deepl import DeeplTranslator
 import schedule
 
 
+# 코드 길어 보여도 다 주석이랑 print 임
+
 # 클래스 가져 오는 거
 investing_crawler = InvestingCrawler()
 finbert = FinBert()
@@ -33,6 +35,7 @@ def get_latest_news():
     
     # 최신 뉴스의 링크, 텍스트, 요약을 반환함
     return latest_links, latest_texts, summaries
+
 
 def process_and_send_news():
     # 메시지 보낼때 링크랑 내용 안맞는데 수정해야 함
