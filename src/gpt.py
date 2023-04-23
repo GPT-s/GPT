@@ -37,7 +37,7 @@ def get_completion(text, model="gpt-3.5-turbo"):
 
 # def summarize(text):
 #     model_engine = "text-davinci-002"
-
+#
 #     max_tokens = 2500
 
 #     if text is not None:
