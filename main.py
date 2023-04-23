@@ -116,6 +116,7 @@ def send_translated_news():
 
 # 스케줄러 설정
 # 크롤링 하는 함수를 5분 마다 실행
+# 반복 하는거 테스트 좀 해봐야 할 듯 처음 실행은 되는데 두번째에 안되는건가
 schedule.every(5).minutes.do(process_and_send_news)
 
 # 테스트 해보려면 여기 아래 시간을 바꾸세여. 지금시간에 1~2분 더해서 그러면 크롤링하고 저장함
