@@ -11,7 +11,7 @@ from telegram import Bot, KeyboardButton, ReplyKeyboardMarkup,Update,InlineKeybo
 import openai
 from dotenv import load_dotenv
 import os
-from database import DataBase
+from src.database import DataBase
 
 load_dotenv()
 

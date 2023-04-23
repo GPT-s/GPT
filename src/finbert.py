@@ -38,6 +38,14 @@ class FinBert:
         table={'data':data,
                'value':values}
 
+        # sentiment_data = pd.DataFrame(table, columns = ["data", "value"])
         print("")
-        sentiment_data = pd.DataFrame(table, columns = ["data", "value"])
+        # ㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        # 테스트 점
+        sentiment_data = [value for value in values]
+        print("핀 버트 완")
+        print("핀 버트 완")
+        print("핀 버트 완")
+        print("핀 버트 완")
+        print("핀 버트 완")
         return sentiment_data       

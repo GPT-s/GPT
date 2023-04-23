@@ -1,4 +1,5 @@
 import mysql.connector
+import pymysql
 
 # MySQL 연결 설정
 class DataBase :
@@ -11,7 +12,8 @@ class DataBase :
                 password='smhrde3',  # MySQL 비밀번호
                 database='smhrd_e_3',  # 사용할 데이터베이스 이름
                 charset = 'utf8mb4'
-        )
+            )
+            self.cursor = self.conn.cursor() # 추
         except mysql.connector.Error as err :
             print(f"Error: {err}")
 
@@ -55,5 +57,42 @@ class DataBase :
         self.conn.commit()
 
 
+# 현호 테스트 용
+    def insert_news(self, source, sentiment_analysis, summary, current_datetime):
+        cursor = self.conn.cursor()
+        date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+        query = "INSERT INTO ho_news_table (source, sentiment_analysis, summary, datetime) VALUES (%s, %s, %s, %s)"
+        values = (source, sentiment_analysis, summary, date)
+        
+        try:
+            cursor.execute(query, values)
+            self.conn.commit()
+            print("뉴스 저장 완료")
+        except pymysql.err.IntegrityError as e:
+            print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
+            print("최신 뉴스가 이미 데이터베이스에 있음.")
+        except Exception as e:
+            print("데이터 삽입 중 오류 발생:", e)
+        finally:
+            cursor.close()
 
-    
+    def select_ho_news(self):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM ho_news_table"
+        cursor.execute(query)
+
+        result = cursor.fetchall()
+        print("DB 조회 완")
+        print("DB 조회 완")
+        print("DB 조회 완")
+        print("DB 조회 완")
+        print("DB 조회 완")
+
+        return result   
+
+    # 텔레그램으로 메시지 보내면 0 -> 1 로변경해서 같은 거 안보내게
+    def update_news_sent(self, news_id):
+        query = "UPDATE ho_news_table SET sent = TRUE WHERE id = %s"
+        self.cursor.execute(query, (news_id,))
+        self.conn.commit()
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

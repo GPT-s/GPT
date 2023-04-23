@@ -64,4 +64,9 @@ def get_summary_list(text_list):
     for text in text_list:
         summary = summarize(text)
         summary_list.append(summary)
+    print("요약 완")
+    print("요약 완")
+    print("요약 완")
+    print("요약 완")
+    print("요약 완")
     return summary_list
