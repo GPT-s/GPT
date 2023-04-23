@@ -29,7 +29,7 @@ def get_latest_news():
     sentiment_data = finbert.sentiment(latest_texts)
     
     # 감성 분석 결과를 바탕으로 요약함
-    summaries = get_summary_list(sentiment_data)
+    summaries = get_summary_list(sentiment_data['data'])
     
     # 최신 뉴스의 링크, 텍스트, 요약을 반환함
     return latest_links, latest_texts, summaries
@@ -46,7 +46,6 @@ def process_and_send_news():
     # 위 함수에서 반환한 값을 호출해서 변수에 담아줌
     # get_latest_news()의 반환값이 3개이고 순서대로 변수에 할당 됨
     latest_links, latest_texts, summaries = get_latest_news()
-    print(latest_links)
 
     # 요약된 뉴스와 함께 데이터베이스에 저장
     print("2. 데이터베이스 저장 시작")
@@ -54,6 +53,7 @@ def process_and_send_news():
     print("2. 데이터베이스 저장 시작")
     print("2. 데이터베이스 저장 시작")
     print("2. 데이터베이스 저장 시작")
+
     
     # for문을 사용해서 링크, 텍스트, 요약을 데이터 베이스에 저장함
     # datetime.now()를 사용해서 현재 시간도 함께 저장함
@@ -117,12 +117,15 @@ def send_translated_news():
 # 스케줄러 설정
 # 크롤링 하는 함수를 5분 마다 실행
 schedule.every(5).minutes.do(process_and_send_news)
+
 # 테스트 해보려면 여기 아래 시간을 바꾸세여. 지금시간에 1~2분 더해서 그러면 크롤링하고 저장함
-schedule.every().day.at("18:02").do(process_and_send_news)
+schedule.every().day.at("19:14").do(process_and_send_news)
+
 # 번역 후 메시지 보내는 함수를 08:30 마다 실행 
 schedule.every().day.at("08:30").do(send_translated_news)
-# 테스트 해보려면 여기 아래 시간을 바꾸세여. 지금시간에 1~2분 더해서 그러면 저장한거 메시지 보냄
-schedule.every().day.at("18:12").do(send_translated_news)
+
+# 테스트 해보려면 여기 아래 시간을 바꾸세여. 위에 크롤링 작동 시간에 2분 더해서 그러면 저장한거 메시지 보냄
+schedule.every().day.at("19:20").do(send_translated_news)
 
 # 스케줄 실행
 while True:

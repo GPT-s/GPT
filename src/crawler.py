@@ -53,14 +53,21 @@ class InvestingCrawler:
 
             # 클래스가 articlePage인 요소를 찾아 텍스트 추출
             article_page = self.driver.find_element(By.CLASS_NAME, "articlePage")
+            ptag = article_page.find_elements(By.TAG_NAME, "p")
 
-            text = article_page.text
+            # 모든 p 태그의 텍스트를 추출하여 리스트에 추가
+            text_list = [p.text for p in ptag]
+
+            # 리스트의 모든 요소를 하나의 문자열로 결합
+            text = "\n".join(text_list)
+
+            # text = article_page.text
         except NoSuchElementException:
             text = ""  # 요소를 찾지 못한 경우 빈 문자열 반환
 
-        # 특정 문자열 제거
-        text = text.replace("© Reuters. FILE PHOTO:", "")
-        text = text.replace("© Reuters.", "")
+        # # 특정 문자열 제거
+        # text = text.replace("© Reuters. FILE PHOTO:", "")
+        # text = text.replace("© Reuters.", "")
 
         # 현재 탭 닫기
         self.driver.close()
@@ -98,6 +105,14 @@ class InvestingCrawler:
             logging.info(text)
             logging.info(f"────────────────────────────────────────────────────────────────────────────")
             cnt += 1
+            # print()
+            # print("링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크")
+            # print(latest_10_links)
+            # print()
+            # print("뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 ")
+            # print(latest_10_text)
+            # print()
+            # print()
         self.driver.quit()
         print("크롤링 완")
         print("크롤링 완")
