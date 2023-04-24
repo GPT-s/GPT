@@ -58,7 +58,7 @@ class DataBase :
 
 
 # 현호 테스트 용
-    def insert_news(self, source, sentiment_analysis, summary, current_datetime):
+    def ho_insert_news(self, source, sentiment_analysis, summary, current_datetime):
         cursor = self.conn.cursor()
         date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
         query = "INSERT INTO ho_news_table (source, sentiment_analysis, summary, datetime) VALUES (%s, %s, %s, %s)"
