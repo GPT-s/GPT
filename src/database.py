@@ -56,6 +56,29 @@ class DataBase :
 
         self.conn.commit()
 
+    # Users 테이블에 데이터 꺼내오기
+    def insert_user(self, user_id, is_subscribe):
+        cursor = self.conn.cursor()
+        query = "SELECT USER_ID FROM USERS"
+        values = (user_id, is_subscribe)
+        cursor.execute(query, values)
+
+        self.conn.commit()
+
+    def select_user_id(self):
+        cursor = self.conn.cursor()
+        query = "SELECT USER_ID FROM USERS"
+        cursor.execute(query)
+
+        result = cursor.fetchall()
+        print("USER_ID 조회 완")
+        print("USER_ID 조회 완")
+        print("USER_ID 조회 완")
+        print("USER_ID 조회 완")
+        print("USER_ID 조회 완")
+
+        return result   
+
 
 # 현호 테스트 용
     def ho_insert_news(self, source, sentiment_analysis, summary, current_datetime):

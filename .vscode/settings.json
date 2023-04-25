@@ -2,5 +2,9 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "DockerRun.DisableDockerrc": true,
+  "DockerRun.Containers": [
+    "967397ea6dd5"
+  ]
 }
