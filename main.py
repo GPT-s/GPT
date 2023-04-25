@@ -115,8 +115,10 @@ class Pipeline():
                 # 번역된 뉴스와 링크를 출력 양식?으로 만들고 변수에 저장
                 message = f"**요약된 뉴스**\n{translated_text}\n\n원문 링크: {news[1]}"
 
+                # 유저아이디 전부 가져오기
                 chat_id_list = self.database.select_user_id()
-                # 여기는 유저 아이디 변수로 넣어주면 될 듯
+                
+                # 모든 유저에게 메시지 보내기
                 for chat_id in chat_id_list:
                     telegram_chat_id = chat_id[0]
                     self.telegram_handler.send_message(telegram_chat_id, text=message)
@@ -128,7 +130,11 @@ class Pipeline():
         Total_time = end_time - start_time
 
         print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
-        
+                
+                # 본인한테만 메시지 보내기
+                # 유저아이디 전부 가져오기 부터 저장된 뉴스 시간 프린트까지 주석 처리 하고
+                # # 여기는 유저 아이디
+                # telegram_chat_id = '5292915370'
 
                 # # 텔레그램 메시지 전송을 변수로 만들어줌
                 # # 굳이 안만들어줘도 됨. 
