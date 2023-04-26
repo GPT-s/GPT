@@ -9360,3 +9360,231 @@ Carroll is also suing Trump for defamation after he first denied her rape claim 
 2023-04-26 15:20:13,116 - INFO - ====== WebDriver manager ======
 2023-04-26 15:20:13,410 - INFO - Get LATEST chromedriver version for google-chrome 112.0.5615
 2023-04-26 15:20:13,838 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615\chromedriver.exe] found in cache
+2023-04-26 15:23:29,588 - INFO - ====== WebDriver manager ======
+2023-04-26 15:23:29,894 - INFO - Get LATEST chromedriver version for google-chrome 112.0.5615
+2023-04-26 15:23:30,365 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615\chromedriver.exe] found in cache
+2023-04-26 15:23:31,378 - INFO - Scheduler started
+2023-04-26 15:23:53,534 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:25:47,040 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:26:07,614 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:26:07,614 - INFO - 최신 기사 1
+2023-04-26 15:26:07,614 - INFO - 
+
+
+
+
+
+
+
+
+
+
+By Sinéad Carew, Sruthi Shankar and Ankika Biswas
+(Reuters) - Wall Street's major averages suffered their deepest declines so far this month as a downbeat UPS forecast exacerbated investor concerns about a slowing U.S. economy on Tuesday while plunging deposits at regional First Republic Bank (NYSE:FRC) added to jitters about the bank sector's health.
+Shares in United Parcel Service Inc (NYSE:UPS) fell 10%, its biggest daily loss since July 2006, after the courier company forecast full-year revenue at the lower end of its prior target.
+This helped push the Dow Jones Transport Average index down 3.6%, for its biggest one-day drop since September.
+Also worrying was Tuesday's data showing U.S. consumer confidence fell to a nine-month low in April.
+"Investors have been trying valiantly to hold it together in the midst of a big earnings and economic data week and a big Federal Reserve week next week," said Carol Schleif, chief investment officer for BMO Family Office based in Chicago.
+Traders largely expect the central bank to hike rates by 25 basis points on Wednesday after its Federal Open Market Committee meeting.
+Microsoft Corp (NASDAQ:MSFT) shares rebounded after closing down 2.2% in the regular session and was the biggest drag on the S&P 500 ahead of its quarterly report. It reversed course to rise 4.6% in late trading after its revenue beat analysts' expectations.
+Similarly, shares in Google's parent Alphabet (NASDAQ:GOOGL) Inc rose 4% after the bell when its first-quarter revenue surpassed expectations on an advertising uptick and steady cloud services demand. It had closed down 2%.
+The Dow Jones Industrial Average fell 344.57 points, or 1.02%, to 33,530.83; and the S&P 500 lost 65.41 points, or 1.58%, at 4,071.63, with both marking their biggest one-day percentage losses since March 22.
+The Nasdaq Composite dropped 238.05 points, or 1.98%, to 11,799.16 in its biggest one-day percentage decline since March 9.
+The KBW Regional Banking index dropped 3.9% as First Republic shares fell 49%, hitting a record low.
+The beleaguered lender reported a more than $100 billion flight in deposits in the first quarter following the biggest banking crisis since 2008 last month.
+"People are trying to figure out the health of the regional banks in general. Is there a canary in the coal mine? It's really important for mid-size businesses in the country that the regional banks stay healthy," said BMO's Schleif. (Graphic: U.S. bank stocks lag in 2023 after March crisis - https://fingfx.thomsonreuters.com/gfx/mkt/jnvwybxlevw/Pasted%20image%201682418457657.png)
+Also on investors minds was an apparent lawmaker stand-off in Washington over raising the U.S. debt ceiling.
+"Anytime you hear about a potential default that would trigger a risk-off environment. If we go to the brink and even beyond that wouldn't bode well for risk assets or consumer confidence," said Brian Price, head of investment management for Commonwealth Financial Network in Boston.
+Shares in medical technology firm Danaher Corp (NYSE:DHR) fell 8.8% after it cut its annual sales growth forecast.
+General Motors Co (NYSE:GM) shares fell 4% after it cautioned that 2022 price gains will not last as the year goes on, even as it lifted full-year profit and cash flow forecasts.
+PepsiCo (NASDAQ:PEP) Inc shares rose 2.2% after it raised its annual revenue and profit forecasts.
+Declining issues outnumbered advancers on the NYSE by a 4.57-to-1 ratio; on Nasdaq, a 3.50-to-1 ratio favored decliners.
+The S&P 500 posted 22 new 52-week highs and seven new lows; the Nasdaq Composite recorded 35 new highs and 378 new lows.
+On U.S. exchanges 10.78 billion shares traded compared with the 10.32 billion average for the last 20 sessions.
+
+Here is a graphic of earnings estimates and reports so far:
+(Graphic: U.S. earnings recession - https://www.reuters.com/graphics/GLOBAL-MARKETS/myvmoxajbvr/chart.png)
+
+
+
+2023-04-26 15:26:07,614 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:26:13,930 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:26:13,930 - INFO - 최신 기사 2
+2023-04-26 15:26:13,930 - INFO - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Investing.com -- The Dow fell Tuesday, as investors had to contend with the return of volatility following a string of underwhelming earnings from corporate America that weighed on sentiment.  
+The Dow Jones Industrial Average was 1%, or 344 points lower, the S&P 500 fell 1.6%, and the Nasdaq slumped 2%
+Investor jitters in the banking sector returned after First Republic Bank (NYSE:FRC) plunged 49% to record lows after reporting mixed first-quarter results that also showed its deposit levels fell by $104 billion from a year earlier, much more than the expected $40B decline.  
+The decline in deposits forced the bank to “significantly increase its borrowings,” Wedbush says, pressuring core net interest margins, which are likely to continue to come “under substantial pressure in 2Q, negatively impacting the bank's earnings power significantly.”
+The report soured sentiment on regional banks as the S&P Regional Banking ETF (NYSE:KRE) dropped more than 4%.
+United Parcel Service Inc (NYSE:UPS), meanwhile, reported first-quarter results that missed on both the top and bottom lines, and the courier company warned that sales were expected to remain under pressure, sending its share price almost 10% lower.
+“[A]lthough the macro environment remains a challenge across all transports, we continue to rate UPS shares a Buy due to valuation and secular outlook,” Goldman Sachs said in a note.
+PepsiCo Inc (NASDAQ:PEP) was up more than 2%, sidestepping the selling after its quarterly results topped estimates on both the top and bottom lines as price hikes bolstered performance. 
+3M Company (NYSE:MMM) gave up gains to end the day lower despite reporting earnings that topped Wall Street estimates and announcing plans to cut about 6,000 jobs.  
+McDonald’s (NYSE:MCD) and General Motors (NYSE:GM) were also in the red despite reporting quarterly results that topped estimates.  
+The mostly disappointing quarterly results sparked a bout of volatility, pushing the CBOE Volatility Index, or so-called fear index, sharply higher.  
+A slump in chip stocks, meanwhile, pushed tech lower just as Microsoft (NASDAQ:MSFT) and Alphabet (NASDAQ:GOOGL) ready their quarterly results, due after markets close on Tuesday, with some on Wall Street touting optimism.
+“I am quite optimistic that the very large index contributors will deliver earnings of high quality, and they're protecting their cash flows this year,” Neuberger Berman’s Charles Kantor said in a Bloomberg interview on Tuesday.
+Energy stocks were the biggest drag on the broader market, pressured by falling oil prices amid concerns about the impact of potential slowing global growth on demand.
+In other news, Biogen (NASDAQ:BIIB) fell more than 3% even as the Food and Drug Administration granted accelerated approval for its ALS drug, with regulatory approval conditional on a further study to verify the clinical benefits of the drug. 
+2023-04-26 15:26:13,930 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:26:17,457 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:26:17,457 - INFO - 최신 기사 3
+2023-04-26 15:26:17,457 - INFO - By Luc Cohen, Jack Queen and Jonathan Stempel
+NEW YORK (Reuters) - E. Jean Carroll's accusation that Donald Trump raped her was not a "he said, she said" dispute, a lawyer representing the writer told jurors on Tuesday as a civil trial over the former U.S. president's conduct nearly three decades ago got under way.
+Shawn Crowley, who represents the former Elle magazine advice columnist, said in her opening statement that Trump "slammed Ms. Carroll against the wall" and "pressed his lips to hers," an account other witnesses were prepared to verify.
+"This is not a 'he said, she said' case," Crowley said in federal court in Manhattan. She told jurors they would also hear testimony from two other women who say Trump sexually assaulted them, which Trump denies.
+Trump's lawyer Joe Tacopina countered in his opening statement that the evidence will show the former U.S. president did not assault Carroll.
+Tacopina also asked jurors in strongly Democratic Manhattan to set aside their feelings for Trump, a Republican and former New Yorker who has inspired strong opinions from across the political spectrum.
+"You can hate Donald Trump. It's fine," Tacopina said.
+Earlier in the day, U.S. District Judge Lewis Kaplan sat nine jurors who will decide whether Trump raped Carroll in a Bergdorf Goodman department store dressing room in the mid-1990s and defamed her by denying it happened.
+In an October 2022 post on his Truth Social platform, Trump, 76, called Carroll's rape claim a "hoax" and "complete Scam," said she made it up to promote her memoir and declared Carroll was "not my type!"
+Carroll, 79, is seeking unspecified damages for pain and suffering, psychological harm and invasion of privacy.
+Her lawsuit invoked a new state law in New York giving adult sexual abuse victims a one-year window to sue their alleged attackers even if statutes of limitations expired long ago.
+The trial is expected to resume on Wednesday and last one to two weeks.
+JUDGE WARNS ABOUT INCITEFUL STATEMENTS
+Carroll's case is among a slew of lawsuits and probes facing Trump, the Republican front-runner in the 2024 presidential race.
+It could also be politically damaging as witnesses detail Trump's alleged sexual misconduct, all of which he denies.
+Among the other cases is Manhattan District Attorney Alvin Bragg's criminal case over hush money payments to a porn star. Trump pleaded not guilty to 34 felony counts on April 4 at a New York state courthouse, a three-minute walk from Tuesday's trial.
+Carroll's trial began the same day President Joe Biden, a Democrat, said he would seek a second White House term.
+Before juror questioning began, Kaplan ordered Trump's and Carroll's lawyers to tell their clients and witnesses not to make statements that could "incite violence or civil unrest."
+He screened jurors for bias, asking if they agreed with Trump that the 2020 presidential election was stolen, or thought the #MeToo movement--which Carroll has said inspired her to come forward--would undercut their impartiality. None said they did.
+Kaplan is also keeping jurors anonymous from the public and the lawyers, to shield them from potential harassment by Trump supporters, and even suggested that jurors not use their real names when speaking with one another.
+"If you're normally a Bill and you're selected for the jury or even before, you can be John for a couple of days," Kaplan said.
+Trump did not attend the trial and is not required to, and according to lawyers from both sides is unlikely to testify.
+He has repeatedly attacked Carroll and in personal terms, once calling her mentally ill.
+CARROLL SAYS TRUMP CALLED HER 'THAT ADVICE LADY'
+Carroll said her encounter with Trump at Bergdorf Goodman occurred in late 1995 or early 1996.
+She said Trump recognized her, calling her "that advice lady," and asked for help in buying a gift for another woman.
+Carroll said Trump then "maneuvered" her into a dressing room where he shut the door, forced her against a wall, pulled down her tights and penetrated her. She said she broke free after two to three minutes.
+Her witness list includes two friends in whom she said she confided after the attack, author Lisa Birnbach and former news anchor Carol Martin.
+The two other women who may testify that Trump sexually assaulted them are Jessica Leeds, who has said Trump groped her while seated beside her on a 1979 flight, and Natasha Stoynoff, who said Trump attacked her in 2005 at his Florida mansion where she planned to interview him and his wife Melania.
+Jurors are also expected to hear a 2005 "Access Hollywood" tape on which Trump made graphic, vulgar comments about women.
+
+Trump's lawyers may try to undermine Carroll's credibility by noting that she did not call the police, remained publicly silent for more than two decades and cannot remember the day or month of her alleged attack.
+Carroll is also suing Trump for defamation after he first denied her rape claim in June 2019, when he was still president. That case remains pending before Kaplan.
+
+
+
+
+2023-04-26 15:26:17,457 - INFO - ────────────────────────────────────────────────────────────────────────────
+2023-04-26 15:27:01,838 - INFO - ====== WebDriver manager ======
+2023-04-26 15:27:02,167 - INFO - Get LATEST chromedriver version for google-chrome 112.0.5615
+2023-04-26 15:27:02,612 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615\chromedriver.exe] found in cache
+2023-04-26 15:27:03,586 - INFO - Scheduler started
+2023-04-26 15:27:05,912 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:27:06,376 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:27:21,507 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:27:43,248 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 64, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 325, in execute
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not all parameters were used in the SQL statement
+2023-04-26 15:30:36,238 - INFO - ====== WebDriver manager ======
+2023-04-26 15:30:36,593 - INFO - Get LATEST chromedriver version for google-chrome 112.0.5615
+2023-04-26 15:30:37,062 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615\chromedriver.exe] found in cache
+2023-04-26 15:30:38,061 - INFO - Scheduler started
+2023-04-26 15:32:18,405 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\connection_cext.py", line 611, in cmd_query
+    self._cmysql.query(
+_mysql_connector.MySQLInterfaceError: Duplicate entry '5292915370' for key 'USERS.PRIMARY'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\pro\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\pro\src\database.py", line 55, in insert_user
+    cursor.execute(query, values)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\cursor_cext.py", line 330, in execute
+    result = self._cnx.cmd_query(
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\connection_cext.py", line 619, in cmd_query
+    raise get_mysql_exception(
+mysql.connector.errors.IntegrityError: 1062 (23000): Duplicate entry '5292915370' for key 'USERS.PRIMARY'

@@ -57,13 +57,13 @@ class DataBase :
         self.conn.commit()
 
     # Users 테이블에 데이터 꺼내오기
-    def insert_user(self, user_id, is_subscribe):
-        cursor = self.conn.cursor()
-        query = "SELECT USER_ID FROM USERS"
-        values = (user_id, is_subscribe)
-        cursor.execute(query, values)
+    # def select_user(self, user_id, is_subscribe):
+    #     cursor = self.conn.cursor()
+    #     query = "SELECT USER_ID FROM USERS"
+    #     values = (user_id, is_subscribe)
+    #     cursor.execute(query, values)
 
-        self.conn.commit()
+    #     self.conn.commit()
 
     def select_user_id(self):
         cursor = self.conn.cursor()
