@@ -39,10 +39,10 @@ class TelegramHandler:
         self.updater = Updater(token, use_context=True)
         self.updater.dispatcher.add_handler(CommandHandler('start', TelegramHandler.start))
         self.updater.dispatcher.add_handler(CommandHandler('help', TelegramHandler.help))
-        self.updater.dispatcher.add_handler(CommandHandler('sub', TelegramHandler.in_subscribe))
-        self.updater.dispatcher.add_handler(CommandHandler('nosub', TelegramHandler.out_subscribe))
-        self.updater.dispatcher.add_handler(CommandHandler('favorites', TelegramHandler.favorites, pass_user_data=True))
-        self.updater.dispatcher.add_handler(CommandHandler('remove', TelegramHandler.remove_favorite, pass_user_data=True))
+        self.updater.dispatcher.add_handler(CommandHandler('in', TelegramHandler.in_subscribe))
+        self.updater.dispatcher.add_handler(CommandHandler('out', TelegramHandler.out_subscribe))
+        self.updater.dispatcher.add_handler(CommandHandler('f', TelegramHandler.favorites, pass_user_data=True))
+        self.updater.dispatcher.add_handler(CommandHandler('d', TelegramHandler.remove_favorite, pass_user_data=True))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), TelegramHandler.message_handler, pass_user_data=True))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text, TelegramHandler.on_callback_query))
         self.updater.dispatcher.add_handler(CallbackQueryHandler(TelegramHandler.on_callback_query))
@@ -59,20 +59,20 @@ class TelegramHandler:
 
     # /help 커맨드 기능
     def help(update, context):
-        helptext = "1. '/favorites 주식이름'으로 키보드버튼을 추가할 수 있습니다.\n\
-    2. '/remove 주식이름'으로 키보드 버튼을 삭제할 수 있습니다.\n\
-    3. 키보드 버튼 클릭시\n    해당 버튼에 대한 뉴스 / 차트 버튼 메세지가 전송됩니다.\n\
-    4. 뉴스 또는 차트 버튼 클릭시\n    버튼에 해당하는 내용의 메세지가 전송됩니다.\n\
-    5. /sub 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독할 수 있습니다.\n\
-    6. /nosub 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독 취소할 수 있습니다.\n\
-    7. 특정사이트 링크\n\
-        '네이버' 입력시 네이버 링크가 전송됩니다.\n\
-        '구글' 입력시 네이버 링크가 전송됩니다.\n\
-        '야후파이낸스' 입력시 네이버 링크가 전송됩니다.\n\
-        '인베스팅' 입력시 네이버 링크가 전송됩니다.\n\
-        '유튜브' 입력시 네이버 링크가 전송됩니다. \n\
-    8. 챗봇은 주식, 뉴스, 차트에 관한 내용에만 답변합니다. 질문시 주식,뉴스,차트에 관한 내용을 넣어주세요 \n\
-        ex) 애플주식 차트 보여줘"
+        helptext = """1. '/f 주식이름'으로 키보드버튼을 추가할 수 있습니다.
+        2. '/d 주식이름'으로 키보드 버튼을 삭제할 수 있습니다.
+        3. 키보드 버튼 클릭시 해당 버튼에 대한 뉴스 / 차트 버튼 메세지가 전송됩니다.
+        4. 뉴스 또는 차트 버튼 클릭시 버튼에 해당하는 내용의 메세지가 전송됩니다.
+        5. /in 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독할 수 있습니다.
+        6. /out 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독 취소할 수 있습니다.
+        7. 특정사이트 링크
+        '네이버' 입력시 네이버 링크가 전송됩니다.
+        '구글' 입력시 네이버 링크가 전송됩니다.
+        '야후파이낸스' 입력시 네이버 링크가 전송됩니다.
+        '인베스팅' 입력시 네이버 링크가 전송됩니다.
+        '유튜브' 입력시 네이버 링크가 전송됩니다. 
+        8. 챗봇은 주식, 뉴스, 차트에 관한 내용에만 답변합니다. 질문시 주식,뉴스,차트에 관한 내용을 넣어주세요. 
+        ex) 애플주식 차트 보여줘"""
         context.bot.send_message(chat_id=update.effective_chat.id, text=helptext)
 
     # 메세지 보내는기능
