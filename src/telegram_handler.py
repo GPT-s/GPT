@@ -12,6 +12,11 @@ import openai
 from dotenv import load_dotenv
 import os
 from src.database import DataBase
+import re
+from src.stock_idx import StockData
+from src.translator_deepl import DeeplTranslator
+from src.livecrawler import LiveCrawler
+from src.gpt import get_summary_list,summarize
 
 load_dotenv()
 
@@ -54,16 +59,20 @@ class TelegramHandler:
 
     # /help 커맨드 기능
     def help(update, context):
-        helptext = "1. '/favorites 주식이름' 으로 키보드버튼을 추가할 수 있습니다.\n\
-    2. '/remove 주식이름' 으로 키보드 버튼을 삭제할 수 있습니다.\n\
-    3. 키보드 버튼 클릭시\n    해당 버튼에 대한 뉴스 / 지수 버튼 메세지가 전송됩니다.\n\
-    4. 뉴스 또는 지수 버튼 클릭시\n    버튼에 해당하는 내용의 메세지가 전송됩니다.\n\
-    5. 특정사이트 링크\n\
+        helptext = "1. '/favorites 주식이름'으로 키보드버튼을 추가할 수 있습니다.\n\
+    2. '/remove 주식이름'으로 키보드 버튼을 삭제할 수 있습니다.\n\
+    3. 키보드 버튼 클릭시\n    해당 버튼에 대한 뉴스 / 차트 버튼 메세지가 전송됩니다.\n\
+    4. 뉴스 또는 차트 버튼 클릭시\n    버튼에 해당하는 내용의 메세지가 전송됩니다.\n\
+    5. /sub 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독할 수 있습니다.\n\
+    6. /nosub 커맨드입력으로 8시30분 15시30분에 발송되는 주식뉴스를 구독 취소할 수 있습니다.\n\
+    7. 특정사이트 링크\n\
         '네이버' 입력시 네이버 링크가 전송됩니다.\n\
         '구글' 입력시 네이버 링크가 전송됩니다.\n\
         '야후파이낸스' 입력시 네이버 링크가 전송됩니다.\n\
         '인베스팅' 입력시 네이버 링크가 전송됩니다.\n\
-        '유튜브' 입력시 네이버 링크가 전송됩니다."
+        '유튜브' 입력시 네이버 링크가 전송됩니다. \n\
+    8. 챗봇은 주식, 뉴스, 차트에 관한 내용에만 답변합니다. 질문시 주식,뉴스,차트에 관한 내용을 넣어주세요 \n\
+        ex) 애플주식 차트 보여줘"
         context.bot.send_message(chat_id=update.effective_chat.id, text=helptext)
 
     # 메세지 보내는기능
@@ -133,7 +142,8 @@ class TelegramHandler:
         user_data = context.user_data
         favorites_list = user_data.get('favorites_list', [])
         selectbuttons = user_data.get('selectbuttons', [])
-        logging.info(msgtext)
+        deepl_translator = DeeplTranslator(True)
+        livecrawler = LiveCrawler()
         
         if msgtext == "네이버":
             webpage="https://www.naver.com"
@@ -151,15 +161,65 @@ class TelegramHandler:
             webpage="https://kr.investing.com"
             context.bot.send_message(chat_id=chat_id, text=webpage)
         else:
-            for favorite_idx, favorite in enumerate(favorites_list):
-                if msgtext == favorite:
+            if len(favorites_list) != 0:
+                if msgtext in favorites_list:
                     reply_markups = None
+                    favorite_idx = favorites_list.index(msgtext)
                     if favorite_idx < len(selectbuttons):
                         reply_markups = InlineKeyboardMarkup([selectbuttons[favorite_idx]])
-                    update.message.reply_text(f'{favorite}', reply_markup=reply_markups)
-                    break
+                        update.message.reply_text(f'{msgtext}', reply_markup=reply_markups)
                 else:
-                    gptquery = msgtext
+                    if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
+                        gptquery = f"{msgtext}in the sentence above Tell me keywords,\n\
+                                    Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
+                                    no explanation needed\n\
+                                    Example:\n\
+                                    Keywords: Amazon (AMZN), today's price, recent news.\n\
+                                    stock Keywords: [AMZN]or\n\
+                                    stock Keywords: [001122.ks]or\n\
+                                    no Keywords: [N/A]"  
+                        messages = [
+                                    {"role": "system", "content": "You are a helpful assistant."},
+                                    {"role": "user", "content": gptquery}
+                                    ]
+                        response = openai.ChatCompletion.create(
+                                    model=model,
+                                    messages=messages
+                                    )
+                        answer = response['choices'][0]['message']['content']
+                        location = re.search(r'\[(.*?)\]', answer).group(1)
+                        context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
+                        if "차트" in msgtext:          
+                            stock = StockData(location)
+                            stock.screenshot(location)
+                            stocktext = stock.get_stock_info(location)
+                            context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
+                            with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                                context.bot.send_photo(chat_id = chat_id, photo = img)
+                        elif "뉴스" in msgtext:
+                            location = location.split(".")[0]
+                            print("주식종목코드에서 .ks제거")
+                            news = livecrawler.investing_search(location)
+                            print("관련뉴스 링크 가져오기 완")
+                            newstext = livecrawler.investing_crawl_page(news)
+                            print("뉴스텍스트 가져오기 완")
+                            news_summaries = summarize(newstext)
+                            print("뉴스텍스트 요약 완")
+                            translated_text = deepl_translator.translate(news_summaries)
+                            print("뉴스 텍스트 번역")
+                            context.bot.send_message(chat_id=chat_id, text=translated_text)
+                    else:
+                        context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")
+            else:
+                if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
+                    gptquery = f"{msgtext}in the sentence above Tell me keywords,\n\
+                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
+                                no explanation needed\n\
+                                Example:\n\
+                                Keywords: Amazon (AMZN), today's price, recent news.\n\
+                                stock Keywords: [AMZN]or\n\
+                                stock Keywords: [001122.ks]or\n\
+                                no Keywords: [N/A]"  
                     messages = [
                                 {"role": "system", "content": "You are a helpful assistant."},
                                 {"role": "user", "content": gptquery}
@@ -169,7 +229,31 @@ class TelegramHandler:
                                 messages=messages
                                 )
                     answer = response['choices'][0]['message']['content']
-                    context.bot.send_message(chat_id=chat_id, text=answer)
+                    location = re.search(r'\[(.*?)\]', answer).group(1)
+                    context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
+                    if "차트" in msgtext:          
+                        stock = StockData(location)
+                        stock.screenshot(location)
+                        stocktext = stock.get_stock_info(location)
+                        context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
+                        with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                            context.bot.send_photo(chat_id = chat_id, photo = img)
+                    elif "뉴스" in msgtext:
+                        location = location.split(".")[0]
+                        print("주식종목코드에서 .ks제거")
+                        news = livecrawler.investing_search(location)
+                        print("관련뉴스 링크 가져오기 완")
+                        newstext = livecrawler.investing_crawl_page(news)
+                        print("뉴스텍스트 가져오기 완")
+                        news_summaries = summarize(newstext)
+                        print("뉴스텍스트 요약 완")
+                        translated_text = deepl_translator.translate(news_summaries)
+                        print("뉴스 텍스트 번역")
+                        context.bot.send_message(chat_id=chat_id, text=translated_text)
+                    else:
+                        context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")    
+                else:
+                    context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")
             
                     
     # 즐겨찾기 삭제하는 커맨드  /remove 삭제할종목
@@ -201,13 +285,68 @@ class TelegramHandler:
         query_data = query.data
         user_data = context.user_data
         favorites_list = user_data.get('favorites_list', [])
+        deepl_translator = DeeplTranslator(True)
+        livecrawler = LiveCrawler()
 
         for favorite in favorites_list:
             if query_data == f'stock_{favorite}':
+                context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
+                gptquery = f"{favorite}주식 뉴스 알려줘 in the sentence above Tell me keywords,\n\
+                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
+                                no explanation needed\n\
+                                Example:\n\
+                                Keywords: Amazon (AMZN), today's price, recent news.\n\
+                                stock Keywords: [AMZN]or\n\
+                                stock Keywords: [001122.ks]or\n\
+                                no Keywords: [N/A]"  
+                messages = [
+                                {"role": "system", "content": "You are a helpful assistant."},
+                                {"role": "user", "content": gptquery}
+                                ]
+                response = openai.ChatCompletion.create(
+                                model=model,
+                                messages=messages
+                                )
+                answer = response['choices'][0]['message']['content']
+                location = re.search(r'\[(.*?)\]', answer).group(1)
+                location = location.split(".")[0]
+                print("주식종목코드에서 .ks제거")
+                news = livecrawler.investing_search(location)
+                print("관련뉴스 링크 가져오기 완")
+                newstext = livecrawler.investing_crawl_page(news)
+                print("뉴스텍스트 가져오기 완")
+                news_summaries = summarize(newstext)
+                print("뉴스텍스트 요약 완")
+                translated_text = deepl_translator.translate(news_summaries)
+                print("뉴스 텍스트 번역")
                 context.bot.send_message(chat_id=query.message.chat_id,
-                                                    text=f"{favorite}주식")
+                                                    text=f"{favorite}주식 \n\{translated_text}")
+
 
             elif query_data == f'index_{favorite}':
-                context.bot.send_message(chat_id=query.message.chat_id,
-                                                    text=f"{favorite}지수")
+                gptquery = f"{favorite}주식 차트 알려줘 in the sentence above Tell me keywords,\n\
+                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
+                                no explanation needed\n\
+                                Example:\n\
+                                Keywords: Amazon (AMZN), today's price, recent news.\n\
+                                stock Keywords: [AMZN]or\n\
+                                stock Keywords: [001122.ks]or\n\
+                                no Keywords: [N/A]"  
+                messages = [
+                                {"role": "system", "content": "You are a helpful assistant."},
+                                {"role": "user", "content": gptquery}
+                                ]
+                response = openai.ChatCompletion.create(
+                                model=model,
+                                messages=messages
+                                )
+                answer = response['choices'][0]['message']['content']
+                location = re.search(r'\[(.*?)\]', answer).group(1)
+                context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
+                stock = StockData(location)
+                stock.screenshot(location)
+                stocktext = stock.get_stock_info(location)
+                context.bot.send_message(chat_id=query.message.chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
+                with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                    context.bot.send_photo(chat_id = query.message.chat_id, photo = img)
                 
