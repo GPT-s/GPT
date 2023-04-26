@@ -9588,3 +9588,161 @@ Traceback (most recent call last):
   File "C:\Users\smhrd\anaconda3\lib\site-packages\mysql\connector\connection_cext.py", line 619, in cmd_query
     raise get_mysql_exception(
 mysql.connector.errors.IntegrityError: 1062 (23000): Duplicate entry '5292915370' for key 'USERS.PRIMARY'
+2023-04-26 15:44:04,931 - INFO - ====== WebDriver manager ======
+2023-04-26 15:44:05,443 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:44:06,715 - INFO - Scheduler started
+2023-04-26 15:44:09,119 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 52, in insert_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 15:44:25,263 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 285, in on_callback_query
+    query_data = query.data
+AttributeError: 'NoneType' object has no attribute 'data'
+2023-04-26 15:44:48,917 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 128, in in_subscribe
+    database.update_user(chat_id, "Y")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 43, in update_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 15:44:51,639 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 134, in out_subscribe
+    database.update_user(chat_id, "N")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 43, in update_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 15:47:49,377 - INFO - ====== WebDriver manager ======
+2023-04-26 15:47:49,739 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:47:50,737 - INFO - Scheduler started
+2023-04-26 15:47:53,721 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 52, in insert_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 15:48:59,549 - INFO - ====== WebDriver manager ======
+2023-04-26 15:48:59,931 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:49:00,924 - INFO - Scheduler started
+2023-04-26 15:52:00,105 - INFO - ====== WebDriver manager ======
+2023-04-26 15:52:00,462 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:52:01,480 - INFO - Scheduler started
+2023-04-26 15:53:38,865 - INFO - ====== WebDriver manager ======
+2023-04-26 15:53:39,228 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:53:40,234 - INFO - Scheduler started
+2023-04-26 15:56:03,174 - INFO - ====== WebDriver manager ======
+2023-04-26 15:56:03,559 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:56:04,561 - INFO - Scheduler started
+2023-04-26 15:57:17,583 - INFO - ====== WebDriver manager ======
+2023-04-26 15:57:17,943 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:57:18,939 - INFO - Scheduler started
+2023-04-26 15:57:55,356 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 55, in start
+    database.insert_user(chat_id, "N")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 52, in insert_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 15:59:41,514 - INFO - ====== WebDriver manager ======
+2023-04-26 15:59:41,867 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 15:59:42,862 - INFO - Scheduler started
+2023-04-26 16:01:11,991 - INFO - ====== WebDriver manager ======
+2023-04-26 16:01:12,397 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:01:13,390 - INFO - Scheduler started
+2023-04-26 16:02:21,304 - INFO - ====== WebDriver manager ======
+2023-04-26 16:02:21,667 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:02:22,665 - INFO - Scheduler started
+2023-04-26 16:03:11,812 - INFO - ====== WebDriver manager ======
+2023-04-26 16:03:12,174 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:03:13,172 - INFO - Scheduler started
+2023-04-26 16:05:00,350 - INFO - ====== WebDriver manager ======
+2023-04-26 16:05:00,710 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:05:01,724 - INFO - Scheduler started
+2023-04-26 16:05:41,306 - INFO - ====== WebDriver manager ======
+2023-04-26 16:05:41,660 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:05:42,661 - INFO - Scheduler started
+2023-04-26 16:06:38,402 - INFO - ====== WebDriver manager ======
+2023-04-26 16:06:38,754 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:06:39,778 - INFO - Scheduler started
+2023-04-26 16:07:49,557 - INFO - ====== WebDriver manager ======
+2023-04-26 16:07:49,910 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:07:50,897 - INFO - Scheduler started
+2023-04-26 16:09:13,130 - INFO - ====== WebDriver manager ======
+2023-04-26 16:09:13,491 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:09:14,483 - INFO - Scheduler started
+2023-04-26 16:09:41,143 - INFO - ====== WebDriver manager ======
+2023-04-26 16:09:41,502 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:09:42,498 - INFO - Scheduler started
+2023-04-26 16:15:11,268 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 293, in on_callback_query
+    query_data = query.data
+AttributeError: 'NoneType' object has no attribute 'data'
+2023-04-26 16:15:31,328 - INFO - ====== WebDriver manager ======
+2023-04-26 16:15:31,684 - INFO - Driver [C:\Users\smhrd\.wdm\drivers\chromedriver\win32\112.0.5615.49\chromedriver.exe] found in cache
+2023-04-26 16:15:32,708 - INFO - Scheduler started
+2023-04-26 16:15:54,693 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 293, in on_callback_query
+    query_data = query.data
+AttributeError: 'NoneType' object has no attribute 'data'
+2023-04-26 16:16:06,274 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 136, in in_subscribe
+    database.update_user(chat_id, "Y")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 43, in update_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
+2023-04-26 16:16:10,705 - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\smhrd\anaconda3\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\smhrd\Telegram_api\src\telegram_handler.py", line 142, in out_subscribe
+    database.update_user(chat_id, "N")
+  File "c:\Users\smhrd\Telegram_api\src\database.py", line 43, in update_user
+    cursor = self.conn.cursor()
+AttributeError: 'DataBase' object has no attribute 'conn'
