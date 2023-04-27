@@ -39,10 +39,10 @@ class TelegramHandler:
         self.updater = Updater(token, use_context=True)
         self.updater.dispatcher.add_handler(CommandHandler('start', TelegramHandler.start))
         self.updater.dispatcher.add_handler(CommandHandler('help', TelegramHandler.help))
-        self.updater.dispatcher.add_handler(CommandHandler('in', TelegramHandler.in_subscribe))
-        self.updater.dispatcher.add_handler(CommandHandler('out', TelegramHandler.out_subscribe))
-        self.updater.dispatcher.add_handler(CommandHandler('f', TelegramHandler.favorites, pass_user_data=True))
-        self.updater.dispatcher.add_handler(CommandHandler('d', TelegramHandler.remove_favorite, pass_user_data=True))
+        self.updater.dispatcher.add_handler(CommandHandler('sub', TelegramHandler.in_subscribe))
+        self.updater.dispatcher.add_handler(CommandHandler('unsub', TelegramHandler.out_subscribe))
+        self.updater.dispatcher.add_handler(CommandHandler('fav', TelegramHandler.favorites, pass_user_data=True))
+        self.updater.dispatcher.add_handler(CommandHandler('del', TelegramHandler.remove_favorite, pass_user_data=True))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), TelegramHandler.message_handler, pass_user_data=True))
         self.updater.dispatcher.add_handler(MessageHandler(Filters.text, TelegramHandler.on_callback_query))
         self.updater.dispatcher.add_handler(CallbackQueryHandler(TelegramHandler.on_callback_query))
@@ -59,18 +59,18 @@ class TelegramHandler:
 
     # /help 커맨드 기능
     def help(update, context):
-        helptext = """🔔챗봇 사용 설명서🔔
-        1️⃣ [  /f 주식이름  ]으로 키보드버튼을 추가할 수 있습니다.
+        helptext = """🔔챗봇 사용 설명서🔔──────────
+        1️⃣ [  /fav 주식이름  ]으로 키보드버튼을 추가할 수 있습니다.
 
-        2️⃣ [  /d 주식이름  ]으로 키보드 버튼을 삭제할 수 있습니다.
+        2️⃣ [  /del 주식이름  ]으로 키보드 버튼을 삭제할 수 있습니다.
 
         3️⃣ 키보드 버튼 클릭시 해당 버튼에 대한 뉴스 / 차트 버튼 
                  메세지가 전송됩니다.
         4️⃣ 뉴스 또는 차트 버튼 클릭시 버튼에 해당하는 내용의 메세지가 
                  전송됩니다.
-        5️⃣ [  /in  ] 커맨드입력으로 8시30분 15시30분에 발송되는 
+        5️⃣ [  /sub  ] 커맨드입력으로 8시30분 15시30분에 발송되는 
                  주식뉴스를 구독할 수 있습니다.
-        6️⃣ [  /out  ] 커맨드입력으로 8시30분 15시30분에 발송되는 
+        6️⃣ [  /unsub  ] 커맨드입력으로 8시30분 15시30분에 발송되는 
                  주식뉴스를 구독 취소할 수 있습니다.
         7️⃣ 특정사이트 링크
                  1. '네이버' 입력시 네이버 링크가 전송됩니다.
@@ -104,9 +104,9 @@ class TelegramHandler:
     # 즐겨찾기 등록하는 커맨드 /favorites 등록할커맨드
     def favorites(update, context):
         message_text = update.message.text
-        if not message_text.lower().startswith('/f '):
+        if not message_text.lower().startswith('/fav '):
             return
-        search_query = message_text.lower().replace('/f ', '')
+        search_query = message_text.lower().replace('/fav ', '')
         user_data = context.user_data
         favorites_list = user_data.get('favorites_list', [])
         if len(favorites_list) < 5:
@@ -267,9 +267,9 @@ class TelegramHandler:
     # 즐겨찾기 삭제하는 커맨드  /remove 삭제할종목
     def remove_favorite(update, context):
         message_text = update.message.text
-        if not message_text.lower().startswith('/d '):
+        if not message_text.lower().startswith('/del '):
             return
-        remove_query = message_text.lower().replace('/d ', '')
+        remove_query = message_text.lower().replace('/del ', '')
         user_data = context.user_data
         favorites_list = user_data.get('favorites_list', [])
         if remove_query in favorites_list:
