@@ -1,9 +1,9 @@
 # 크롤러
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
@@ -37,9 +37,16 @@ class InvestingCrawler:
         # 예를 들어, 브라우저를 headless로 실행하거나 프록시 설정, 창 크기 등을 조정할 수 있음
         # headless 모드는 웹 드라이버가 사용자 인터페이스 없이 백그라운드에서 작동하도록 하는 것으로,
         # 일반적으로 크롤링 작업이나 자동화 시나리오에서 사용
-        options = Options()
-        options.headless = True  # 이 코드가 창 안보이게 실행하는 거 인듯
-        self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
+        # options = Options()
+        # options.headless = True  # 이 코드가 창 안보이게 실행하는 거 인듯
+        # self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.headless = True
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument("--single-process")
 
     def crawl_page(self, url):
         try:
