@@ -8,13 +8,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 
 # pip install requests beautifulsoup4
-import requests
-from bs4 import BeautifulSoup as bs
+# import requests
+# from bs4 import BeautifulSoup as bs
 
 # pip install pandas
-import pandas as pd
+# import pandas as pd
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+# from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import time
 import os
@@ -92,27 +92,12 @@ class InvestingCrawler:
         # 텍스트를 저장할 빈 리스트 생성
         latest_10_text = []
 
-        cnt = 1
         # 각 링크에 대해 새 탭에서 크롤링 수행
         for link in latest_10_links:
             # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
             text = self.crawl_page(link)
             # 텍스트를 리스트에 추가
             latest_10_text.append(text)
-
-            logging.info(f"────────────────────────────────────────────────────────────────────────────")
-            logging.info(f"최신 기사 {cnt}")
-            logging.info(text)
-            logging.info(f"────────────────────────────────────────────────────────────────────────────")
-            cnt += 1
-            # print()
-            # print("링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크링크")
-            # print(latest_10_links)
-            # print()
-            # print("뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 뉴스 내용 ")
-            # print(latest_10_text)
-            # print()
-            # print()
         self.driver.quit()
         print("크롤링 완")
         print("크롤링 완")
@@ -125,42 +110,6 @@ class InvestingCrawler:
 # # 사용예시
 # crawler = InvestingCrawler()
 # crawler.investing_latest()
-
-
-# # 파일 따로 만들긴 했는데 혹시 몰라서
-# def set_chrome_driver(headless=True):
-#     options = webdriver.ChromeOptions()
-#     if headless:
-#         options.add_argument("headless")
-#     options.add_argument(
-#         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
-#     )
-#     driver = webdriver.Chrome(
-#         service=Service(ChromeDriverManager().install()), options=options
-#     )
-#     return driver
-
-# def translator_deepl(text):
-#     try:
-#         deepL = set_chrome_driver(False)  # Chrome 웹 드라이버 설정
-#         deepL.get("https://www.deepl.com/ko/translator")  # 딥엘 번역 페이지로 이동
-#         time.sleep(2)  # 텍스트 입력이나 변역된 텍스트 가져오기 전에 페이지를 닫아서
-#         deepL.find_element(
-#             By.CSS_SELECTOR,
-#             ".lmt__textarea.lmt__source_textarea.lmt__textarea_base_style",
-#         ).send_keys(text)
-#         time.sleep(2)
-#         deepL_translated = deepL.find_element(
-#             By.CSS_SELECTOR, ".lmt__target_textarea"
-#         )  # 번역된 텍스트 요소 찾기
-#         time.sleep(4)
-#         result = deepL_translated.get_attribute("value")  # 번역된 텍스트 추출
-#     except NoSuchElementException:  # 예외처리 (요소를 찾지 못하는 경우)
-#         result = "번역 오류ㅠㅠ"  # 번역 오류 메시지 설정
-#     finally:
-#         deepL.close()  # 웹 드라이버 종료
-#     return result  # 번역된 결과 반환
-
 
 # 현재 작업 디렉토리에 저장
 logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")

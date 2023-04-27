@@ -1,7 +1,8 @@
 import time
 from datetime import datetime
-from src.finbert import FinBert
-from src.gpt import summarize, get_summary_list
+# from src.finbert import FinBert
+# from src.gpt import summarize
+from src.gpt import get_summary_list
 from src.crawler import InvestingCrawler
 from src.database import DataBase
 from src.telegram_handler import TelegramHandler
