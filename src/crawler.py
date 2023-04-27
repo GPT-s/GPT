@@ -105,18 +105,18 @@ class InvestingCrawler:
             text = self.crawl_page(link)
             # 텍스트를 리스트에 추가
             latest_10_text.append(text)
+            print(latest_10_text)
         self.driver.quit()
         print("크롤링 완")
         print("크롤링 완")
         print("크롤링 완")
-        print("크롤링 완")
-        print("크롤링 완")
+        
 
         return latest_10_links, latest_10_text
 
-# # 사용예시
-# crawler = InvestingCrawler()
-# crawler.investing_latest()
+# 사용예시
+crawler = InvestingCrawler()
+crawler.investing_latest()
 
 # 현재 작업 디렉토리에 저장
-logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
