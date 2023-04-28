@@ -155,7 +155,7 @@ pipeline = Pipeline()
 # 스케줄러 설정
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 지금 시간에 1~2분 더해서 그러면 크롤링하고 저장함
-schedule.every().day.at("09:40").do(lambda: pipeline.process_and_send_news())
+# schedule.every().day.at("15:24").do(lambda: pipeline.process_and_send_news())
 
 # # 크롤링하는 함수를 5분 마다 실행
 # # schedule.every(5).minutes.do(lambda: pipeline.process_and_send_news())
@@ -164,7 +164,7 @@ schedule.every().day.at("09:40").do(lambda: pipeline.process_and_send_news())
 # schedule.every().day.at("08:30").do(lambda: pipeline.send_translated_news())
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 위에 크롤링 작동 시간에 2분 더해서 그러면 저장한거 메시지 보냄
-schedule.every().day.at("09:42").do(lambda: pipeline.send_translated_news())
+# schedule.every().day.at("15:30").do(lambda: pipeline.send_translated_news())
 
 # 스케줄 실행
 while True:
