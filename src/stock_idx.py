@@ -79,6 +79,7 @@ class StockData:
         time.sleep(5)
         x_btn = driver.find_element(By.CSS_SELECTOR, '#dropdown-menu > button > svg')
         x_btn.click()
+        fullScreen = f'https://finance.yahoo.com/chart/{location}?showOptin=1'
         path = f'C:/Users/smhrd/{location}.png'
         driver.find_element(By.ID, 'interactive-2col-qsp-m').screenshot(path)
         driver.quit()
