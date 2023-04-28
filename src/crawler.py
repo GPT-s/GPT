@@ -88,7 +88,7 @@ class InvestingCrawler:
     def investing_latest(self):
         self.driver.get("https://www.investing.com/news/latest-news")
         latest_10_links = []
-        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:3]:
+        for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:10]:
             latest_10_links.append(
                 link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
             )

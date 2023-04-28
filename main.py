@@ -65,8 +65,8 @@ class Pipeline():
         # latest_links, latest_texts, summaries 3개의 리스트가 있는데
         # 이 리스트의 동일한 인덱스에 있는 항목을 묶어 튜플(link, text, summary)로 만들어 줌
         for link, summary in zip(latest_links, summaries):
-            # 요약전 텍스트는 필요없어서 ""로 저장
             self.database.insert_news(link, summary, datetime.now())
+            print(summaries)
         
         # 시간 측정
         end_time = time.time()
@@ -96,10 +96,9 @@ class Pipeline():
                 
                 # news[0] : 뉴스id(자동 인덱스), 
                 # news[1] : 뉴스 링크
-                # news[2] : 뉴스 텍스트
-                # news[3] : 뉴스 요약
-                # news[4] : 뉴스 작성 날짜
-                # news[5] : 뉴스 전송 여부
+                # news[2] : 뉴스 요약
+                # news[3] : 뉴스 작성 날짜
+                # news[4] : 뉴스 전송 여부
                 
                 # 요약된 뉴스를 호출해서 번역 함수로 번역
                 # translated_text = self.deepl_translator.translate(news[3])
@@ -122,6 +121,9 @@ class Pipeline():
         # Total_time = end_time - start_time
 
         # print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
+
+                summaries = news[2]
+                message = f"**요약된 뉴스**\n{summaries}\n\n원문 링크: {news[1]}"
                 
                 # 본인한테만 메시지 보내기
                 # 유저아이디 전부 가져오기 부터
@@ -130,7 +132,7 @@ class Pipeline():
                 telegram_chat_id = '5292915370'
 
                 # news[2]: 요약된 뉴스, news[1]: 링크  
-                message = f"{news[2]}\n{news[1]}"  
+                # message = f"{news[2]}\n{news[1]}"  
 
                 # 텔레그램 메시지 전송을 변수로 만들어줌
                 # 굳이 안만들어줘도 됨. 
@@ -151,11 +153,13 @@ class Pipeline():
         print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
 
 pipeline = Pipeline()
+pipeline.process_and_send_news()
+pipeline.send_translated_news()
 
 # 스케줄러 설정
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 지금 시간에 1~2분 더해서 그러면 크롤링하고 저장함
-schedule.every().day.at("11:49").do(lambda: pipeline.process_and_send_news())
+# schedule.every().day.at("11:49").do(lambda: pipeline.process_and_send_news())
 
 # # 크롤링하는 함수를 5분 마다 실행
 # # schedule.every(5).minutes.do(lambda: pipeline.process_and_send_news())
@@ -164,7 +168,7 @@ schedule.every().day.at("11:49").do(lambda: pipeline.process_and_send_news())
 # schedule.every().day.at("08:30").do(lambda: pipeline.send_translated_news())
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 위에 크롤링 작동 시간에 2분 더해서 그러면 저장한거 메시지 보냄
-schedule.every().day.at("11:51").do(lambda: pipeline.send_translated_news())
+# schedule.every().day.at("11:51").do(lambda: pipeline.send_translated_news())
 
 # 스케줄 실행
 while True:
