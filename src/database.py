@@ -57,13 +57,13 @@ class DataBase :
         self.conn.commit()
 
     # Users 테이블에 데이터 꺼내오기
-    def insert_user(self, user_id, is_subscribe):
-        cursor = self.conn.cursor()
-        query = "SELECT USER_ID FROM USERS"
-        values = (user_id, is_subscribe)
-        cursor.execute(query, values)
+    # def select_user(self, user_id, is_subscribe):
+    #     cursor = self.conn.cursor()
+    #     query = "SELECT USER_ID FROM USERS"
+    #     values = (user_id, is_subscribe)
+    #     cursor.execute(query, values)
 
-        self.conn.commit()
+    #     self.conn.commit()
 
     def select_user_id(self):
         cursor = self.conn.cursor()
@@ -74,22 +74,62 @@ class DataBase :
         print("USER_ID 조회 완")
         print("USER_ID 조회 완")
         print("USER_ID 조회 완")
-        print("USER_ID 조회 완")
-        print("USER_ID 조회 완")
 
         return result   
 
 
 # 현호 테스트 용
-    def ho_insert_news(self, source, sentiment_analysis, summary, current_datetime):
+    # def ho_insert_news(self, source, summary, current_datetime):
+    #     cursor = self.conn.cursor()
+    #     date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+    #     query = "INSERT INTO ho_news_table (source, summary, datetime) VALUES (%s, %s, %s)"
+    #     values = (source, summary, date)
+        
+    #     try:
+    #         cursor.execute(query, values)
+    #         self.conn.commit()
+    #         print("뉴스 저장 완료")
+    #     except pymysql.err.IntegrityError as e:
+    #         print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
+    #         print("최신 뉴스가 이미 데이터베이스에 있음.")
+    #     except Exception as e:
+    #         print("데이터 삽입 중 오류 발생:", e)
+    #         print("최신 뉴스가 이미 데이터베이스에 있음.")
+    #     finally:
+    #         cursor.close()
+
+    # def select_ho_news(self):
+    #     cursor = self.conn.cursor()
+    #     query = "SELECT * FROM ho_news_table"
+    #     cursor.execute(query)
+
+    #     result = cursor.fetchall()
+    #     print("DB 조회 완")
+    #     print("DB 조회 완")
+    #     print("DB 조회 완")
+
+    #     return result   
+
+    # 텔레그램으로 메시지 보내면 0 -> 1 로변경해서 같은 거 안보내게
+    # def update_news_sent(self, news_id):
+    #     query = "UPDATE ho_news_table SET sent = TRUE WHERE id = %s"
+    #     self.cursor.execute(query, (news_id,))
+    #     self.conn.commit()
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+# 현호 테스트 용
+    def insert_news(self, source, summary, current_datetime):
         cursor = self.conn.cursor()
         date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO ho_news_table (source, sentiment_analysis, summary, datetime) VALUES (%s, %s, %s, %s)"
-        values = (source, sentiment_analysis, summary, date)
+        query = "INSERT INTO NEWS (source, summary, datetime) VALUES (%s, %s, %s)"
+        values = (source, summary, date)
         
         try:
             cursor.execute(query, values)
             self.conn.commit()
+            print("뉴스 저장 완료")
+            print("뉴스 저장 완료")
             print("뉴스 저장 완료")
         except pymysql.err.IntegrityError as e:
             print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
@@ -100,23 +140,30 @@ class DataBase :
         finally:
             cursor.close()
 
-    def select_ho_news(self):
+    def select_news(self):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM ho_news_table"
+        query = "SELECT * FROM NEWS WHERE sent = 0"
         cursor.execute(query)
 
         result = cursor.fetchall()
-        print("DB 조회 완")
-        print("DB 조회 완")
-        print("DB 조회 완")
-        print("DB 조회 완")
-        print("DB 조회 완")
+        print("조회 완")
+        print("조회 완")
+        print("조회 완")
 
         return result   
 
-    # 텔레그램으로 메시지 보내면 0 -> 1 로변경해서 같은 거 안보내게
+#     # 텔레그램으로 메시지 보내면 0 -> 1 로변경해서 같은 거 안보내게
     def update_news_sent(self, news_id):
-        query = "UPDATE ho_news_table SET sent = TRUE WHERE id = %s"
-        self.cursor.execute(query, (news_id,))
+        query = "UPDATE NEWS SET sent = TRUE WHERE idx = %s"
+        cursor = self.conn.cursor()
+        cursor.execute(query, (news_id,))
         self.conn.commit()
+        cursor.close()
+
+#     def update_news_summary(self, link, summary):
+#         query = "UPDATE NEWS SET summary = %s WHERE source = %s"
+#         self.cursor.execute(query, (summary, link))
+#         self.conn.commit()
+#         print("요약 저장 완")
+    
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
