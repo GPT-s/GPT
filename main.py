@@ -48,16 +48,12 @@ class Pipeline():
         print("1. 크롤링 및 감성 분석 시작")
         print("1. 크롤링 및 감성 분석 시작")
         print("1. 크롤링 및 감성 분석 시작")
-        print("1. 크롤링 및 감성 분석 시작")
-        print("1. 크롤링 및 감성 분석 시작")
         
         # 위 함수에서 반환한 값을 호출해서 변수에 담아줌
         # get_latest_news()의 반환값이 3개이고 순서대로 변수에 할당 됨
         latest_links, latest_texts, summaries = self.get_latest_news()
 
         # 요약된 뉴스와 함께 데이터베이스에 저장
-        print("2. 데이터베이스 저장 시작")
-        print("2. 데이터베이스 저장 시작")
         print("2. 데이터베이스 저장 시작")
         print("2. 데이터베이스 저장 시작")
         print("2. 데이터베이스 저장 시작")
@@ -86,8 +82,6 @@ class Pipeline():
     
     
         # 데이터베이스에서 뉴스 선택
-        print("3. 번역 및 텔레그램 전송 시작")
-        print("3. 번역 및 텔레그램 전송 시작")
         print("3. 번역 및 텔레그램 전송 시작")
         print("3. 번역 및 텔레그램 전송 시작")
         print("3. 번역 및 텔레그램 전송 시작")
@@ -161,7 +155,7 @@ pipeline = Pipeline()
 # 스케줄러 설정
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 지금 시간에 1~2분 더해서 그러면 크롤링하고 저장함
-# schedule.every().day.at("15:24").do(lambda: pipeline.process_and_send_news())
+schedule.every().day.at("09:40").do(lambda: pipeline.process_and_send_news())
 
 # # 크롤링하는 함수를 5분 마다 실행
 # # schedule.every(5).minutes.do(lambda: pipeline.process_and_send_news())
@@ -170,7 +164,7 @@ pipeline = Pipeline()
 # schedule.every().day.at("08:30").do(lambda: pipeline.send_translated_news())
 
 # # 테스트 해보려면 여기 아래 시간을 바꾸세요. 위에 크롤링 작동 시간에 2분 더해서 그러면 저장한거 메시지 보냄
-# schedule.every().day.at("15:30").do(lambda: pipeline.send_translated_news())
+schedule.every().day.at("09:42").do(lambda: pipeline.send_translated_news())
 
 # 스케줄 실행
 while True:

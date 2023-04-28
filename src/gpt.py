@@ -76,7 +76,7 @@ def summarize(text):
     openai.api_key = OPENAI_API_KEY
     completion = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=f"{truncated_text} in the news above and first do a sentiment analysis using FinBert. after sentiment analysis using FinBert, the above news is summarized using the FinBert sentiment analysis value obtained in the first step.",
+        prompt=f"{truncated_text} Sentiment analysis, Choose only between positive, negative, or negativel and summarize less than five lines the news below and print out the summary in Korean. \nsentiment: \nsummary:",
         temperature=0.5,
         max_tokens=150,
         top_p=1,

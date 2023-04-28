@@ -74,8 +74,6 @@ class DataBase :
         print("USER_ID 조회 완")
         print("USER_ID 조회 완")
         print("USER_ID 조회 완")
-        print("USER_ID 조회 완")
-        print("USER_ID 조회 완")
 
         return result   
 
@@ -109,8 +107,6 @@ class DataBase :
         print("DB 조회 완")
         print("DB 조회 완")
         print("DB 조회 완")
-        print("DB 조회 완")
-        print("DB 조회 완")
 
         return result   
 
@@ -119,4 +115,53 @@ class DataBase :
         query = "UPDATE ho_news_table SET sent = TRUE WHERE id = %s"
         self.cursor.execute(query, (news_id,))
         self.conn.commit()
+# ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+# # 현호 테스트 용
+#     def insert_news(self, source, current_datetime):
+#         cursor = self.conn.cursor()
+#         date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+#         query = "INSERT INTO NEWS (source, datetime) VALUES (%s, %s)"
+#         values = (source, date)
+        
+#         try:
+#             cursor.execute(query, values)
+#             self.conn.commit()
+#             print("뉴스 링크 저장 완료")
+#             print("뉴스 링크 저장 완료")
+#             print("뉴스 링크 저장 완료")
+#         except pymysql.err.IntegrityError as e:
+#             print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
+#             print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
+#         except Exception as e:
+#             print("데이터 삽입 중 오류 발생:", e)
+#             print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
+#         finally:
+#             cursor.close()
+
+#     def select_news(self):
+#         cursor = self.conn.cursor()
+#         query = "SELECT * FROM NEWS WHERE sent = 0"
+#         cursor.execute(query)
+
+#         result = cursor.fetchall()
+#         print("링크 조회 완")
+#         print("링크 조회 완")
+#         print("링크 조회 완")
+
+#         return result   
+
+#     # 텔레그램으로 메시지 보내면 0 -> 1 로변경해서 같은 거 안보내게
+#     def update_news_sent(self, news_id):
+#         query = "UPDATE NEWS SET sent = TRUE WHERE idx = %s"
+#         self.cursor.execute(query, (news_id,))
+#         self.conn.commit()
+
+#     def update_news_summary(self, link, summary):
+#         query = "UPDATE NEWS SET summary = %s WHERE source = %s"
+#         self.cursor.execute(query, (summary, link))
+#         self.conn.commit()
+#         print("요약 저장 완")
+    
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
