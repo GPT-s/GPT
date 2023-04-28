@@ -86,39 +86,55 @@ class InvestingCrawler:
         return text
 
     def investing_latest(self):
-        # 최신 뉴스 페이지로 이동
         self.driver.get("https://www.investing.com/news/latest-news")
-
-        # 링크를 저장할 빈 리스트 생성
         latest_10_links = []
-
-        # 상위 10개 기사 링크 수집
         for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:3]:
             latest_10_links.append(
                 link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
             )
-
-        # 텍스트를 저장할 빈 리스트 생성
         latest_10_text = []
-
-        # 각 링크에 대해 새 탭에서 크롤링 수행
         for link in latest_10_links:
-            # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
             text = self.crawl_page(link)
-            # 텍스트를 리스트에 추가
             latest_10_text.append(text)
             print(latest_10_text)
         self.driver.quit()
         print("크롤링 완")
-        print("크롤링 완")
-        print("크롤링 완")
-        
-
         return latest_10_links, latest_10_text
 
+    # def investing_latest(self):
+    #     # 최신 뉴스 페이지로 이동
+    #     self.driver.get("https://www.investing.com/news/latest-news")
+
+    #     # 링크를 저장할 빈 리스트 생성
+    #     latest_10_links = []
+
+    #     # 상위 10개 기사 링크 수집
+    #     for link in self.driver.find_elements(By.CLASS_NAME, "js-article-item")[:3]:
+    #         latest_10_links.append(
+    #             link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
+    #         )
+
+    #     # 텍스트를 저장할 빈 리스트 생성
+    #     latest_10_text = []
+
+    #     # 각 링크에 대해 새 탭에서 크롤링 수행
+    #     for link in latest_10_links:
+    #         # 새 탭에서 페이지 크롤링하고 텍스트 가져오기
+    #         text = self.crawl_page(link)
+    #         # 텍스트를 리스트에 추가
+    #         latest_10_text.append(text)
+    #         print(latest_10_text)
+    #     self.driver.quit()
+    #     print("크롤링 완")
+    #     print("크롤링 완")
+    #     print("크롤링 완")
+        
+
+    #     return latest_10_links, latest_10_text
+
 # 사용예시
-crawler = InvestingCrawler()
-crawler.investing_latest()
+# crawler = InvestingCrawler()
+# crawler.investing_latest()
 
 # 현재 작업 디렉토리에 저장
 # logging.basicConfig(filename="crawler_log.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
