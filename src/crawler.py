@@ -1,6 +1,6 @@
 # 크롤러
 from selenium import webdriver
-# from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 # from selenium.webdriver.common.keys import Keys
@@ -40,13 +40,15 @@ class InvestingCrawler:
         # options = Options()
         # options.headless = True  # 이 코드가 창 안보이게 실행하는 거 인듯
         # self.driver = webdriver.Chrome(options=options)  # 웹 드라이버 초기화(눈에 보이지 않는 창으로 실행)
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.headless = True
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument("--single-process")
+         # 변경
+        driver_path = "/root/GPT/chromedriver"  # Chrome WebDriver의 경로를 지정
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')  # 눈에 보이지 않는 창으로 실행
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-gpu")
+        options.add_argument('--disable-dev-shm-usage')
+        service = Service(executable_path=driver_path)
+        self.driver = webdriver.Chrome(service=service, options=options)
 
     def crawl_page(self, url):
         try:
