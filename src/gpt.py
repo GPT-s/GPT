@@ -97,8 +97,8 @@ def get_summary_list(text_list):
     print("gpt 2번 시작")
     summary_list = []
     for text in text_list:
-        summary = summarize(text)
-        summary_list.append(summary)
+        summarize_answer = summarize(text)
+        summary_list.append(summarize_answer)
         
     print("gpt 2번 완")
     return summary_list
