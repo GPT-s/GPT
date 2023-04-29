@@ -28,10 +28,10 @@ def get_completion(text, model="gpt-3.5-turbo"):
             print("Error:", e)
             retries += 1
             if retries == max_retries:
-                print("Max retries exceeded")
+                print("최대 재시도 횟수 초과")
                 return None
             else:
-                print("Retrying...")
+                print("재시도...")
                 time.sleep(1)
 
 def summarize(text):

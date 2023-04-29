@@ -16,8 +16,8 @@ from src.translator_deepl import DeeplTranslator
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
 
-# 시간 측정
-start_time = time.time()
+# # 시간 측정
+# start_time = time.time()
 
 class InvestingCrawler:
     def __init__(self):
@@ -49,12 +49,13 @@ class InvestingCrawler:
 
         except NoSuchElementException:
             text = "crawler.py에서 crawl_page부분에 문제?"
-
-        self.driver.close()
-
-        self.driver.switch_to.window(self.driver.window_handles[0])
-        print("크롤러 2번 완")
-        return text
+        except Exception as e:
+            print(f"crawl_page error: {e}")
+        finally:
+            self.driver.close()
+            self.driver.switch_to.window(self.driver.window_handles[0])
+            print("크롤러 2번 완")
+            return text
 
     def investing_latest(self):
         print("크롤러 3번 시작")
@@ -95,6 +96,11 @@ class InvestingCrawler:
         print("크롤러 3번 완")
         return latest_links, latest_text
 
-end_time = time.time()
-Total_time = end_time - start_time
-print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
+
+
+# investingcrawler = InvestingCrawler()
+# investingcrawler.investing_latest()
+
+# end_time = time.time()
+# Total_time = end_time - start_time
+# print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
