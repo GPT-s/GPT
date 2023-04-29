@@ -17,6 +17,8 @@ class Pipeline:
             self.telegram_handler = TelegramHandler()
         except Exception as e:
             print(f"Init error: {e}")
+            # sentry.io 추가하기
+
 
     def crawling(self):
         try:
@@ -28,6 +30,7 @@ class Pipeline:
             self.crawler.investing_latest()
         except Exception as e:
             print(f"Crawling error: {e}")
+            # sentry.io 추가하기
 
     def sent_message(self):
         try:
@@ -44,6 +47,8 @@ class Pipeline:
                     self.database.update_news_sent(news[0])
         except Exception as e:
             print(f"Sent message error: {e}")
+            # sentry.io 추가하기
+            
 
 
 try:
@@ -63,3 +68,4 @@ try:
         time.sleep(1)
 except Exception as e:
     print(f"Main error: {e}")
+    # sentry.io 추가하기

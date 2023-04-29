@@ -89,6 +89,7 @@ def summarize(text):
         summarize_answer = response['choices'][0]['message']['content']
         print("gpt 1번 완")
         return sentiment_answer,summarize_answer
+    # 수정
     except Exception as e:
         summarize()
 
