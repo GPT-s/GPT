@@ -273,7 +273,7 @@ class TelegramHandler:
                 print("뉴스텍스트 요약 완")
                 translated_text = deepl_translator.translate(summarize_answer)
                 print("뉴스 텍스트 번역")
-                context.bot.send_message(chat_id=query.message.chat_id, text=f"{favorite}주식 \n\ ▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
+                context.bot.send_message(chat_id=query.message.chat_id, text=f"{favorite}주식 \n ▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
 
             elif query_data == f'index_{favorite}':
                 stockcode = keyword(f"{favorite}주식 차트 알려줘")

@@ -81,26 +81,10 @@ class LiveCrawler:
         )
         a_name2.click()
 
-        investing_stock_latest_links = []
-
-        
-
-        # 링크 가져오는 부분
-        for link in investing_stock_latest.find_element(
-            By.CLASS_NAME, "mediumTitle1"
-        ).find_elements(By.CLASS_NAME, "js-article-item")[:1]:
-            investing_stock_latest_links.append(
-                link.find_element(By.CSS_SELECTOR, "a").get_attribute("href")
-            )
-        print("링크 가져오기 완")
+        element = investing_stock_latest.find_elements(By.CSS_SELECTOR, "section > div.mediumTitle1 > article.js-article-item.articleItem")
+        data_id = element[0].get_attribute('data-id')
+        investing_stock_latest_links = f'https://www.investing.com/news/economy/us-and-south-korea-agree-to-minimise-chipmakers-uncertainties-on-subsidy-requirements-ministry-{data_id}'
+        print(investing_stock_latest_links)
+        print(data_id)
         investing_stock_latest.quit()
-        print("여기까지되는거니?")
-        
-        for i in investing_stock_latest_links:
-            result = i
-            print(result)
-        # investing_text = self.crawl_links(investing_stock_latest_links, self.investing_crawl_page)
-        # # 링크랑 크롤링한 텍스트
-        # # result = list(zip(investing_stock_latest_links, investing_text))
-        # result = investing_text
-        return result
+        return investing_stock_latest_links
