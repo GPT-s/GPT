@@ -9,10 +9,14 @@ import time
 class DeeplTranslator:
 
     def __init__(self, headless=True):
+        print("딥엘 1번")
         self.headless = headless
         self.driver = self.set_chrome_driver()
+        print("딥엘 1번 완")
+
 
     def set_chrome_driver(self):
+        print("딥엘 2번 시작")
         options = webdriver.ChromeOptions()
         if self.headless:
             options.add_argument("headless")
@@ -22,9 +26,11 @@ class DeeplTranslator:
         driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()), options=options
         )
+        print("딥엘 2번 완")
         return driver
 
     def translate(self, text):
+        print("딥엘 3번 시작")
         deepL = None
         try:
             deepL = self.set_chrome_driver()
@@ -57,4 +63,5 @@ class DeeplTranslator:
                     deepL.close()
                 except Exception as e:
                     print(f"브라우저 종료 오류: {e}")
+        print("딥엘 3번 완")
         return result
