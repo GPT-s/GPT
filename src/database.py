@@ -50,20 +50,23 @@ class DataBase :
     # Users 테이블에 데이터 삽입
     def insert_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
-        query = "INSERT INTO USERS (user_id, is_subscribe) VALUES (%s, %s)"
-        values = (user_id, is_subscribe)
-        cursor.execute(query, values)
+        # 이미 존재 하는 아이디가 있는지 확인
+        query = "SELECT * FROM USERS WHERE user_id = %s"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()  
+
+        if result:
+            # user_id가 이미 존재하는 경우 update 쿼리 실행
+            query = "UPDATE USERS SET is_subscribe = %s WHERE user_id = %s"
+            cursor.execute(query, (is_subscribe, user_id))
+            self.conn.commit()
+        else:
+            # user_id가 존재하지 않는 경우 insert 쿼리 실행
+            query = "INSERT INTO USERS (user_id, is_subscribe) VALUES (%s, %s)"
+            cursor.execute(query, (user_id, is_subscribe))
+            self.conn.commit()
 
         self.conn.commit()
-
-    # Users 테이블에 데이터 꺼내오기
-    # def select_user(self, user_id, is_subscribe):
-    #     cursor = self.conn.cursor()
-    #     query = "SELECT USER_ID FROM USERS"
-    #     values = (user_id, is_subscribe)
-    #     cursor.execute(query, values)
-
-    #     self.conn.commit()
 
     def select_user_id(self):
         cursor = self.conn.cursor()
