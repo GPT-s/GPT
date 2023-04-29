@@ -28,22 +28,21 @@ def get_completion(text, model="gpt-3.5-turbo"):
             print("Error:", e)
             retries += 1
             if retries == max_retries:
-                print("Max retries exceeded")
+                print("최대 재시도 횟수 초과")
                 return None
             else:
-                print("Retrying...")
+                print("재시도...")
                 time.sleep(1)
 
-
 def summarize(text):
+    print("gpt 1번 시작")
     model_engine = "text-davinci-002"
 
     max_tokens = 2500
 
     if text is not None:
-        query = f"""{text} Sentiment analysis, Choose only between positive, negative, or negativel and summarize less than five lines the news below and print out the summary in Korean. 
-        \nsentiment: 
-        \nsummary:
+        sentiment_list = ['positive', 'negative', 'neutral']
+        query = f"""Sentiment analysis the contents of [{text}], output one of three words {str(sentiment_list) } based on the analysis, summarize the contents of [] Korean in about 5 lines.
         """
     else:
         print("empty text.")
@@ -57,45 +56,16 @@ def summarize(text):
         frequency_penalty=0,
         presence_penalty=0,
     )
+    print("gpt 1번 완")
     return completion.choices[0].text
 
 
-# 토큰 제한 때메 테스트점
-
-# def summarize(text):
-#     # 텍스트를 토큰으로 분리
-#     tokens = text.split()
-
-#     # 토큰의 최대 길이를 4097로 제한
-#     max_tokens = 4097
-#     tokens = tokens[:max_tokens]
-
-#     # 제한된 토큰들을 다시 텍스트로 변환
-#     truncated_text = ' '.join(tokens)
-
-#     # 요약 작업
-#     openai.api_key = OPENAI_API_KEY
-#     completion = openai.Completion.create(
-#         engine="text-davinci-002",
-#         prompt=f"{truncated_text} Sentiment analysis, Choose only between positive, negative, or negativel and summarize less than five lines the news below and print out the summary in Korean. sentiment: summary:",
-#         temperature=0.5,
-#         max_tokens=150,
-#         top_p=1,
-#         frequency_penalty=0,
-#         presence_penalty=0,
-#     )
-
-#     summary = completion.choices[0].text.strip()
-#     return summary
-
-
 def get_summary_list(text_list):
+    print("gpt 2번 시작")
     summary_list = []
     for text in text_list:
         summary = summarize(text)
         summary_list.append(summary)
         
-    print("요약 완")
-    print("요약 완")
-    print("요약 완")
+    print("gpt 2번 완")
     return summary_list
