@@ -180,8 +180,13 @@ class TelegramHandler:
                             stock.screenshot(stockcode)
                             stocktext = stock.get_stock_info(stockcode)
                             context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
-                            with open(f'C:/Users/smhrd/stockimg/{stockcode}.png','rb') as img:
+                            desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                            folder_path = os.path.join(desktop_path, "stockimg")
+                            with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
                                 context.bot.send_photo(chat_id = chat_id, photo = img)
+                                img.close()
+                                os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                                print("삭제완료")
                         elif "뉴스" in msgtext:
                             location = stockcode.split(".")[0]
                             print("주식종목코드에서 .ks제거")
@@ -206,8 +211,13 @@ class TelegramHandler:
                         stock.screenshot(stockcode)
                         stocktext = stock.get_stock_info(stockcode)
                         context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
-                        with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                        folder_path = os.path.join(desktop_path, "stockimg")
+                        with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
                             context.bot.send_photo(chat_id = chat_id, photo = img)
+                            img.close()
+                            os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                            print("삭제완료")
                     elif "뉴스" in msgtext:
                         location = stockcode.split(".")[0]
                         print("주식종목코드에서 .ks제거")
@@ -282,6 +292,11 @@ class TelegramHandler:
                 stock.screenshot(stockcode)
                 stocktext = stock.get_stock_info(stockcode)
                 context.bot.send_message(chat_id=query.message.chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
-                with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
-                    context.bot.send_photo(chat_id = query.message.chat_id, photo = img)
+                desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                folder_path = os.path.join(desktop_path, "stockimg")
+                with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
+                    context.bot.send_photo(chat_id = chat_id, photo = img)
+                    img.close()
+                    os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                    print("삭제완료")
                 
