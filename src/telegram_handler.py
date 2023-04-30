@@ -295,8 +295,7 @@ class TelegramHandler:
                 desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
                 folder_path = os.path.join(desktop_path, "stockimg")
                 with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
-                    context.bot.send_photo(chat_id = chat_id, photo = img)
+                    context.bot.send_photo(chat_id = query.message.chat_id, photo = img)
                     img.close()
                     os.remove(os.path.join(folder_path,f"{stockcode}.png"))
                     print("삭제완료")
-                
