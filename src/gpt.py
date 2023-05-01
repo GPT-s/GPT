@@ -57,6 +57,7 @@ def summarize(text):
     retries = 0
     while retries < max_retries:
         try:
+            print(1)
             sentiment_response = openai.ChatCompletion.create(
                         temperature=0,
                         top_p=0,
@@ -67,9 +68,11 @@ def summarize(text):
             break
         except Exception as e:
             print("Error:", e)
+            print(2)
             retries += 1
             if retries == max_retries:
                 print("최대 재시도 횟수 초과")
+                print(3)
                 gpt_error = "오류"
                 return gpt_error
     summarize_gptquery = f"Summarize [{text}] in 5 lines with a maximum of 38 characters per line."
@@ -80,6 +83,7 @@ def summarize(text):
     retries = 0
     while retries < max_retries:
         try:
+            print(4)
             summarize_response = openai.ChatCompletion.create(
                         temperature=0,
                         top_p=0,
@@ -90,9 +94,11 @@ def summarize(text):
             break
         except Exception as e:
             print("Error:", e)
+            print(5)
             retries += 1
             if retries == max_retries:
                 print("최대 재시도 횟수 초과")
+                print(6)
                 gpt_error = "오류"
                 return gpt_error
     return sentiment_answer, summarize_answer
