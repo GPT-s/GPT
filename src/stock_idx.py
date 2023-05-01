@@ -19,7 +19,7 @@ class StockData:
         self.location = location
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 
-    async def get_stock_info(self, location):
+    def get_stock_info(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
@@ -49,7 +49,7 @@ class StockData:
                     return gpt_error
         
 
-    async def screenshot(self, location):
+    def screenshot(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
