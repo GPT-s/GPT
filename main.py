@@ -80,28 +80,28 @@ class Pipeline:
             
 
 
-try:
-    pipeline = Pipeline()
-    pipeline.crawling()
-    pipeline.sent_message()
-
-    # schedule.every().day.at("12:18").do(pipeline.crawling)
-    # schedule.every().day.at("12:20").do(pipeline.sent_message)
-    schedule.every(5).minutes.do(pipeline.crawling)
-
-    # 스케줄 실행
-    while True:
-        # 설정된 스케줄에 따라 예약된 모든 작업을 실행
-        schedule.run_pending()
-        # 1초동안 멈추게 해서 while문 과부하를 방지
-        time.sleep(1)
-except Exception as e:
-    print(f"Main error: {e}")
-    logging.error(f"Main error: {e}")
-    # sentry.io 추가하기
-    sentry_sdk.capture_exception(e)
-
 # try:
-#     raise ValueError("This is a forced error for demonstration purposes.")
-# except ValueError as e:
-#     logging.error(f"An error occurred: {e}")
+#     pipeline = Pipeline()
+#     pipeline.crawling()
+#     pipeline.sent_message()
+
+#     # schedule.every().day.at("12:18").do(pipeline.crawling)
+#     # schedule.every().day.at("12:20").do(pipeline.sent_message)
+#     schedule.every(5).minutes.do(pipeline.crawling)
+
+#     # 스케줄 실행
+#     while True:
+#         # 설정된 스케줄에 따라 예약된 모든 작업을 실행
+#         schedule.run_pending()
+#         # 1초동안 멈추게 해서 while문 과부하를 방지
+#         time.sleep(1)
+# except Exception as e:
+#     print(f"Main error: {e}")
+#     logging.error(f"Main error: {e}")
+#     # sentry.io 추가하기
+#     sentry_sdk.capture_exception(e)
+
+try:
+    raise ValueError("일부러 오류낸거임")
+except ValueError as e:
+    logging.error(f"An error occurred: {e}")
