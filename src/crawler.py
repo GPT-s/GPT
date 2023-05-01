@@ -6,12 +6,13 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 import os
+import logging
 
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-from src.database import DataBase
+from database import DataBase
 from datetime import datetime
-from src.gpt import get_summary_list
-from src.translator_deepl import DeeplTranslator
+from gpt import get_summary_list
+from translator_deepl import DeeplTranslator
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
@@ -47,11 +48,10 @@ class InvestingCrawler:
 
             text = "\n".join(text_list)
            
-
         except NoSuchElementException:
             text = None
         except Exception as e:
-            print(e)
+            logging.ERROR(f"crawl_page error: {e}")
             text = None
         finally:
             self.driver.close()
@@ -101,8 +101,8 @@ class InvestingCrawler:
 
 
 
-# investingcrawler = InvestingCrawler()
-# investingcrawler.investing_latest()
+investingcrawler = InvestingCrawler()
+investingcrawler.investing_latest()
 
 # end_time = time.time()
 # Total_time = end_time - start_time

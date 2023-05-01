@@ -89,13 +89,13 @@ class DataBase :
         try:
             cursor.execute(query, values)
             self.conn.commit()
-            print("뉴스 저장 완료")
+            print("뉴스 링크 저장 완료")
         except pymysql.err.IntegrityError as e:
             print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
-            print("최신 뉴스가 이미 데이터베이스에 있음.")
+            print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
         except Exception as e:
             print("데이터 삽입 중 오류 발생:", e)
-            print("최신 뉴스가 이미 데이터베이스에 있음.")
+            print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
         finally:
             cursor.close()
 
