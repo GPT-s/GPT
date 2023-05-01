@@ -17,26 +17,26 @@ class DataBase :
         except mysql.connector.Error as err :
             print(f"Error: {err}")
 
-    # News 테이블에 데이터 삽입
-    def insert_news(self, datetime, source, content, summary):
-        cursor = self.conn.cursor()
-        now = datetime.now()
-        date = now.strftime('%Y-%m-%d %H:%M:%S')
-        query = f"INSERT INTO NEWS (datetime, source, content, summary) VALUES ('{date}', %s, %s, %s)"
-        values = (datetime, source, content, summary)
-        cursor.execute(query, values)
+    # # News 테이블에 데이터 삽입
+    # def insert_news(self, datetime, source, content, summary):
+    #     cursor = self.conn.cursor()
+    #     now = datetime.now()
+    #     date = now.strftime('%Y-%m-%d %H:%M:%S')
+    #     query = f"INSERT INTO NEWS (datetime, source, content, summary) VALUES ('{date}', %s, %s, %s)"
+    #     values = (datetime, source, content, summary)
+    #     cursor.execute(query, values)
 
-        self.conn.commit()
+    #     self.conn.commit()
 
-    # News 테이블에서 데이터 조회
-    def select_news(self):
-        cursor = self.conn.cursor()
-        query = "SELECT * FROM NEWS"
-        cursor.execute(query)
+    # # News 테이블에서 데이터 조회
+    # def select_news(self):
+    #     cursor = self.conn.cursor()
+    #     query = "SELECT * FROM NEWS"
+    #     cursor.execute(query)
 
-        result = cursor.fetchall()
+    #     result = cursor.fetchall()
 
-        return result
+    #     return result
 
     # Users 테이블에 데이터 업데이트
     def update_user(self, user_id, is_subscribe):
@@ -50,20 +50,23 @@ class DataBase :
     # Users 테이블에 데이터 삽입
     def insert_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
-        query = "INSERT INTO USERS (user_id, is_subscribe) VALUES (%s, %s)"
-        values = (user_id, is_subscribe)
-        cursor.execute(query, values)
+        # 이미 존재 하는 아이디가 있는지 확인
+        query = "SELECT * FROM USERS WHERE user_id = %s"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()  
+
+        if result:
+            # user_id가 이미 존재하는 경우 update 쿼리 실행
+            query = "UPDATE USERS SET is_subscribe = %s WHERE user_id = %s"
+            cursor.execute(query, (is_subscribe, user_id))
+            self.conn.commit()
+        else:
+            # user_id가 존재하지 않는 경우 insert 쿼리 실행
+            query = "INSERT INTO USERS (user_id, is_subscribe) VALUES (%s, %s)"
+            cursor.execute(query, (user_id, is_subscribe))
+            self.conn.commit()
 
         self.conn.commit()
-
-    # Users 테이블에 데이터 꺼내오기
-    # def select_user(self, user_id, is_subscribe):
-    #     cursor = self.conn.cursor()
-    #     query = "SELECT USER_ID FROM USERS"
-    #     values = (user_id, is_subscribe)
-    #     cursor.execute(query, values)
-
-    #     self.conn.commit()
 
     def select_user_id(self):
         cursor = self.conn.cursor()

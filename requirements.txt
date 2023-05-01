@@ -26,7 +26,6 @@ idna==3.4
 Jinja2==3.1.2
 MarkupSafe==2.1.2
 mysql==0.0.3
-#mysqlclient==2.1.1
 mysql.connector==2.2.9
 mysql-connector-python==8.0.33
 mpmath==1.3.0
@@ -37,7 +36,6 @@ nbformat==5.4.0
 openai==0.27.4
 outcome==1.2.0
 packaging==23.1
-pandas==2.0.0
 pip==23.1.2
 pycparser==2.21
 PySocks==1.7.1
@@ -49,7 +47,7 @@ pytz==2023.3
 pymysql==1.0.3
 PyYAML==6.0
 regex==2023.3.23
-#requests==2.28.1
+requests==2.28.1
 rfc3986==1.5.0
 schedule==1.2.0
 selenium==4.8.3
@@ -58,11 +56,8 @@ six==1.16.0
 sniffio==1.3.0
 sortedcontainers==2.4.0
 sympy==1.11.1
-#telegram==0.0.1
 tokenizers==0.13.3
-torch==2.0.0
 tqdm==4.65.0
-transformers==4.28.0
 trio==0.22.0
 trio-websocket==0.10.2
 typing_extensions==4.5.0

@@ -46,16 +46,19 @@ class InvestingCrawler:
             text_list = [p.text for p in ptag]
 
             text = "\n".join(text_list)
+           
 
         except NoSuchElementException:
-            text = "crawler.py에서 crawl_page부분에 문제?"
+            text = None
         except Exception as e:
-            print(f"crawl_page error: {e}")
+            print(e)
+            text = None
         finally:
             self.driver.close()
             self.driver.switch_to.window(self.driver.window_handles[0])
             print("크롤러 2번 완")
             return text
+        
 
     def investing_latest(self):
         print("크롤러 3번 시작")

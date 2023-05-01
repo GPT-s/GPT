@@ -1,13 +1,8 @@
 import requests
-import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,CallbackQueryHandler
-from telepot.loop import MessageLoop
 from telepot.namedtuple import InlineKeyboardMarkup as MU 
 from telepot.namedtuple import InlineKeyboardButton as BT 
-import time
-import datetime
-import logging
-from telegram import Bot, KeyboardButton, ReplyKeyboardMarkup,Update,InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import KeyboardButton, ReplyKeyboardMarkup,InlineKeyboardButton, InlineKeyboardMarkup
 import openai
 from dotenv import load_dotenv
 import os
@@ -16,7 +11,7 @@ import re
 from src.stock_idx import StockData
 from src.translator_deepl import DeeplTranslator
 from src.livecrawler import LiveCrawler
-from src.gpt import get_summary_list,summarize
+from src.gpt import summarize,keyword
 
 load_dotenv()
 
@@ -26,7 +21,6 @@ token = teltoken
 GPTAPI = os.environ.get('GPTAPI')
 OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
-model = "gpt-3.5-turbo"
 database = DataBase()
 
 
@@ -178,86 +172,64 @@ class TelegramHandler:
                         update.message.reply_text(f'{msgtext}', reply_markup=reply_markups)
                 else:
                     if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
-                        gptquery = f"{msgtext}in the sentence above Tell me keywords,\n\
-                                    Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
-                                    no explanation needed\n\
-                                    Example:\n\
-                                    Keywords: Amazon (AMZN), today's price, recent news.\n\
-                                    stock Keywords: [AMZN]or\n\
-                                    stock Keywords: [001122.ks]or\n\
-                                    no Keywords: [N/A]"  
-                        messages = [
-                                    {"role": "system", "content": "You are a helpful assistant."},
-                                    {"role": "user", "content": gptquery}
-                                    ]
-                        response = openai.ChatCompletion.create(
-                                    model=model,
-                                    messages=messages
-                                    )
-                        answer = response['choices'][0]['message']['content']
-                        location = re.search(r'\[(.*?)\]', answer).group(1)
+                        stockcode = keyword(msgtext)
+                        print(f"{stockcode}생성완료")
                         context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
                         if "차트" in msgtext:          
-                            stock = StockData(location)
-                            stock.screenshot(location)
-                            stocktext = stock.get_stock_info(location)
-                            context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
-                            with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                            stock = StockData(stockcode)
+                            stock.screenshot(stockcode)
+                            stocktext = stock.get_stock_info(stockcode)
+                            context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
+                            desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                            folder_path = os.path.join(desktop_path, "stockimg")
+                            with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
                                 context.bot.send_photo(chat_id = chat_id, photo = img)
+                                img.close()
+                                os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                                print("삭제완료")
                         elif "뉴스" in msgtext:
-                            location = location.split(".")[0]
+                            location = stockcode.split(".")[0]
                             print("주식종목코드에서 .ks제거")
                             news = livecrawler.investing_search(location)
                             print("관련뉴스 링크 가져오기 완")
                             newstext = livecrawler.investing_crawl_page(news)
                             print("뉴스텍스트 가져오기 완")
-                            news_summaries = summarize(newstext)
+                            sentiment_answer, summarize_answer = summarize(newstext)
                             print("뉴스텍스트 요약 완")
-                            translated_text = deepl_translator.translate(news_summaries)
+                            translated_text = deepl_translator.translate(summarize_answer)
                             print("뉴스 텍스트 번역")
-                            context.bot.send_message(chat_id=chat_id, text=translated_text)
+                            context.bot.send_message(chat_id=chat_id, text=f"▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
                     else:
                         context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")
             else:
                 if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
-                    gptquery = f"{msgtext}in the sentence above Tell me keywords,\n\
-                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
-                                no explanation needed\n\
-                                Example:\n\
-                                Keywords: Amazon (AMZN), today's price, recent news.\n\
-                                stock Keywords: [AMZN]or\n\
-                                stock Keywords: [001122.ks]or\n\
-                                no Keywords: [N/A]"  
-                    messages = [
-                                {"role": "system", "content": "You are a helpful assistant."},
-                                {"role": "user", "content": gptquery}
-                                ]
-                    response = openai.ChatCompletion.create(
-                                model=model,
-                                messages=messages
-                                )
-                    answer = response['choices'][0]['message']['content']
-                    location = re.search(r'\[(.*?)\]', answer).group(1)
+                    stockcode = keyword(msgtext)
+                    print(f"{stockcode}생성완료")
                     context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
                     if "차트" in msgtext:          
-                        stock = StockData(location)
-                        stock.screenshot(location)
-                        stocktext = stock.get_stock_info(location)
-                        context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
-                        with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                        stock = StockData(stockcode)
+                        stock.screenshot(stockcode)
+                        stocktext = stock.get_stock_info(stockcode)
+                        context.bot.send_message(chat_id=chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
+                        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                        folder_path = os.path.join(desktop_path, "stockimg")
+                        with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
                             context.bot.send_photo(chat_id = chat_id, photo = img)
+                            img.close()
+                            os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                            print("삭제완료")
                     elif "뉴스" in msgtext:
-                        location = location.split(".")[0]
+                        location = stockcode.split(".")[0]
                         print("주식종목코드에서 .ks제거")
                         news = livecrawler.investing_search(location)
                         print("관련뉴스 링크 가져오기 완")
                         newstext = livecrawler.investing_crawl_page(news)
                         print("뉴스텍스트 가져오기 완")
-                        news_summaries = summarize(newstext)
+                        sentiment_answer, summarize_answer = summarize(newstext)
                         print("뉴스텍스트 요약 완")
-                        translated_text = deepl_translator.translate(news_summaries)
+                        translated_text = deepl_translator.translate(summarize_answer)
                         print("뉴스 텍스트 번역")
-                        context.bot.send_message(chat_id=chat_id, text=translated_text)
+                        context.bot.send_message(chat_id=chat_id, text=f"▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
                     else:
                         context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")    
                 else:
@@ -298,63 +270,32 @@ class TelegramHandler:
 
         for favorite in favorites_list:
             if query_data == f'stock_{favorite}':
+                stockcode = keyword(f"{favorite}주식 뉴스 알려줘")
+                print(f"{stockcode}생성완료")
                 context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
-                gptquery = f"{favorite}주식 뉴스 알려줘 in the sentence above Tell me keywords,\n\
-                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
-                                no explanation needed\n\
-                                Example:\n\
-                                Keywords: Amazon (AMZN), today's price, recent news.\n\
-                                stock Keywords: [AMZN]or\n\
-                                stock Keywords: [001122.ks]or\n\
-                                no Keywords: [N/A]"  
-                messages = [
-                                {"role": "system", "content": "You are a helpful assistant."},
-                                {"role": "user", "content": gptquery}
-                                ]
-                response = openai.ChatCompletion.create(
-                                model=model,
-                                messages=messages
-                                )
-                answer = response['choices'][0]['message']['content']
-                location = re.search(r'\[(.*?)\]', answer).group(1)
-                location = location.split(".")[0]
+                location = stockcode.split(".")[0]
                 print("주식종목코드에서 .ks제거")
                 news = livecrawler.investing_search(location)
                 print("관련뉴스 링크 가져오기 완")
                 newstext = livecrawler.investing_crawl_page(news)
                 print("뉴스텍스트 가져오기 완")
-                news_summaries = summarize(newstext)
+                sentiment_answer, summarize_answer = summarize(newstext)
                 print("뉴스텍스트 요약 완")
-                translated_text = deepl_translator.translate(news_summaries)
+                translated_text = deepl_translator.translate(summarize_answer)
                 print("뉴스 텍스트 번역")
-                context.bot.send_message(chat_id=query.message.chat_id,
-                                                    text=f"{favorite}주식 \n\{translated_text}")
-
+                context.bot.send_message(chat_id=query.message.chat_id, text=f"{favorite}주식 \n ▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
 
             elif query_data == f'index_{favorite}':
-                gptquery = f"{favorite}주식 차트 알려줘 in the sentence above Tell me keywords,\n\
-                                Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
-                                no explanation needed\n\
-                                Example:\n\
-                                Keywords: Amazon (AMZN), today's price, recent news.\n\
-                                stock Keywords: [AMZN]or\n\
-                                stock Keywords: [001122.ks]or\n\
-                                no Keywords: [N/A]"  
-                messages = [
-                                {"role": "system", "content": "You are a helpful assistant."},
-                                {"role": "user", "content": gptquery}
-                                ]
-                response = openai.ChatCompletion.create(
-                                model=model,
-                                messages=messages
-                                )
-                answer = response['choices'][0]['message']['content']
-                location = re.search(r'\[(.*?)\]', answer).group(1)
+                stockcode = keyword(f"{favorite}주식 차트 알려줘")
                 context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
-                stock = StockData(location)
-                stock.screenshot(location)
-                stocktext = stock.get_stock_info(location)
-                context.bot.send_message(chat_id=query.message.chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{location}?showOptin=1")
-                with open(f'C:/Users/smhrd/stockimg/{location}.png','rb') as img:
+                stock = StockData(stockcode)
+                stock.screenshot(stockcode)
+                stocktext = stock.get_stock_info(stockcode)
+                context.bot.send_message(chat_id=query.message.chat_id, text=f"{stocktext} \n ▼차트 자세히보기▼ \n https://finance.yahoo.com/chart/{stockcode}?showOptin=1")
+                desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+                folder_path = os.path.join(desktop_path, "stockimg")
+                with open(os.path.join(folder_path, f"{stockcode}.png"),"rb") as img:
                     context.bot.send_photo(chat_id = query.message.chat_id, photo = img)
-                
+                    img.close()
+                    os.remove(os.path.join(folder_path,f"{stockcode}.png"))
+                    print("삭제완료")

@@ -13,7 +13,7 @@ import os
 
 logging.basicConfig(filename="stockidx.log", level=logging.ERROR)
 
-start_time = time.time()
+
 class StockData:
     def __init__(self, location):
         self.location = location
@@ -44,7 +44,7 @@ class StockData:
                 print("Error:", e)
                 retries += 1
                 if retries == max_retries:
-                    logging.error("지수 크롤링 : 최대 재시도 횟수 초과")
+                    logging.error("지수크롤링 :최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
         
@@ -77,21 +77,13 @@ class StockData:
                 print("Error:", e)
                 retries += 1
                 if retries == max_retries:
-                    logging.error("스크린샷 : 최대 재시도 횟수 초과")
+                    logging.error("스크린샷 :최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
                 
     
-end_time = time.time()
-total_time = end_time - start_time 
-print(f'걸린 시간 : {total_time : .2f}')
+
 #메인에서 사용 시 
 locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
 stocks = [StockData(location) for location in locations]
 
-# for location in locations:
-#     stock = StockData(location)
-#     screenshot_path = stock.screenshot(location)
-#     logging.info('스크린샷 저장 완료')
-
-# stock.screenshot("stock_screenshot.jpg")
