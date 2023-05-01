@@ -74,7 +74,7 @@ class Pipeline:
 
             for news in news_list:
                 if not news[4]:
-                    message = f"Source: {news[1]}\nSummary: {news[2]}\nDatetime: {news[3]}"
+                    message = f"Source: {news[1]}\nSummary: {news[2]}\n{news[3]}"
                     telegram_chat_id = '5292915370'
                     self.telegram_handler.send_message(telegram_chat_id, message)
                     self.database.update_news_sent(news[0])

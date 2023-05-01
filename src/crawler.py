@@ -9,16 +9,13 @@ import os
 import logging
 
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-from database import DataBase
+from src.database import DataBase
 from datetime import datetime
-from gpt import get_summary_list
-from translator_deepl import DeeplTranslator
+from src.gpt import get_summary_list
+from src.translator_deepl import DeeplTranslator
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"  # __pycache__ 생성 막는 코드
-
-# # 시간 측정
-# start_time = time.time()
 
 class InvestingCrawler:
     def __init__(self):
@@ -83,12 +80,14 @@ class InvestingCrawler:
         latest_summary = get_summary_list(latest_text)
 
         translator = DeeplTranslator()
-        latest_translated = []
+        latest_translated = [] 
 
         for summary in latest_summary:
             translated_summary = translator.translate(summary)
+            print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
+            print(summary)
+            print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
             latest_translated.append(translated_summary)
-
         for i, news in enumerate(latest_news):
             news_id = news[0]
             database.update_news_summary(news_id, latest_translated[i])
@@ -96,14 +95,10 @@ class InvestingCrawler:
         self.driver.quit()
         print("크롤링 / 요약 / 번역 저장 완")
 
-        print("크롤러 3번 완")
+        print("크롤러 3번 완") 
         return latest_links, latest_text
 
 
 
-investingcrawler = InvestingCrawler()
-investingcrawler.investing_latest()
-
-# end_time = time.time()
-# Total_time = end_time - start_time
-# print(f"저장된 뉴스 가져와서 메시지 보내기까지 걸린 시간: {Total_time:.2f} 초")
+# investingcrawler = InvestingCrawler()
+# investingcrawler.investing_latest()

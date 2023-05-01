@@ -65,14 +65,15 @@ def summarize(text):
                         messages=sentiment_messages
                         )
             sentiment_answer = sentiment_response['choices'][0]['message']['content']
+            print(2)
             break
         except Exception as e:
             print("Error:", e)
-            print(2)
+            print(3)
             retries += 1
             if retries == max_retries:
                 print("최대 재시도 횟수 초과")
-                print(3)
+                print(4)
                 gpt_error = "오류"
                 return gpt_error
     summarize_gptquery = f"Summarize [{text}] in 5 lines with a maximum of 38 characters per line."
@@ -83,7 +84,7 @@ def summarize(text):
     retries = 0
     while retries < max_retries:
         try:
-            print(4)
+            print(5)
             summarize_response = openai.ChatCompletion.create(
                         temperature=0,
                         top_p=0,
@@ -91,24 +92,60 @@ def summarize(text):
                         messages=summarize_messages
                         )
             summarize_answer = summarize_response['choices'][0]['message']['content']
+            print(6)
             break
         except Exception as e:
             print("Error:", e)
-            print(5)
+            print(7)
             retries += 1
             if retries == max_retries:
                 print("최대 재시도 횟수 초과")
-                print(6)
+                print(8)
                 gpt_error = "오류"
                 return gpt_error
+    print(9)
+    print("gpt 1번 완")
     return sentiment_answer, summarize_answer
 
 
+def summarize_news(text):
+    print("gpt 1번 시작")
+    model_engine = "text-davinci-002"
+    max_tokens = 2500
+    if text is not None:
+        sentiment_list = ['positive', 'negative', 'neutral']
+        query = f"""Sentiment analysis the contents of [{text}], output one of three words {str(sentiment_list) } based on the analysis, summarize the contents of [] Korean in about 5 lines.
+        """
+    else:
+        print("empty text.")
+    completion = openai.Completion.create(
+        engine=model_engine,
+        prompt=query,
+        max_tokens=max_tokens,
+        temperature=0.3,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+    print("gpt 1번 완")
+    return completion.choices[0].text
 def get_summary_list(text_list):
     print("gpt 2번 시작")
     summary_list = []
     for text in text_list:
-        summary = summarize(text)
+        summary = summarize_news(text)
         summary_list.append(summary)
     print("gpt 2번 완")
     return summary_list
+
+
+# def get_summary_list(text_list):
+#     print("gpt 2번 시작")
+#     summary_list = []
+#     for text in text_list:
+#         sentiment_answer, summarize_answer = summarize(text)
+#         # summary = str(sentiment_answer)+"\n"+str(summarize_answer)
+#         summary_list.append(summarize_answer)
+#         # summary_list.append(summary)
+#     print("gpt 2번 완")
+#     return summary_list
