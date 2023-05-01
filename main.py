@@ -55,7 +55,6 @@ class Pipeline:
     def crawling(self):
         try:
             self.crawler = InvestingCrawler()
-            self.translator = DeeplTranslator()
             print("메인 크롤링111111")
             print("메인 크롤링111111")
             print("메인 크롤링111111")
