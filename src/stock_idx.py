@@ -9,23 +9,26 @@ import logging
 import time
 import os
 
+import asyncio
+import aiohttp
 
 logging.basicConfig(filename="stockidx.log", level=logging.ERROR)
-
 
 class StockData:
     def __init__(self, location):
         self.location = location
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 
-    def get_stock_info(self, location):
+    async def get_stock_info(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
             try:
                 url = "https://finance.yahoo.com/quote/"
-                response = requests.get(url + location, headers=self.headers)
-                soup = BeautifulSoup(response.content, 'html.parser')
+                async with aiohttp.ClientSession(headers=self.headers) as session:
+                    async with session.get(url + location) as response:
+                        content = await response.text()
+                soup = BeautifulSoup(content, 'html.parser')
 
                 price_element = soup.select_one("#quote-header-info > div.My\(6px\).Pos\(r\).smartphone_Mt\(6px\).W\(100\%\) > div.D\(ib\).Va\(m\).Maw\(65\%\).Ov\(h\) > div.D\(ib\).Mend\(20px\) > fin-streamer.Fw\(b\).Fz\(36px\).Mb\(-4px\).D\(ib\)")
                 price = price_element.text if price_element is not None else "N/A"
@@ -48,7 +51,7 @@ class StockData:
                     return gpt_error
         
 
-    def screenshot(self, location):
+    async def screenshot(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
@@ -79,10 +82,30 @@ class StockData:
                     logging.error("스크린샷 :최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
-                
-    
 
-#메인에서 사용 시 
-locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
-stocks = [StockData(location) for location in locations]
+
+async def gather_stock_info(stock):
+    return await stock.get_stock_info(stock.location)
+
+async def gather_screenshot(stock):
+    return await stock.screenshot(stock.location)
+
+async def main():
+    locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
+    stocks = [StockData(location) for location in locations]
+
+    # gather 함수를 이용해 비동기적으로 실행합니다.
+    stock_info_tasks = [asyncio.create_task(gather_stock_info(stock)) for stock in stocks]
+    screenshot_tasks = [asyncio.create_task(gather_screenshot(stock)) for stock in stocks]
+
+    # gather 함수를 이용해 실행 결과를 대기합니다.
+    stock_info_results = await asyncio.gather(*stock_info_tasks)
+    screenshot_results = await asyncio.gather(*screenshot_tasks)
+
+    # 결과를 출력합니다.
+    for i in range(len(stocks)):
+        print(stock_info_results[i])
+        print(screenshot_results[i])
+
+asyncio.run(main())
 
