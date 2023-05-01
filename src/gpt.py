@@ -11,8 +11,6 @@ GPTAPI = os.environ.get("GPTAPI")
 OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
 
-
-
 def keyword(text):
     gptquery = f"{text}in the sentence above Tell me keywords,\n\
                                             Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\

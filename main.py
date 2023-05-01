@@ -32,7 +32,7 @@ sentry_sdk.init(
 
 # logging.INFO :  INFO, WARNING, ERROR, CRITICAL 레벨의 메시지만 로깅 (INFO 레벨 이상만)
 
-logging.basicConfig(filename="main.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(filename="main.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.ERROR)
 
 class Pipeline:
     def __init__(self):
