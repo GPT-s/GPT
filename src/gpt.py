@@ -11,8 +11,6 @@ GPTAPI = os.environ.get("GPTAPI")
 OPENAI_API_KEY = GPTAPI
 openai.api_key = OPENAI_API_KEY
 
-
-
 def keyword(text):
     gptquery = f"{text}in the sentence above Tell me keywords,\n\
                                             Change keywords with stock codes to stock codes in Keywords and mark all keywords\n\
@@ -104,18 +102,7 @@ def get_summary_list(text_list):
     print("gpt 2번 시작")
     summary_list = []
     for text in text_list:
-        max_retries = 5
-        retries = 0
-        while retries < max_retries:
-            try:
-                summary = summarize(text)
-                summary_list.append(summary)
-            except Exception as e:
-                print("Error:", e)
-                retries += 1
-                if retries == max_retries:
-                    print("최대 재시도 횟수 초과")
-                    gpt_error = "오류"
-                    return gpt_error      
+        summary = summarize(text)
+        summary_list.append(summary)
     print("gpt 2번 완")
     return summary_list
