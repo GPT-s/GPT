@@ -6,11 +6,17 @@ import schedule
 import time
 import sentry_sdk
 import logging
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+DSN = os.environ.get("DSN")
+
+dsn = DSN
 
 sentry_sdk.init(
-    dsn="https://73e048248aaa48a1bfdb69d6b33aef08@o4505103631384576.ingest.sentry.io/4505103640100864",
+    dsn=DSN,
 )
-
 
 # logging
 # format : 형식
@@ -38,6 +44,8 @@ class Pipeline:
             self.crawler = InvestingCrawler()
             self.translator = DeeplTranslator()
             self.telegram_handler = TelegramHandler()
+            # 오류를 강제로 발생
+            # raise ValueError("파이프라인 초기화 강제 오류")
         except Exception as e:
             print(f"Init error: {e}")
             logging.error(f"Init error: {e}")
@@ -80,28 +88,23 @@ class Pipeline:
             
 
 
-# try:
-#     pipeline = Pipeline()
-#     pipeline.crawling()
-#     pipeline.sent_message()
-
-#     # schedule.every().day.at("12:18").do(pipeline.crawling)
-#     # schedule.every().day.at("12:20").do(pipeline.sent_message)
-#     schedule.every(5).minutes.do(pipeline.crawling)
-
-#     # 스케줄 실행
-#     while True:
-#         # 설정된 스케줄에 따라 예약된 모든 작업을 실행
-#         schedule.run_pending()
-#         # 1초동안 멈추게 해서 while문 과부하를 방지
-#         time.sleep(1)
-# except Exception as e:
-#     print(f"Main error: {e}")
-#     logging.error(f"Main error: {e}")
-#     # sentry.io 추가하기
-#     sentry_sdk.capture_exception(e)
-
 try:
-    raise ValueError("일부러 오류낸거임")
-except ValueError as e:
-    logging.error(f"An error occurred: {e}")
+    pipeline = Pipeline()
+    pipeline.crawling()
+    pipeline.sent_message()
+
+    # schedule.every().day.at("12:18").do(pipeline.crawling)
+    # schedule.every().day.at("12:20").do(pipeline.sent_message)
+    schedule.every(5).minutes.do(pipeline.crawling)
+
+    # 스케줄 실행
+    while True:
+        # 설정된 스케줄에 따라 예약된 모든 작업을 실행
+        schedule.run_pending()
+        # 1초동안 멈추게 해서 while문 과부하를 방지
+        time.sleep(1)
+except Exception as e:
+    print(f"Main error: {e}")
+    logging.error(f"Main error: {e}")
+    # sentry.io 추가하기
+    sentry_sdk.capture_exception(e)
