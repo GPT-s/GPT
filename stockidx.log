@@ -9,6 +9,13 @@ ERROR:root:스크린샷 완
 ERROR:root:지수 크롤링 완
 ERROR:root:스크린샷 완
 ERROR:root:지수 크롤링 완
+<<<<<<< HEAD
+ERROR:root:스크린샷 완
+ERROR:root:스크린샷 완
+ERROR:root:스크린샷 완
+ERROR:root:스크린샷 완
+ERROR:root:스크린샷 완
+=======
 ERROR:root:지수 크롤링 완
 ERROR:root:스크린샷 완
 ERROR:root:지수 크롤링 완
@@ -18,3 +25,4 @@ ERROR:root:지수 크롤링 완
 ERROR:root:스크린샷 완
 ERROR:root:지수 크롤링 완
 ERROR:root:지수 크롤링 완
+>>>>>>> 964420de7509d2c7d0b743dc4027a9b6026fd87c

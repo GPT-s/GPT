@@ -6,20 +6,19 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import logging
-import asyncio
 import time
 import os
 
 
 logging.basicConfig(filename="stockidx.log", level=logging.ERROR)
 
-start_time = time.time()
+
 class StockData:
     def __init__(self, location):
         self.location = location
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'}
 
-    async def get_stock_info(self, location):
+    def get_stock_info(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
@@ -44,12 +43,12 @@ class StockData:
                 print("Error:", e)
                 retries += 1
                 if retries == max_retries:
-                    print("최대 재시도 횟수 초과")
+                    logging.error("지수크롤링 :최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
         
 
-    async def screenshot(self, location):
+    def screenshot(self, location):
         max_retries = 5
         retries = 0
         while retries < max_retries:
@@ -77,35 +76,13 @@ class StockData:
                 print("Error:", e)
                 retries += 1
                 if retries == max_retries:
-                    print("최대 재시도 횟수 초과")
+                    logging.error("스크린샷 :최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
                 
     
-end_time = time.time()
-total_time = end_time - start_time 
-print(f'걸린 시간 : {total_time : .2f}')
+
 #메인에서 사용 시 
 locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
 stocks = [StockData(location) for location in locations]
 
-# for location in locations:
-#     stock = StockData(location)
-#     screenshot_path = stock.screenshot(location)
-#     logging.info('스크린샷 저장 완료')
-
-# stock.screenshot("stock_screenshot.jpg")
-
-# 메인에서 사용 시 
-async def main():
-    coroutines = []
-    for stock in stocks:
-        coroutines.append(stock.get_stock_info(stock.location))
-        coroutines.append(stock.screenshot(stock.location))
-        
-        results = await asyncio.gather(*coroutines)
-
-        for result in result :
-            print(result)
-
-asyncio.run(main())
