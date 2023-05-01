@@ -42,7 +42,6 @@ class Pipeline:
             print("init")
             self.database = DataBase()
             self.crawler = InvestingCrawler()
-            self.translator = DeeplTranslator()
             self.telegram_handler = TelegramHandler()
             # 오류를 강제로 발생
             # raise ValueError("파이프라인 초기화 강제 오류")
