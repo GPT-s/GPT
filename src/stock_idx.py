@@ -90,22 +90,22 @@ async def gather_stock_info(stock):
 async def gather_screenshot(stock):
     return await stock.screenshot(stock.location)
 
-async def main():
-    locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
-    stocks = [StockData(location) for location in locations]
+# async def main():
+#     locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
+#     stocks = [StockData(location) for location in locations]
 
-    # gather 함수를 이용해 비동기적으로 실행합니다.
-    stock_info_tasks = [asyncio.create_task(gather_stock_info(stock)) for stock in stocks]
-    screenshot_tasks = [asyncio.create_task(gather_screenshot(stock)) for stock in stocks]
+#     # gather 함수를 이용해 비동기적으로 실행합니다.
+#     stock_info_tasks = [asyncio.create_task(gather_stock_info(stock)) for stock in stocks]
+#     screenshot_tasks = [asyncio.create_task(gather_screenshot(stock)) for stock in stocks]
 
-    # gather 함수를 이용해 실행 결과를 대기합니다.
-    stock_info_results = await asyncio.gather(*stock_info_tasks)
-    screenshot_results = await asyncio.gather(*screenshot_tasks)
+#     # gather 함수를 이용해 실행 결과를 대기합니다.
+#     stock_info_results = await asyncio.gather(*stock_info_tasks)
+#     screenshot_results = await asyncio.gather(*screenshot_tasks)
 
-    # 결과를 출력합니다.
-    for i in range(len(stocks)):
-        print(stock_info_results[i])
-        print(screenshot_results[i])
+#     # 결과를 출력합니다.
+#     for i in range(len(stocks)):
+#         print(stock_info_results[i])
+#         print(screenshot_results[i])
 
-asyncio.run(main())
+# asyncio.run(main())
 
