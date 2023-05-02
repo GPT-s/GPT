@@ -2,7 +2,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-import requests
 from bs4 import BeautifulSoup
 import time
 import logging
@@ -12,7 +11,8 @@ import os
 import asyncio
 import aiohttp
 
-logging.basicConfig(filename="stockidx.log", level=logging.ERROR)
+logging.basicConfig(filename="stockIdx.log", level=logging.ERROR)
+start = time.time()
 
 class StockData:
     def __init__(self, location):
@@ -83,29 +83,28 @@ class StockData:
                     gpt_error = "오류"
                     return gpt_error
 
-
 async def gather_stock_info(stock):
     return await stock.get_stock_info(stock.location)
 
 async def gather_screenshot(stock):
     return await stock.screenshot(stock.location)
 
-# async def main():
-#     locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
-#     stocks = [StockData(location) for location in locations]
+async def main():
+    locations = ['NFLX', 'AAPL', 'TSLA', 'FB']
+    stocks = [StockData(location) for location in locations]
 
-#     # gather 함수를 이용해 비동기적으로 실행합니다.
-#     stock_info_tasks = [asyncio.create_task(gather_stock_info(stock)) for stock in stocks]
-#     screenshot_tasks = [asyncio.create_task(gather_screenshot(stock)) for stock in stocks]
+    stock_info_tasks = [asyncio.create_task(gather_stock_info(stock)) for stock in stocks]
+    screenshot_tasks = [asyncio.create_task(gather_screenshot(stock)) for stock in stocks]
 
-#     # gather 함수를 이용해 실행 결과를 대기합니다.
-#     stock_info_results = await asyncio.gather(*stock_info_tasks)
-#     screenshot_results = await asyncio.gather(*screenshot_tasks)
+    stock_info_results = await asyncio.gather(*stock_info_tasks)
+    screenshot_results = await asyncio.gather(*screenshot_tasks)
 
-#     # 결과를 출력합니다.
-#     for i in range(len(stocks)):
-#         print(stock_info_results[i])
-#         print(screenshot_results[i])
+    for i in range(len(stocks)):
+        print(stock_info_results[i])
+        print(screenshot_results[i])
+        end = time.time()
+        t_time = end - start
+        print(t_time)
 
-# asyncio.run(main())
+asyncio.run(main())
 
