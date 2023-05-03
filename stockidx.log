@@ -896,3 +896,5 @@ ERROR:root:스크린샷 :최대 재시도 횟수 초과
 ERROR:root:스크린샷 :최대 재시도 횟수 초과
 ERROR:root:스크린샷 :최대 재시도 횟수 초과
 ERROR:root:Main error: 'coroutine' object is not iterable
+ERROR:root:Main error: 'coroutine' object is not iterable
+ERROR:root:Main error: 'coroutine' object is not iterable
