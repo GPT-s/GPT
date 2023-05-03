@@ -36,6 +36,7 @@ sentry_sdk.init(
 
 logging.basicConfig(filename="main.log", format='%(asctime)s %(levelname)s:%(message)s', level=logging.INFO)
 
+
 class Pipeline:
     def __init__(self):
         try:

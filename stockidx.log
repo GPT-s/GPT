@@ -895,3 +895,4 @@ ERROR:root:ìŠ¤í¬ë¦°ìƒ· :ìµœëŒ€ ìž¬ì‹œë„ íšŸìˆ˜ ì´ˆê³¼
 ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
 ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
 ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
+ERROR:root:Main error: 'coroutine' object is not iterable
