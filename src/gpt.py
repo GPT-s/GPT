@@ -116,16 +116,17 @@ class GPT:
         print("gpt 1번 완")
         return sentiment_answer, summarize_answer
 
-
     def summarize_news(self, text):
         print("gpt 1번 시작")
         model_engine = "text-davinci-002"
         max_tokens = 2500
         if text is not None:
-            query = f"""Sentimentally analyze [{text}] and select only one of Positive, Negative, or Neutral. Also, summarize [] in 5 lines with a maximum of 38 characters per line.
-            """
+            query = f"""Sentimentally analyze [{text}] and select only one of Positive, Negative, or Neutral. Write the sentiment as the first word, followed by a ':'. Then summarize [] in 5 lines with a maximum of 38 characters per line.
+        """
         else:
             print("empty text.")
+            return None, None
+
         completion = openai.Completion.create(
             engine=model_engine,
             prompt=query,
@@ -136,55 +137,23 @@ class GPT:
             presence_penalty=0,
         )
         print("gpt 1번 완")
-        return completion.choices[0].text
+
+        sentiment_summary = completion.choices[0].text.strip().split(':', 1)
+        if len(sentiment_summary) != 2:
+            print("Unable to extract sentiment and summary from the completion.")
+            return None, None
+
+        sentiment, summary = sentiment_summary
+        return sentiment, summary.split('\n')
 
     def get_summary_list(self, text_list):
         print("gpt 2번 시작")
         summary_list = []
+        sentiment_list = []
         for text in text_list:
-            summary = GPT.summarize_news(text)
-            summary_list.append(summary)
+            sentiment, summary = self.summarize_news(text)
+            if sentiment is not None and summary is not None:
+                summary_list.append(summary)
+                sentiment_list.append(sentiment)
         print("gpt 2번 완")
-        return summary_list
-
-# def summarize_news(text):
-#     print("gpt 1번 시작")
-#     model_engine = "text-davinci-002"
-#     max_tokens = 2500
-#     if text is not None:
-#         query = f"""Sentimentally analyze [{text}] and select only one of Positive, Negative, or Neutral. Also, summarize [] in 5 lines with a maximum of 38 characters per line.
-#         """
-#     else:
-#         print("empty text.")
-#     completion = openai.Completion.create(
-#         engine=model_engine,
-#         prompt=query,
-#         max_tokens=max_tokens,
-#         temperature=0.3,
-#         top_p=1,
-#         frequency_penalty=0,
-#         presence_penalty=0,
-#     )
-#     print("gpt 1번 완")
-#     return completion.choices[0].text
-
-# def get_summary_list(text_list):
-#     print("gpt 2번 시작")
-#     summary_list = []
-#     for text in text_list:
-#         summary = summarize_news(text)
-#         summary_list.append(summary)
-#     print("gpt 2번 완")
-#     return summary_list
-
-
-# def get_summary_list(text_list):
-#     print("gpt 2번 시작")
-#     summary_list = []
-#     for text in text_list:
-#         sentiment_answer, summarize_answer = summarize(text)
-#         # summary = str(sentiment_answer)+"\n"+str(summarize_answer)
-#         summary_list.append(summarize_answer)
-#         # summary_list.append(summary)
-#     print("gpt 2번 완")
-#     return summary_list
+        return sentiment_list, summary_list

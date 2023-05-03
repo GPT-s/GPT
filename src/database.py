@@ -78,36 +78,43 @@ class DataBase :
         print("USER_ID 조회 완")
         print("USER_ID 조회 완")
 
-        return result   
+        return result 
     
-    def insert_news(self, source, summary, current_datetime):
+    def insert_link(self, source, current_datetime):
         cursor = self.conn.cursor()
         date = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
-        query = "INSERT INTO NEWS (source, summary, datetime) VALUES (%s, %s, %s)"
-        values = (source, summary, date)
+        query = "INSERT INTO NEWS (source, datetime) VALUES (%s, %s)"
+        values = (source, date)
         
         try:
             cursor.execute(query, values)
             self.conn.commit()
-            print("뉴스 저장 완료")
+            print("뉴스 링크 저장 완료")
         except pymysql.err.IntegrityError as e:
             print("데이터 삽입 중 오류 발생 (기본 키 위반):", e)
-            print("최신 뉴스가 이미 데이터베이스에 있음.")
+            print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
         except Exception as e:
             print("데이터 삽입 중 오류 발생:", e)
-            print("최신 뉴스가 이미 데이터베이스에 있음.")
+            print("최신 뉴스 링크가 이미 데이터베이스에 있음.")
         finally:
             cursor.close()
 
     def select_news(self):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM NEWS WHERE sent = 0"
+        query = "SELECT * FROM NEWS WHERE summary IS NULL OR summary = ''"
         cursor.execute(query)
 
         result = cursor.fetchall()
         print("조회 완")
 
-        return result   
+        return result 
+    
+    def update_news_sentiment(self, news_id, sentiment):
+        query = "UPDATE NEWS SET sentiment = %s WHERE idx = %s"
+        cursor = self.conn.cursor()
+        cursor.execute(query, (sentiment, news_id,))
+        self.conn.commit()
+        cursor.close()
 
     def update_news_summary(self, news_id, summary):
         query = "UPDATE NEWS SET summary = %s WHERE idx = %s"
@@ -124,3 +131,4 @@ class DataBase :
         cursor.execute(query, (news_id,))
         self.conn.commit()
         cursor.close()
+    
