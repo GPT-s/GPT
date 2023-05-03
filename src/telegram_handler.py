@@ -11,7 +11,7 @@ import re
 from src.stock_idx import StockData
 from src.translator_deepl import DeeplTranslator
 from src.livecrawler import LiveCrawler
-from src.gpt import summarize,keyword
+from src.gpt import GPT
 
 load_dotenv()
 
@@ -172,7 +172,7 @@ class TelegramHandler:
                         update.message.reply_text(f'{msgtext}', reply_markup=reply_markups)
                 else:
                     if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
-                        stockcode = keyword(msgtext)
+                        stockcode = GPT.keyword(msgtext)
                         print(f"{stockcode}생성완료")
                         context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
                         if "차트" in msgtext:          
@@ -194,7 +194,7 @@ class TelegramHandler:
                             print("관련뉴스 링크 가져오기 완")
                             newstext = livecrawler.investing_crawl_page(news)
                             print("뉴스텍스트 가져오기 완")
-                            sentiment_answer, summarize_answer = summarize(newstext)
+                            sentiment_answer, summarize_answer = GPT.summarize(newstext)
                             print("뉴스텍스트 요약 완")
                             translated_text = deepl_translator.translate(summarize_answer)
                             print("뉴스 텍스트 번역")
@@ -203,7 +203,7 @@ class TelegramHandler:
                         context.bot.send_message(chat_id=chat_id, text="무슨 말인지 모르겠어요")
             else:
                 if "주식" in msgtext or "차트"in msgtext or "뉴스"in msgtext:
-                    stockcode = keyword(msgtext)
+                    stockcode = GPT.keyword(msgtext)
                     print(f"{stockcode}생성완료")
                     context.bot.send_message(chat_id=chat_id, text="대답까지 1~2분정도 소요됩니다.")
                     if "차트" in msgtext:          
@@ -225,7 +225,7 @@ class TelegramHandler:
                         print("관련뉴스 링크 가져오기 완")
                         newstext = livecrawler.investing_crawl_page(news)
                         print("뉴스텍스트 가져오기 완")
-                        sentiment_answer, summarize_answer = summarize(newstext)
+                        sentiment_answer, summarize_answer = GPT.summarize(newstext)
                         print("뉴스텍스트 요약 완")
                         translated_text = deepl_translator.translate(summarize_answer)
                         print("뉴스 텍스트 번역")
@@ -270,7 +270,7 @@ class TelegramHandler:
 
         for favorite in favorites_list:
             if query_data == f'stock_{favorite}':
-                stockcode = keyword(f"{favorite}주식 뉴스 알려줘")
+                stockcode = GPT.keyword(f"{favorite}주식 뉴스 알려줘")
                 print(f"{stockcode}생성완료")
                 context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
                 location = stockcode.split(".")[0]
@@ -279,14 +279,14 @@ class TelegramHandler:
                 print("관련뉴스 링크 가져오기 완")
                 newstext = livecrawler.investing_crawl_page(news)
                 print("뉴스텍스트 가져오기 완")
-                sentiment_answer, summarize_answer = summarize(newstext)
+                sentiment_answer, summarize_answer = GPT.summarize(newstext)
                 print("뉴스텍스트 요약 완")
                 translated_text = deepl_translator.translate(summarize_answer)
                 print("뉴스 텍스트 번역")
                 context.bot.send_message(chat_id=query.message.chat_id, text=f"{favorite}주식 \n ▼요약▼ \n 감성분석 : {sentiment_answer} \n {translated_text} \n\n 링크 : {news}")
 
             elif query_data == f'index_{favorite}':
-                stockcode = keyword(f"{favorite}주식 차트 알려줘")
+                stockcode = GPT.keyword(f"{favorite}주식 차트 알려줘")
                 context.bot.send_message(chat_id=query.message.chat_id, text="대답까지 1~2분정도 소요됩니다.")
                 stock = StockData(stockcode)
                 stock.screenshot(stockcode)
