@@ -106,5 +106,5 @@ async def main():
         t_time = end - start
         print(t_time)
 
-asyncio.run(main())
+# asyncio.run(main())
 
