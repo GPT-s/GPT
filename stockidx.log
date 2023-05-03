@@ -892,8 +892,12 @@ Traceback (most recent call last):
 telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
 ERROR:root:ìŠ¤í¬ë¦°ìƒ· :ìµœëŒ€ ì¬ì‹œë„ íšŸìˆ˜ ì´ˆê³¼
 ERROR:root:ìŠ¤í¬ë¦°ìƒ· :ìµœëŒ€ ì¬ì‹œë„ íšŸìˆ˜ ì´ˆê³¼
-ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
-ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
-ERROR:root:½ºÅ©¸°¼¦ :ÃÖ´ë Àç½Ãµµ È½¼ö ÃÊ°ú
+ERROR:root:ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ :ï¿½Ö´ï¿½ ï¿½ï¿½Ãµï¿½ È½ï¿½ï¿½ ï¿½Ê°ï¿½
+ERROR:root:ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ :ï¿½Ö´ï¿½ ï¿½ï¿½Ãµï¿½ È½ï¿½ï¿½ ï¿½Ê°ï¿½
+ERROR:root:ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ :ï¿½Ö´ï¿½ ï¿½ï¿½Ãµï¿½ È½ï¿½ï¿½ ï¿½Ê°ï¿½
 ERROR:root:Main error: 'coroutine' object is not iterable
 ERROR:root:Main error: 'coroutine' object is not iterable
+<<<<<<< HEAD
+=======
+ERROR:root:Main error: 'coroutine' object is not iterable
+>>>>>>> a1c016e0cefd73b8a063a83a83a8eb0d314df3c4
