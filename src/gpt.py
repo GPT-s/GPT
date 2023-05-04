@@ -3,14 +3,6 @@ import openai
 from dotenv import load_dotenv
 import os
 import re
-import time
-
-# load_dotenv()
-
-# GPTAPI = os.environ.get("GPTAPI")
-
-# OPENAI_API_KEY = GPTAPI
-# openai.api_key = OPENAI_API_KEY
 
 class GPT:
     def __init__(self):
@@ -52,9 +44,6 @@ class GPT:
                     gpt_error = "오류"
                     return gpt_error
 
-
-
-
     def summarize(self, text):
         print("gpt 1번 시작")
         sentiment_gptquery = f"Sentimentally analyze [{text}] and select only one of Positive, Negative, or Negative"
@@ -66,7 +55,6 @@ class GPT:
         retries = 0
         while retries < max_retries:
             try:
-                print(1)
                 sentiment_response = openai.ChatCompletion.create(
                             temperature=0,
                             top_p=0,
@@ -74,15 +62,12 @@ class GPT:
                             messages=sentiment_messages
                             )
                 sentiment_answer = sentiment_response['choices'][0]['message']['content']
-                print(2)
                 break
             except Exception as e:
                 print("Error:", e)
-                print(3)
                 retries += 1
                 if retries == max_retries:
                     print("최대 재시도 횟수 초과")
-                    print(4)
                     gpt_error = "오류"
                     return gpt_error
         summarize_gptquery = f"Summarize [{text}] in 5 lines with a maximum of 38 characters per line."
@@ -93,7 +78,6 @@ class GPT:
         retries = 0
         while retries < max_retries:
             try:
-                print(5)
                 summarize_response = openai.ChatCompletion.create(
                             temperature=0,
                             top_p=0,
@@ -101,18 +85,14 @@ class GPT:
                             messages=summarize_messages
                             )
                 summarize_answer = summarize_response['choices'][0]['message']['content']
-                print(6)
                 break
             except Exception as e:
                 print("Error:", e)
-                print(7)
                 retries += 1
                 if retries == max_retries:
                     print("최대 재시도 횟수 초과")
-                    print(8)
                     gpt_error = "오류"
                     return gpt_error
-        print(9)
         print("gpt 1번 완")
         return sentiment_answer, summarize_answer
 
