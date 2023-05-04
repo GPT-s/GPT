@@ -12,6 +12,9 @@ import os
 import logging
 import pymysql
 import pymysql.err
+import asyncio
+import time
+
 
 
 os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
@@ -93,3 +96,22 @@ class LiveCrawler:
                     print("최대 재시도 횟수 초과")
                     gpt_error = "오류"
                     return gpt_error
+                
+                
+
+def main():
+    start_time = time.time()  # 시작 시간 저장
+
+    crawler = LiveCrawler()
+    news_link = crawler.investing_search("Apple")
+    print(news_link)
+    news_text = crawler.investing_crawl_page(news_link)
+    print(news_text)
+
+    end_time = time.time()  # 종료 시간 저장
+    elapsed_time = end_time - start_time  # 실행 시간 계산
+    print(f"실행 시간: {elapsed_time:.2f}초")
+
+
+if __name__ == "__main__":
+    main()
