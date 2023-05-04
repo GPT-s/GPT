@@ -70,7 +70,7 @@ class DataBase :
 
     def select_user_id(self):
         cursor = self.conn.cursor()
-        query = "SELECT USER_ID FROM USERS"
+        query = "SELECT USER_ID FROM USERS WHERE IS_SUBSCRIBE = 'Y'"
         cursor.execute(query)
 
         result = cursor.fetchall()
