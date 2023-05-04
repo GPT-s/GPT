@@ -51,7 +51,7 @@ class Pipeline:
             # sentry.io 추가하기
             sentry_sdk.capture_exception(e)
 
-    def run(self):
+    def crawling(self):
         # 1. 링크 크롤링
         latest_links = self.crawler.get_latest_links()
         
@@ -111,7 +111,7 @@ class Pipeline:
 
 try:
     pipeline = Pipeline()
-    pipeline.run()
+    pipeline.crawling()
     pipeline.sent_message()
 
     # schedule.every().day.at("12:18").do(pipeline.crawling)
