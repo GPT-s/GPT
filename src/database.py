@@ -17,27 +17,6 @@ class DataBase :
         except mysql.connector.Error as err :
             print(f"Error: {err}")
 
-    # # News 테이블에 데이터 삽입
-    # def insert_news(self, datetime, source, content, summary):
-    #     cursor = self.conn.cursor()
-    #     now = datetime.now()
-    #     date = now.strftime('%Y-%m-%d %H:%M:%S')
-    #     query = f"INSERT INTO NEWS (datetime, source, content, summary) VALUES ('{date}', %s, %s, %s)"
-    #     values = (datetime, source, content, summary)
-    #     cursor.execute(query, values)
-
-    #     self.conn.commit()
-
-    # # News 테이블에서 데이터 조회
-    # def select_news(self):
-    #     cursor = self.conn.cursor()
-    #     query = "SELECT * FROM NEWS"
-    #     cursor.execute(query)
-
-    #     result = cursor.fetchall()
-
-    #     return result
-
     # Users 테이블에 데이터 업데이트
     def update_user(self, user_id, is_subscribe):
         cursor = self.conn.cursor()
