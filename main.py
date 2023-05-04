@@ -40,76 +40,52 @@ logging.basicConfig(filename="main.log", format='%(asctime)s %(levelname)s:%(mes
 class Pipeline:
     def __init__(self):
         try:
-            print(1)
-            print("init")
-            print("init")
-            print("init")
-            print(2)
             self.gpt = GPT()
-            print(3)
             self.database = DataBase()
-            print(4)
             self.crawler = InvestingCrawler()
-            print(5)
             self.telegram_handler = TelegramHandler()
-            print(6)
             # 오류를 강제로 발생
             # raise ValueError("파이프라인 초기화 강제 오류")
         except Exception as e:
-            print(f"Init error: {e}")
             logging.error(f"Init error: {e}")
             # sentry.io 추가하기
             sentry_sdk.capture_exception(e)
 
     def run(self):
         # 1. 링크 크롤링
-        print(7)
         latest_links = self.crawler.get_latest_links()
-        print(8)
         
         # 2. 크롤링한 링크를 데이터 베이스에 저장
         current_datetime = datetime.now()
-        print(9)
         for link in latest_links:
             self.database.insert_link(link, current_datetime)
-        print(10)
         
         # 3. 데이터 베이스에서 저장한 링크를 꺼내온다
         news_to_update = self.database.select_news()
-        print(11)
         
         for news in news_to_update:
             news_id, source, _, _, _, _ = news
-            print(12)
             
             # 4. 링크로 들어가서 뉴스 텍스트를 크롤링 해온다
             text = self.crawler.crawl_page(source)
-            print(13)
             
             # 5. 크롤링한 뉴스를 감성분석하고 요약한다
             sentiment_and_summary = self.gpt.summarize_news(text)
-            print(14)
 
 
             # 감정과 요약은 단일 문자열로 반환되므로 이를 분할해야 합니다.
             sentiment, summary_list = sentiment_and_summary
             summary = ' '.join(summary_list)
-            print(15)
-            print(summary)
 
             
             # 6. 감성분석을 데이터베이스에 업데이트한다
             self.database.update_news_sentiment(news_id, sentiment)
-            print(16)
             self.translator = DeeplTranslator()
-            print(17)
             # 7. 요약한 뉴스를 번역한다
             translated_summary = self.translator.translate(summary)
-            print(18)
             
             # 8. 번역한 뉴스를 데이터베이스에 업데이트한다
             self.database.update_news_summary(news_id, translated_summary)
-            print(19)
 
 
     def sent_message(self):
