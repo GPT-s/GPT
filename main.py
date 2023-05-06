@@ -50,7 +50,7 @@ class Pipeline:
             self.database.insert_link(link, current_datetime)
         
         # 3. 데이터 베이스에서 저장한 링크를 꺼내온다
-        news_to_update = self.database.select_news()
+        news_to_update = self.database.select_link()
         
         for news in news_to_update:
             news_id, source, _, _, _, _ = news

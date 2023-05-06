@@ -78,9 +78,19 @@ class DataBase :
         finally:
             cursor.close()
 
+    def select_link(self):
+        cursor = self.conn.cursor()
+        query = "SELECT * FROM NEWS WHERE (summary IS NULL OR summary = '') and sent = 'false'"
+        cursor.execute(query)
+
+        result = cursor.fetchall()
+        print("조회 완")
+
+        return result 
+    
     def select_news(self):
         cursor = self.conn.cursor()
-        query = "SELECT * FROM NEWS WHERE summary IS NULL OR summary = ''"
+        query = "SELECT * FROM NEWS WHERE (summary IS NOT NULL OR summary != '') and sent = 'false'"
         cursor.execute(query)
 
         result = cursor.fetchall()
