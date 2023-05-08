@@ -53,7 +53,7 @@ class InvestingCrawler:
             print("크롤러 1번 완")
             return driver
     
-    async def crawl_page(self, url: str) -> str:
+    def crawl_page(self, url: str) -> str:
         """
         주어진 URL의 웹 페이지를 크롤링합니다.
 
@@ -85,7 +85,7 @@ class InvestingCrawler:
             print("크롤러 2번 완")
             return text
         
-    async def get_latest_links(self) -> List[str]:
+    def get_latest_links(self) -> List[str]:
         """
         최신 뉴스 링크들을 크롤링합니다.
 
@@ -107,29 +107,29 @@ class InvestingCrawler:
             print("링크 크롤링 완")
             return latest_links
 
-    async def get_latest_texts(self, links: List[str]) -> List[str]:
-        """
-        주어진 링크들의 웹 페이지를 크롤링합니다.
+    # async def get_latest_texts(self, links: List[str]) -> List[str]:
+    #     """
+    #     주어진 링크들의 웹 페이지를 크롤링합니다.
 
-        Args:
-            links (List[str]): 크롤링할 웹 페이지 링크들의 리스트
+    #     Args:
+    #         links (List[str]): 크롤링할 웹 페이지 링크들의 리스트
 
-        Returns:
-            List[str]: 크롤링한 각 웹 페이지의 텍스트들의 리스트
-        """
-        print("텍스트 크롤링 시작")
-        tasks = []
-        try:
-            for link in links:
-                tasks.append(asyncio.create_task(self.crawl_page(link)))
-            texts = await asyncio.gather(*tasks)
-        except Exception as e:
-            logging.error(f"텍스트 크롤링 중 에러 발생: {e}")
-            sentry_sdk.capture_exception(e)
-        finally:
-            self.driver.close()
-            print("텍스트 크롤링 완")
-            return texts
+    #     Returns:
+    #         List[str]: 크롤링한 각 웹 페이지의 텍스트들의 리스트
+    #     """
+    #     print("텍스트 크롤링 시작")
+    #     tasks = []
+    #     try:
+    #         for link in links:
+    #             tasks.append(asyncio.create_task(self.crawl_page(link)))
+    #         texts = await asyncio.gather(*tasks)
+    #     except Exception as e:
+    #         logging.error(f"텍스트 크롤링 중 에러 발생: {e}")
+    #         sentry_sdk.capture_exception(e)
+    #     finally:
+    #         self.driver.close()
+    #         print("텍스트 크롤링 완")
+    #         return texts
     
    
 #     # main
